@@ -1,0 +1,205 @@
+--Instrucciones especiales
+
+--display table field info
+PRAGMA table_info([RNC]);
+
+
+
+--TABLE NAMES
+SELECT name FROM sqlite_master WHERE type='table' ORDER BY name; 
+
+C:\cd \XML\SQL
+C:\XML\SQL>sqlite3
+sqlite> .open ./20200522_sqlite.db
+sqlite> .databases
+main: C:\XML\SQL\20200522_sqlite.db
+sqlite> .mode csv
+sqlite> .import ./RSLTE031H.csv RSLTE031    --Head import for RSLTE031 report
+sqlite> .schema RSLTE031
+
+sqlite> .import ./baselineh.csv baseline
+
+--Table contents erase: TRUNCATE
+DELETE FROM RSLTE031;
+--
+DROP TABLE IF EXISTS MISS1;        --TABLE clear then append
+CREATE TABLE MISS1 AS
+SELECT
+INSERT INTO MISS1
+SELECT
+--
+
+
+
+--WCEL for NorOcc and neighbors
+
+DROP TABLE IF EXISTS WCEL_V;
+CREATE TABLE WCEL_V AS
+SELECT *
+FROM WCEL
+WHERE (WCEL.RNC_id LIKE '20%') OR (WCEL.RNC_id LIKE '27%') OR (SUBSTR(WCEL.name,1,3) = "BOL") OR (SUBSTR(WCEL.name,1,3) = "COR") OR (SUBSTR(WCEL.name,1,3) = "TOL") OR (SUBSTR(WCEL.name,1,3) = "SND") OR (SUBSTR(WCEL.name,1,3) = "BOY") OR (SUBSTR(WCEL.name,1,3) = "VAL") OR (SUBSTR(WCEL.name,1,3) = "CUN");
+
+
+--DISTINCT clause is used to remove duplicates from the result set
+SELECT DISTINCT Baseline.Market || '-' || Baseline."Localidad (CRC)" AS Cluster, Baseline.Region
+FROM Baseline
+ORDER BY Baseline.Region;
+
+.import ./ClustersDisth.csv ClusterDist
+
+
+--ADJS QTY PER CELL
+DROP TABLE IF EXISTS ADJS_QTY;
+CREATE TABLE ADJS_QTY AS
+SELECT
+ADJS.PLMN_id, ADJS.RNC_Id, ADJS.WBTS_Id, ADJS.WCEL_Id, COUNT (ADJS.ADJS_Id)
+FROM ADJS
+GROUP BY ADJS.RNC_Id, ADJS.WBTS_Id, ADJS.WCEL_Id; 
+
+--cLUSTER
+Baseline.Market || '-' || Baseline."Localidad (CRC)" AS ClusterS, Baseline_1.Market || '-' || Baseline_1."Localidad (CRC)" AS ClusterT
+
+--Es necesario borrar clusters duplicados paa evitar duplIcidad de sectores por haber clusters con encargado de NorOcc y YExterno
+
+--Eutracellid
+((256*(LNREL_NO.ecgiAdjEnbId) + LNREL_NO.ecgiLcrId) = 1*(BaseLine_LTE."eutra Cell Id"));
+
+--IDs FROM Eutracellid 
+RSLTE031.eci_id % 256 AS LcrId   --division reminder
+(RSLTE031.eci_id - (RSLTE031.eci_id % 256))/256 AS LNBTS_IdT
+
+substr(RETU_R_ANTLDNLIST.Value,(INSTR(RETU_R_ANTLDNLIST.Value,'/RMOD_R-')+8),CASE WHEN ((INSTR(RETU_R_ANTLDNLIST.Value,'/ANTL_R-') - INSTR(RETU_R_ANTLDNLIST.Value,'/RMOD_R-')=9) THEN 1 ELSE 2 END AS RMOD_R_id
+
+
+--columna de inicio +8 posicion inicial
+INSTR(RETU_R_ANTLDNLIST.Value,'/RMOD_R-')
+
+--cantidad de digitos
+--
+CASE WHEN ((INSTR(RETU_R_ANTLDNLIST.Value,'/ANTL_R-')- INSTR(RETU_R_ANTLDNLIST.Value,'/RMOD_R-')=9) THEN 1 ELSE 2 END
+--
+--
+--states
+WHERE (SUBSTR(MISS1.WCELT,1,3) = "ANT") OR (SUBSTR(MISS1.WCELT,1,3) = "CAD") OR (SUBSTR(MISS1.WCELT,1,3) = "RIS") OR (SUBSTR(MISS1.WCELT,1,3) = "CHO") OR (SUBSTR(MISS1.WCELT,1,3) = "QUB") OR (SUBSTR(MISS1.WCELT,1,3) = "BOL") OR (SUBSTR(MISS1.WCELT,1,3) = "COR") OR (SUBSTR(MISS1.WCELT,1,3) = "TOL") OR (SUBSTR(MISS1.WCELT,1,3) = "SND") OR (SUBSTR(MISS1.WCELT,1,3) = "BOY") OR (SUBSTR(MISS1.WCELT,1,3) = "VAL") OR (SUBSTR(MISS1.WCELT,1,3) = "CUN");
+--
+--cities
+WHERE (SUBSTR(MISS1.WCELS,1,3) = "MED") OR (SUBSTR(MISS1.WCELS,1,3) = "MAN") OR (SUBSTR(MISS1.WCELS,1,3) = "PER") OR (SUBSTR(MISS1.WCELS,1,3) = "ARM")
+--
+--DN Object extraction
+SUBSTR(ADJS.TargetCellDN, INSTR(ADJS.TargetCellDN,'/RNC-') + 5 , INSTR(ADJS.TargetCellDN,'/WBTS-') - INSTR(ADJS.TargetCellDN,'/RNC-') - 5) AS RNC_Id
+SUBSTR(ADJS.TargetCellDN, INSTR(ADJS.TargetCellDN,'/WBTS-') + 6 , INSTR(ADJS.TargetCellDN,'/WCEL-') - INSTR(ADJS.TargetCellDN,'/WBTS-') - 6) AS WBTS_Id
+SUBSTR(ADJS.TargetCellDN, INSTR(ADJS.TargetCellDN,'/WCEL-') + 6, LENGTH(ADJS.TargetCellDN) - INSTR(ADJS.TargetCellDN,'/WCEL-') -5) AS WCEL_Id
+
+SUBSTR(ADJG.TargetCellDN, INSTR(ADJG.TargetCellDN,'/BSC-') + 5 , INSTR(ADJG.TargetCellDN,'/BCF-') - INSTR(ADJG.TargetCellDN,'/BSC-') - 5) AS BSC_Id
+SUBSTR(ADJG.TargetCellDN, INSTR(ADJG.TargetCellDN,'/BCF-') + 5 , INSTR(ADJG.TargetCellDN,'/BTS-') - INSTR(ADJG.TargetCellDN,'/BCF-') - 5) AS BCF_Id
+SUBSTR(ADJG.TargetCellDN, INSTR(ADJG.TargetCellDN,'/BTS-') + 5 , LENGTH(ADJG.TargetCellDN) - INSTR(ADJG.TargetCellDN,'/BTS-') - 4) AS BTS_Id
+
+
+"PLMN-PLMN/RNC-" || WCEL.RNC_Id || "/WBTS-" || WCEL.WBts_Id || "/WCEL-" || WCEL.WCEL_Id AS CellDN
+"PLMN-" || WCEL.PLMN_Id || "/RNC-" || WCEL.RNC_Id || "/WBTS-" || WCEL.WBts_Id || "/WCEL-" || WCEL.WCEL_Id AS CellDN
+"PLMN-" || LNCEL.PLMN_Id || "/MRBTS-" || LNCEL.mrbts_Id || "/LNBTS-" || LNCEL.lnBts_Id || "/LNCEL-" || LNCEL.lnCel_Id AS DistName
+
+Round((3*(LNCEL.phyCellId*1.0/3-CAST(LNCEL.phyCellId/3 AS INT))),0) as PCIMod3
+Round((6*(LNCEL.phyCellId*1.0/6-CAST(LNCEL.phyCellId/6 AS INT))),0) as PCIMod6
+Round((30*(LNCEL.phyCellId*1.0/30-CAST(LNCEL.phyCellId/30 AS INT))),0) as PCIMod30
+
+CASE WHEN LNCEL_FDD.dlRsBoost=700 THEN -3 ELSE (CASE WHEN LNCEL_FDD.dlRsBoost=1000 THEN 0 ELSE (CASE WHEN LNCEL_FDD.dlRsBoost=1177 THEN 1.77 ELSE (CASE WHEN LNCEL_FDD.dlRsBoost=1300 THEN 3 ELSE (CASE WHEN LNCEL_FDD.dlRsBoost=1477 THEN 4.77 ELSE (CASE WHEN LNCEL_FDD.dlRsBoost=1600 THEN 6 ELSE NULL END)END)END)END)END)END AS PowerBoost
+
+CASE WHEN ((CASE WHEN (1*SUBSTR(UND_DistF1.BTSS,-1,1) > 0) THEN 850 ELSE 1900 END) = (CASE WHEN (1*SUBSTR(UND_DistF1.BTST,-1,1) > 0) THEN 850 ELSE 1900 END) THEN 6 ELSE 63 END AS Pbgt
+
+CASE WHEN (LNCEL_FDD.earfcnDL > 2749 AND LNCEL_FDD.earfcnDL <3450) THEN 2600 ELSE (CASE WHEN (LNCEL_FDD.earfcnDL > 599 AND LNCEL_FDD.earfcnDL <1200) THEN 1900 ELSE 850 END) END AS Banda
+
+CASE WHEN (LNBTS.operationalState=5 AND LNCEL.administrativeState=1 AND LNCEL.operationalState=1) THEN 1 ELSE 0 END AS Estado
+
+SUBSTR(LNCEL.name,-1,1) AS Sector
+LENGTH (LNCEL.name)
+
+select * from sqlite_master where sql like '%qRxLevMinOffset%';
+--determinina si caracter es numerico o no
+CASE WHEN (1*SUBSTR(BTS_1.name,-1,1) > 0) THEN 850 ELSE 1900 END
+
+-- para funciones trigonometricas
+instalar minGw con todas las opciones
+modificar environment variable system variable path, including c:\mingw\bin
+probar funcionamiento con comando:
+g++ --version
+copiar extension-functions.c, sqlite3.h, sqlite3ext.h en directorio sqlite3
+ir al directorio sqlite3
+cd \sqlite3
+compile:
+gcc -shared -I "path" -o libsqlitefunctions.so extension-functions.c
+   (path = path of sqlite3ext.h; i.e. C:\sqlite3)
+If the program is built so that loading extensions is permitted,
+  the following will work:
+   sqlite> SELECT load_extension('./libsqlitefunctions.so');
+   sqlite> select cos(radians(45));
+   0.707106781186548
+
+
+
+--sites
+https://www.w3resource.com/
+https://www.sqlitetutorial.net/about-us/
+https://www.mikedane.com/databases/sql/mysql-windows-installation/
+
+
+In the other answers an implementation in r is missing.
+
+Calculating the distance between two point is quite straightforward with the distm function from the geosphere package:
+
+distm(p1, p2, fun = distHaversine)
+where:
+
+p1 = longitude/latitude for point(s)
+p2 = longitude/latitude for point(s)
+# type of distance calculation
+fun = distCosine / distHaversine / distVincentySphere / distVincentyEllipsoid 
+As the earth is not perfectly spherical, the Vincenty formula for ellipsoids is probably the best way to calculate distances. Thus in the geosphere package you use then:
+
+distm(p1, p2, fun = distVincentyEllipsoid)
+Off course you don't necessarily have to use geosphere package, you can also calculate the distance in base R with a function:
+
+hav.dist <- function(long1, lat1, long2, lat2) {
+  R <- 6371
+  diff.long <- (long2 - long1)
+  diff.lat <- (lat2 - lat1)
+  a <- sin(diff.lat/2)^2 + cos(lat1) * cos(lat2) * sin(diff.long/2)^2
+  b <- 2 * asin(pmin(1, sqrt(a))) 
+  d = R * b
+  return(d)
+}
+
+This posting from a person at nasa, is the best one I found at discussing the options
+
+http://www.cs.nyu.edu/visual/home/proj/tiger/gisfaq.html
+
+For example, if you are just sorting rows by distance in a 100 miles radius. The flat earth formula will be much faster than the haversine.
+
+HalfPi = 1.5707963;
+R = 3956; /* the radius gives you the measurement unit*/
+
+a = HalfPi - latoriginrad;
+b = HalfPi - latdestrad;
+u = a * a + b * b;
+v = - 2 * a * b * cos(longdestrad - longoriginrad);
+c = sqrt(abs(u + v));
+return R * c;
+Notice there is just one cosine and one square root. Vs 9 of them on the Haversine formula.
+
+-- instruccion distancia general a partir de LAT1, LAT2, LONG1, LONG2
+
+ROUND (
+      12756273.2 * ASIN(
+                        MIN (1 , 
+                                SQRT(
+                                    POWER( SIN(RADIANS(PAR.Lat1 - PAR.Lat2)/2) , 2) + 
+                                    COS(RADIANS(PAR.Lat1)) * COS(RADIANS(PAR.Lat2)) * POWER ( SIN(RADIANS(PAR.Long1 - PAR.Long2)/2) , 2)
+                                      )
+                            )
+                        )
+         , 0) AS Distance
+         
+-Haversine Formula      
+
+Distance = 2 * R * ASIN( SQRT( SIN( (RADIANS(lat1)-RADIANS(lat2))/2 )^2 + COS( RADIANS(lat1) )*COS( RADIANS(lat2) )*SIN( (RADIANS(long1)-RADIANS(long2))/2 )^2 ) )
+12756280 * ASIN(SQRT(SIN((RADIANS()
