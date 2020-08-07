@@ -1,0 +1,905 @@
+--funciones matemeticas avanzadas
+SELECT load_extension('./libsqlitefunctions.so')
+-- Por Sqlitstudio se importa baseline csv
+--
+--DUMP
+--GSM
+--BCF FULL OK
+--
+DROP TABLE IF EXISTS BCF_FULL;
+CREATE TABLE BCF_FULL AS
+SELECT 
+BCF.PLMN_id,BCF.BSC_id,BCF.BCF_id,BCF.moVersion,BCF.name AS BCFname, BSC.name AS BSCname, BCF.adminState,BCF.autoConfig,BCF.autoUnlAllowed,BCF.batteryBackupProcedure,BCF.bcchTrxBatbuTimer,BCF.bcfPackVers,BCF.bcfType,BCF.bssTopSyncLimit,BCF.btsSiteSubtype,BCF.clockSource,BCF.ext1ppsSyncSource,BCF.flexiEdgeAdditional2E1T1Usage,BCF.flexiEdgeTrsAbisGroomingUsage,BCF.flexiEdgeTrsLoopProtectionUsage,BCF.lapdLinkName,BCF.lapdLinkNumber,BCF.masterClockBcf,BCF.normTrxBatbuTimer,BCF.powerLicenceRequested,BCF.powerLicenceUsage,BCF.rfSharingState,BCF.rxDifferenceLimit,BCF.synchEnabled,BCF.synchStatus,BCF.systemModuleHw,BCF.csdapId1,BCF.csdapId2,BCF.csdapId3,BCF.csdapId4,BCF.notificationOrigin,BCF.siteTemplateName,BCF.linkedMrsiteDN,BCF.abisInterfaceConnectionType,BCF.packetDelayVariation,BCF.usedCsUdpMuxPort,BCF.usedPsUdpMuxPort,BCF.vlanId,BCF.bcfUpToDate,BCF.btsIpv4SubnetMasklengthCUplane,BCF.btsIpv4SubnetMasklengthMplane,BCF.bu1AbisThroughputThreshold,BCF.bu2AbisThroughputThreshold,BCF.dlCommittedInformationRate,BCF.etpBcfId,BCF.maxBtsMultiplexingWaitTime,BCF.maxEtpMultiplexingWaitTime,BCF.maximumMultiplexingPacketSize,BCF.paSatelliteUse,BCF.packetAbisBcfGroupId,BCF.packetAbisCongestionControl,BCF.pl1ThresholdPacketLoss,BCF.pl2ThresholdPacketLoss,BCF.sctpBundlingOptimized,BCF.sctpBundlingTimer,BCF.ulCommittedBurstSize,BCF.ulCommittedInformationRate,BCF.uplinkTrafficShaping,BCF.btsCuPlaneIpAddress,BCF.btsMPlaneIpAddress,BCF.normTrxBatbuTimer2,BCF.normTrxBatbuTimer3,BCF.usedEtpId,BCF.flexiEdgeAbisOverIpEthernetUsage,BCF.mlPppBundleId,BCF.oldDN
+FROM BCF LEFT JOIN BSC ON (BCF.bsc_Id = BSC.bsc_Id) 
+WHERE BSC.name LIKE '%MED%' OR BSC.name LIKE '%MGA%' OR BSC.name LIKE '%PER%' 
+ORDER BY BCF.name
+--
+--
+--BTS FULL OK
+--
+DROP TABLE IF EXISTS BTS_FULL;
+CREATE TABLE BTS_FULL AS
+SELECT 
+BTS.name AS BTSName, BCF.name AS BCFname, BSC.name AS BSCname, 
+BTS.PLMN_id,BTS.BSC_id,BTS.BCF_id,BTS.BTS_id,BTS.moVersion,BTS.frequencyBandInUse,BTS.dssCenterFrequency,BTS.dssMaximumFrequency,BTS.dssMinimumFrequency,BTS.gprsMsTxPwrMaxCCH1x00,BTS.minMsTxPower,BTS.msTxPwrMaxCCH1x00,BTS.msTxPwrMaxGSM1x00,BTS.angle,BTS.cellType,BTS.insiteGateway,BTS.adaptiveLaAlgorithm,BTS.adminState,BTS.allowIMSIAttachDetach,BTS.amhLowerLoadThreshold,BTS.amhMaxLoadOfTgtCell,BTS.amhTrhoGuardTime,BTS.amhUpperLoadThreshold,BTS.amrConfFrCodecModeSet,BTS.amrConfFrDlThreshold1,BTS.amrConfFrDlThreshold2,BTS.amrConfFrDlThreshold3,BTS.amrConfFrHysteresis1,BTS.amrConfFrHysteresis2,BTS.amrConfFrHysteresis3,BTS.amrConfFrInitCodecMode,BTS.amrConfFrStartMode,BTS.amrConfFrUlThreshold1,BTS.amrConfFrUlThreshold2,BTS.amrConfFrUlThreshold3,BTS.amrConfHrCodecModeSet,BTS.amrConfHrDlThreshold1,BTS.amrConfHrDlThreshold2,BTS.amrConfHrDlThreshold3,BTS.amrConfHrHysteresis1,BTS.amrConfHrHysteresis2,BTS.amrConfHrHysteresis3,BTS.amrConfHrInitCodecMode,BTS.amrConfHrStartMode,BTS.amrConfHrUlThreshold1,BTS.amrConfHrUlThreshold2,BTS.amrConfHrUlThreshold3,BTS.amrHoFrInHoThrDlRxQual,BTS.amrHoFrSupReuBadCiThr,BTS.amrHoFrSupReuGoodCiThr,BTS.amrHoFrThrDlRxQual,BTS.amrHoFrThrUlRxQual,BTS.amrHoHrInHoThrDlRxQual,BTS.amrHoHrSupReuBadCiThr,BTS.amrHoHrSupReuGoodCiThr,BTS.amrHoHrThrDlRxQual,BTS.amrHoHrThrUlRxQual,BTS.amrPocFrPcLThrDlRxQual,BTS.amrPocFrPcLThrUlRxQual,BTS.amrPocFrPcUThrDlRxQual,BTS.amrPocFrPcUThrUlRxQual,BTS.amrPocHrPcLThrDlRxQual,BTS.amrPocHrPcLThrUlRxQual,BTS.amrPocHrPcUThrDlRxQual,BTS.amrPocHrPcUThrUlRxQual,BTS.antennaHopping,BTS.bsIdentityCodeBCC,BTS.bsIdentityCodeNCC,BTS.btsIsHopping,BTS.btsLoadInSeg,BTS.btsLoadThreshold,BTS.btsMeasAver,BTS.btsSpLoadDepTchRateLower,BTS.btsSpLoadDepTchRateUpper,BTS.callReestablishmentAllowed,BTS.cellBarQualify,BTS.cellBarred,BTS.cellId,BTS.cellLoadForChannelSearch,BTS.cellNumberInBtsHw,BTS.cellReselectHysteresis,BTS.cellReselectOffset,BTS.cellReselectParamInd,BTS.cnThreshold,BTS.dedicatedGPRScapacity,BTS.defaultGPRScapacity,BTS.directGPRSAccessBts,BTS.diversityUsed,BTS.dlNoiseLevel,BTS.drInUse,BTS.drMethod,BTS.dssCIThreshold,BTS.dssNoOfLowerSharedFrequencies,BTS.dssNoOfUpperSharedFrequencies,BTS.dtmEnabled,BTS.dtxMode,BTS.earlySendingIndication,BTS.egprsEnabled,BTS.egprsInitMcsAckMode,BTS.egprsInitMcsUnAckMode,BTS.egprsLinkAdaptEnabled,BTS.egprsMaxBlerAckMode,BTS.egprsMaxBlerUnAckMode,BTS.egprsMeanBepOffset8psk,BTS.egprsMeanBepOffsetGmsk,BTS.emergencyCallRestricted,BTS.fastReturnToLTE,BTS.fddQMin,BTS.fddQMinOffset,BTS.fddQOffset,BTS.fddRscpMin,BTS.forcedHrCiAverPeriod,BTS.forcedHrModeHysteresis,BTS.gprsEnabled,BTS.gprsMsTxpwrMaxCCH,BTS.gprsNonBCCHRxlevLower,BTS.gprsNonBCCHRxlevUpper,BTS.gprsRxlevAccessMin,BTS.gsmPriority,BTS.hcsPriorityClass,BTS.hcsThreshold,BTS.hoppingMode,BTS.hoppingSequenceNumber1,BTS.hoppingSequenceNumber2,BTS.hoppingSequenceNumber3,BTS.idleStateBcchAllocListId,BTS.idrCellType,BTS.idrUsed,BTS.inactEndTimeHour,BTS.inactEndTimeMinute,BTS.inactStartTimeHour,BTS.inactStartTimeMinute,BTS.inactWeekDays,BTS.csAckDl,BTS.csAckUl,BTS.csUnackDl,BTS.csUnackUl,BTS.interferenceAveragingProcessAverPeriod,BTS.interferenceAveragingProcessBoundary0,BTS.interferenceAveragingProcessBoundary1,BTS.interferenceAveragingProcessBoundary2,BTS.interferenceAveragingProcessBoundary3,BTS.interferenceAveragingProcessBoundary4,BTS.interferenceAveragingProcessBoundary5,BTS.limForTriggeringOscDhrMultiplexing,BTS.locationAreaIdLAC,BTS.locationAreaIdMCC,BTS.locationAreaIdMNC,BTS.lowPriorityThr,BTS.maioOffset,BTS.maioStep,BTS.masterBcf,BTS.maxGPRSCapacity,BTS.maxNumberOfRepetition,BTS.maxNumberRetransmission,BTS.maxQueueLength,BTS.maxTimeLimitDirectedRetry,BTS.measListUsedDuringMeas,BTS.measurementBCCHAllocation,BTS.minTimeLimitDirectedRetry,BTS.msMaxDistInCallSetup,BTS.msPriorityUsedInQueueing,BTS.msTxPwrMaxCCH,BTS.msTxPwrMaxGSM,BTS.multiBandCell,BTS.multiBandCellReporting,BTS.nbrOfSlotsSpreadTrans,BTS.newEstabCausesSupport,BTS.noOfBlocksForAccessGrant,BTS.noOfMFramesBetweenPaging,BTS.nonBCCHLayerOffset,BTS.nsei,BTS.nwName,BTS.pcuCsHopping,BTS.pcuCsNonHopping,BTS.pcuDlBlerCpHopping,BTS.pcuDlBlerCpNonHop,BTS.pcuDlLaRiskLevel,BTS.pcuIdentifier,BTS.pcuUlBlerCpHopping,BTS.pcuUlBlerCpNonHop,BTS.pcuUlLaRiskLevel,BTS.penaltyTime,BTS.powerOffset,BTS.precPagingUsage,BTS.preferBCCHfreqGPRS2,BTS.prioritySearchThr,BTS.psei,BTS.qSearchI,BTS.qSearchP,BTS.queuePriorityNonUrgentHo,BTS.queuePriorityUsed,BTS.queueingPriorityCall,BTS.queueingPriorityHandover,BTS.raReselectHysteresis,BTS.rac,BTS.radioLinkTimeout,BTS.radioLinkTimeoutAmr,BTS.reselectionAlgorithmHysteresis,BTS.rxLevAccessMin,BTS.scaleOrd,BTS.sectorId,BTS.segmentId,BTS.segmentName,BTS.smsCbUsed,BTS.stircEnabled,BTS.tchRateIntraCellHo,BTS.temporaryOffset,BTS.throughputFactor_cs1cs4dlcs,BTS.throughputFactor_cs1cs4ulcs,BTS.throughputFactor_mcs1mcs4ulcs,BTS.throughputFactor_mcs1mcs9dlcs,BTS.throughputFactor_mcs1mcs9ulcs,BTS.timeHysteresis,BTS.timeLimitCall,BTS.timeLimitHandover,BTS.timerPeriodicUpdateMs,BTS.trxPriorityInTchAlloc,BTS.ulNoiseLevel,BTS.underlayHoppingMode,BTS.underlayMaAllocationId,BTS.underlayMaioOffset,BTS.underlayMaioStep,BTS.usedMobileAllocation,BTS.utranQualRxLevelMargin,BTS.utranThresholdReselection,BTS.wcdmaPriority,BTS.radiusExtension,BTS.siteTemplateName,BTS.oldDN,BTS.notificationOrigin,BTS.pcuUpToDate,BTS.gprsCapacityThroughputFactor,BTS.dtrxPowerDownThreshold,BTS.dtrxPowerUpThreshold,BTS.extendedCellGprsEdgeEnabled,BTS.extendedCellLocationKeepPeriod,BTS.csExtAckDl,BTS.csExtAckUl,BTS.csExtUnackDl,BTS.csExtUnackUl,BTS.initMcsExtAckMode,BTS.initMcsExtUnackMode,BTS.gprsDlPcEnabled,BTS.freeTchLimit,BTS.nbrTchForPrioritySubs,BTS.priorityChUseIncomingHO,BTS.reservationMethod,BTS.trunkReservationUsed,BTS.superRadiusExtension,BTS.bscBscInterfaceStatus,BTS.dfcaMode,BTS.dfcaUnsyncModeMaList,BTS.forcedAmrHrCiThreshold,BTS.cs3Cs4Enabled
+FROM (BTS LEFT JOIN BCF ON (BTS.bsc_Id = BCF.bsc_Id) AND (BTS.bCF_Id = BCF.bCF_Id)) LEFT JOIN BSC ON (BTS.bsc_Id = BSC.bsc_Id) 
+WHERE BSC.name LIKE '%MED%' OR BSC.name LIKE '%MGA%' OR BSC.name LIKE '%PER%' 
+ORDER BY BTS.name;
+--
+--
+--BTS parameters importantes OK
+--
+DROP TABLE IF EXISTS BTS_PARAM;
+CREATE TABLE BTS_PARAM AS
+SELECT BTS.name AS BTSname, baseline.Market || "-" || baseline."Localidad (CRC)" AS Cluster, BTS.bsc_Id, BTS.bcf_Id, BTS.bts_Id, BTS.cellId, POC.bsTxPwrMax, POC.bsTxPwrMax1x00, BTS.segmentId, BTS.nwName, BSC.name AS BSCname, BCF.name AS BCFname, TRX.initialFrequency, 1*(BTS.bsIdentityCodeNCC || BTS.bsIdentityCodeBCC) AS BSIC, BTS.bsIdentityCodeNCC, BTS.bsIdentityCodeBCC, BTS.locationAreaIdLAC, BTS.usedMobileAllocation, BCF.adminState, BTS.adminState, BTS.rac, CASE WHEN (1*SUBSTR(BTS.name,-1,1) > 0) THEN 850 ELSE 1900 END AS Banda, 
+"PLMN-" || BTS.PLMN_Id || "/BSC-" || BTS.BSC_Id || "/BCF-" || BTS.BCF_Id || "/BTS-" || BTS.BTS_Id AS DistName, BTS.qSearchI, BTS.qSearchP, BTS.fddQOffset, BTS.fddQMin, BTS.rxLevAccessMin, BTS.radioLinkTimeout, BTS.radioLinkTimeoutAmr, BTS.msMaxDistInCallSetup
+FROM ((((BTS LEFT JOIN POC ON (BTS.BSC_Id = POC.BSC_Id) AND (BTS.BCF_Id = POC.BCF_Id) AND (BTS.BTS_Id = POC.BTS_Id)) LEFT JOIN BCF ON (BTS.BSC_Id = BCF.BSC_Id) AND (BTS.BCF_Id = BCF.BCF_Id))  LEFT JOIN BSC ON (BTS.BSC_Id = BSC.BSC_Id)) LEFT JOIN baseline ON (BCF.Name = baseline.Sitio)) LEFT JOIN TRX ON (BTS.BSC_Id = TRX.BSC_Id) AND (BTS.BCF_Id = TRX.BCF_Id) AND  (BTS.BTS_Id = TRX.BTS_Id) 
+WHERE ((TRX.channel0Type)=4) AND (BSC.name LIKE '%MED%' OR BSC.name LIKE '%MGA%' OR BSC.name LIKE '%PER%')
+ORDER BY BTS.name;
+--
+--
+--Tabla BCCH-BSIC audit. incluye coBCCHBSIC y sus distancias
+--
+DROP TABLE IF EXISTS BSIC_DistT;
+CREATE TABLE BSIC_DistT AS
+SELECT
+BTS.Name || TRX.initialFrequency || BTS.bsIdentityCodeNCC || BTS.bsIdentityCodeBCC AS Key, BTS.Name AS BTSSRC, BTS_1.Name AS BTSTGT, TRX.initialFrequency, 1*(BTS.bsIdentityCodeNCC || BTS.bsIdentityCodeBCC) AS BSIC, baseline.Market || "-" || baseline."Localidad (CRC)" AS ClusterS, baseline_1.Market || "-" || baseline_1."Localidad (CRC)" AS ClusterT, CASE WHEN (BCF.Name = BCF_1.Name) THEN 1 ELSE 0 END AS SameSite, CASE WHEN (1*SUBSTR(BTS.name,-1,1) > 0) THEN 850 ELSE 1900 END AS BandS, CASE WHEN (1*SUBSTR(BTS_1.name,-1,1) > 0) THEN 850 ELSE 1900 END AS BandT, BTS.BSC_Id, BTS.BCF_Id, BTS.BTS_Id, BTS_1.BSC_Id AS BSCIdT, BTS_1.BCF_Id AS BCFIdT, BTS_1.BTS_Id AS BTS_IdT, BCF.name AS BCFSrc, BCF_1.name AS BCFTgt,
+ROUND (12756273.2 * ASIN(MIN (1 , SQRT(POWER( SIN(RADIANS(Baseline.Latitud - Baseline_1.Latitud)/2) , 2) + COS(RADIANS(Baseline.Latitud)) * COS(RADIANS(Baseline_1.Latitud)) * POWER ( SIN(RADIANS(Baseline.Longitud - Baseline_1.Longitud)/2) , 2)))) , 0) AS Distance
+FROM ((((((((TRX INNER JOIN TRX AS TRX_1 ON TRX.channel0Type = 4 AND TRX_1.channel0Type=4 AND (TRX.InitialFrequency = TRX_1.InitialFrequency)) LEFT JOIN BTS ON (TRX.BTS_Id = BTS.BTS_Id) AND (TRX.BCF_Id = BTS.BCF_Id) AND (TRX.BSC_Id = BTS.BSC_Id)) LEFT JOIN BTS AS BTS_1 ON (1*(BTS.bsIdentityCodeNCC || BTS.bsIdentityCodeBCC) = 1*(BTS_1.bsIdentityCodeNCC || BTS_1.bsIdentityCodeBCC)) AND (TRX_1.BTS_Id = BTS_1.BTS_Id) AND (TRX_1.BCF_Id = BTS_1.BCF_Id) AND (TRX_1.BSC_Id = BTS_1.BSC_Id)) LEFT JOIN BCF ON (BTS.BCF_Id = BCF.BCF_Id) AND (BTS.BSC_Id = BCF.BSC_Id)) LEFT JOIN BCF AS BCF_1 ON (BTS_1.BCF_Id = BCF_1.BCF_Id) AND (BTS_1.BSC_Id = BCF_1.BSC_Id)) LEFT JOIN BSC ON BCF.BSC_Id = BSC.BSC_Id) LEFT JOIN BSC AS BSC_1 ON BCF_1.BSC_Id = BSC_1.BSC_Id) LEFT JOIN baseLine ON BCF.name = baseLine.Sitio) LEFT JOIN baseLine AS baseLine_1 ON BCF_1.name = baseLine_1.Sitio
+WHERE ((CASE WHEN (BTS.Name = BTS_1.Name) THEN 1 ELSE 0 END) = 0) AND (CASE WHEN (1*SUBSTR(BTS.name,-1,1) > 0) THEN 850 ELSE 1900 END = CASE WHEN (1*SUBSTR(BTS_1.name,-1,1) > 0) THEN 850 ELSE 1900 END) AND (TRX.channel0Type)=4 AND (BSC.name LIKE '%MED%' OR BSC.name LIKE '%MGA%' OR BSC.name LIKE '%PER%');
+--
+--toma menor distancia de la llave
+--
+DROP TABLE IF EXISTS BSIC_DistMin;
+CREATE TABLE BSIC_DistMin AS
+SELECT
+BSIC_DistT.Key, Min(BSIC_DistT.Distance) AS MinOfDistancia
+FROM BSIC_DistT
+GROUP BY BSIC_DistT.Key;
+--
+--Query result
+--
+DROP TABLE IF EXISTS BSIC_DistF;
+CREATE TABLE BSIC_DistF AS
+SELECT
+BSIC_DistT.Key,BSIC_DistT.BTSSRC,BSIC_DistT.BTSTGT,BSIC_DistT.initialFrequency,BSIC_DistT.BSIC,BSIC_DistT.ClusterS,BSIC_DistT.ClusterT,BSIC_DistT.SameSite,BSIC_DistT.BSC_id,BSIC_DistT.BCF_id,BSIC_DistT.BTS_id,BSIC_DistT.BSCIdT,BSIC_DistT.BCFIdT,BSIC_DistT.BTS_IdT,BSIC_DistT.BandS,BSIC_DistT.BandT,BSIC_DistT.BCFSrc,BSIC_DistT.BCFTgt,BSIC_DistT.Distance
+FROM BSIC_DistT INNER JOIN BSIC_DistMin ON (BSIC_DistT.Distance = BSIC_DistMin.MinOfDistancia) AND (BSIC_DistT.Key = BSIC_DistMin.Key)
+ORDER BY BSIC_DistT.Distance;
+--
+--
+--
+--
+--UMTS
+--
+--
+--WCELFULL
+DROP TABLE IF EXISTS WCELFULL;
+CREATE TABLE WCELFULL AS
+SELECT * FROM WCEL
+WHERE RNC_id LIKE '20%' OR RNC_id LIKE '27%'
+ORDER BY name;
+--
+--
+--WBTS full
+--
+DROP TABLE IF EXISTS WBTSFULL;
+CREATE TABLE WBTSFULL AS
+SELECT * FROM WBTS
+WHERE RNC_id LIKE '20%' OR RNC_id LIKE '27%'
+ORDER BY name;
+--
+--
+--WCEL parametros importantes, OK
+--
+DROP TABLE IF EXISTS WCELPARAM;
+CREATE TABLE WCELPARAM AS
+SELECT WCEL.name AS WCELName, substr(WCEL.name,1,3) AS Prefijo, substr(WCEL.name,-1,1) AS Sector, CASE WHEN WCEL.UARFCN < 9685 THEN 850 ELSE 1900 END Banda, WBTS.name AS WBTSName, WCEL.WCEL_id, RNC.name AS RNCName, RNC.RNC_id, WBTS.WBTS_id, WCEL.CId, WCEL.PriScrCode, WCEL.LAC, WCEL.RAC, WCEL.AdminCellState, WCEL.WCelState, WCEL_URAID.Value AS URAid, WCEL.PCH24kbpsEnabled, WCEL.NbrOfSCCPCHs, WCEL.Tcell, WCEL.PtxTarget, WCEL.PrxTarget, WCEL.PtxCellMax, WCEL.MaxNbrOfHSSCCHCodes, WCEL.InitialBitRateDL, WCEL.InitialBitRateUL, WCEL.MinAllowedBitRateDL, WCEL.MinAllowedBitRateUL, WCEL.T300, WCEL.T312, WCEL.T313, WCEL.N300, WCEL.N312, WCEL.N313, WCEL.N315, WCEL.T315, WCEL.RtFmcsIdentifier, WCEL.NrtFmcsIdentifier, WCEL.RTWithHSDPAFmcgIdentifier, WCEL.RTWithHSDPAFmciIdentifier, WCEL.RTWithHSDPAFmcsIdentifier, WCEL.NrtFmcgIdentifier, WCEL.NrtFmciIdentifier, WCEL.RtFmcgIdentifier, WCEL.RtFmciIdentifier, WCEL.UARFCN, WCEL.SHCS_RAT, WCEL.SsearchHCS, WCEL.SHCS_RATConn, WCEL.SsearchHCSConn, WCEL.PrxOffset, WCEL.PrxNoise, WCEL.MaxDLPowerCapability, WCEL.PtxHighHSDPAPwr, WCEL.PtxTargetPSMax, WCEL.PtxTargetPSMin, WCEL.PtxMaxHSDPA, WCEL.PtxDLabsMax, WCEL.CSAMRModeSET, WCEL.CSAMRModeSETWB, WCEL.PtxPrimaryCPICH, WCEL.CellBarred, WCEL.HSPA128UsersPerCell, WCEL.SectorID, WCEL.HSDPAFmciIdentifier, WCEL.HSDPAFmcsIdentifier, WCEL.HSPAFmcsIdentifier, WCEL.HSDPAFmcgIdentifier, WCEL.LTECellReselection, WCEL.QqualMin, WCEL.QrxlevMin, WCEL.AdminPICState, WCEL.ULLoadStateHSUOffset, WCEL.MaxNumberEDCHCell, WCEL.MaxNumberHSDPAUsers, WCEL.SmartLTELayeringEnabled, WCEL.SmartLTELayeringRSCP, WCEL.IncomingLTEISHO, "PLMN-PLMN/RNC-" || WCEL.RNC_id || "/WBTS-" || WCEL.WBTS_Id || "/WCEL-" || WCEL.WCEL_id AS CellDN, WBTS.name || "_" ||WCEL.SectorID AS SectorIdName
+FROM ((RNC LEFT JOIN WBTS ON RNC.RNC_id = WBTS.RNC_id) LEFT JOIN WCEL ON (WBTS.WBTS_Id = WCEL.WBTS_Id) AND (WBTS.RNC_id = WCEL.RNC_id)) LEFT JOIN WCEL_URAID ON (WCEL.WCEL_id = WCEL_URAID.wcel_ID) AND (WCEL.WBTS_Id = WCEL_URAID.WBTS_Id) AND (WCEL.RNC_id = WCEL_URAID.RNC_id)
+WHERE ((RNC.RNC_id LIKE '20%' OR RNC.RNC_id LIKE '27%') AND ((WCEL_URAID.optionId)=0))
+ORDER BY WCEL.name;
+--
+--
+--WCEL Cluster parametros importantes, OK
+--
+DROP TABLE IF EXISTS WCEL_Param;
+CREATE TABLE WCEL_Param AS
+SELECT ClusterDist.Cluster, ClusterDist.Encargado,  WCEL.name AS WCELName, substr(WCEL.name,1,3) AS Prefijo, substr(WCEL.name,-1,1) AS Sector, CASE WHEN WCEL.UARFCN < 9685 THEN 850 ELSE 1900 END Banda, WBTS.name AS WBTSName, WCEL.WCEL_id, RNC.name AS RNCName, RNC.RNC_id, WBTS.WBTS_id, WCEL.CId, WCEL.PriScrCode, WCEL.LAC, WCEL.RAC, WCEL.AdminCellState, WCEL.WCelState, WCEL_URAID.Value AS URAid, WCEL.PCH24kbpsEnabled, WCEL.NbrOfSCCPCHs, WCEL.Tcell, WCEL.PtxTarget, WCEL.PrxTarget, WCEL.PtxCellMax, WCEL.MaxNbrOfHSSCCHCodes, WCEL.InitialBitRateDL, WCEL.InitialBitRateUL, WCEL.MinAllowedBitRateDL, WCEL.MinAllowedBitRateUL, WCEL.T300, WCEL.T312, WCEL.T313, WCEL.N300, WCEL.N312, WCEL.N313, WCEL.N315, WCEL.T315, WCEL.RtFmcsIdentifier, WCEL.NrtFmcsIdentifier, WCEL.RTWithHSDPAFmcgIdentifier, WCEL.RTWithHSDPAFmciIdentifier, WCEL.RTWithHSDPAFmcsIdentifier, WCEL.NrtFmcgIdentifier, WCEL.NrtFmciIdentifier, WCEL.RtFmcgIdentifier, WCEL.RtFmciIdentifier, WCEL.UARFCN, WCEL.SHCS_RAT, WCEL.SsearchHCS, WCEL.SHCS_RATConn, WCEL.SsearchHCSConn, WCEL.PrxOffset, WCEL.PrxNoise, WCEL.MaxDLPowerCapability, WCEL.PtxHighHSDPAPwr, WCEL.PtxTargetPSMax, WCEL.PtxTargetPSMin, WCEL.PtxMaxHSDPA, WCEL.PtxDLabsMax, WCEL.CSAMRModeSET, WCEL.CSAMRModeSETWB, WCEL.PtxPrimaryCPICH, WCEL.CellBarred, WCEL.HSPA128UsersPerCell, WCEL.SectorID, WCEL.HSDPAFmciIdentifier, WCEL.HSDPAFmcsIdentifier, WCEL.HSPAFmcsIdentifier, WCEL.HSDPAFmcgIdentifier, WCEL.LTECellReselection, WCEL.QqualMin, WCEL.QrxlevMin, WCEL.AdminPICState, WCEL.ULLoadStateHSUOffset, WCEL.MaxNumberEDCHCell, WCEL.MaxNumberHSDPAUsers, WCEL.SmartLTELayeringEnabled, WCEL.SmartLTELayeringRSCP, WCEL.IncomingLTEISHO, "PLMN-PLMN/RNC-" || WCEL.RNC_id || "/WBTS-" || WCEL.WBTS_Id || "/WCEL-" || WCEL.WCEL_id AS CellDN, WBTS.name || "_" ||WCEL.SectorID AS SectorIdName, Baseline.Latitud AS LAT, Baseline.Longitud AS LONG
+FROM ((((RNC LEFT JOIN WBTS ON RNC.RNC_id = WBTS.RNC_id) LEFT JOIN WCEL ON (WBTS.WBTS_Id = WCEL.WBTS_Id) AND (WBTS.RNC_id = WCEL.RNC_id)) LEFT JOIN WCEL_URAID ON (WCEL.WCEL_id = WCEL_URAID.wcel_ID) AND (WCEL.WBTS_Id = WCEL_URAID.WBTS_Id) AND (WCEL.RNC_id = WCEL_URAID.RNC_id)) LEFT JOIN Baseline ON (Baseline.Sitio = WBTS.name)) LEFT JOIN ClusterDist ON (Baseline.Market || '-' || Baseline."Localidad (CRC)" = ClusterDist.cluster) 
+WHERE ((RNC.RNC_id LIKE '20%' OR RNC.RNC_id LIKE '27%') AND ((WCEL_URAID.optionId)=0))
+ORDER BY WCEL.name;
+--
+--
+--MRBTS Unit codigos de system modules
+--
+DROP TABLE IF EXISTS MRBTS_FSM;
+CREATE TABLE MRBTS_FSM AS
+SELECT RNC.name AS RNCName, WBTS.name AS WBTSName, MRBTS_UNITLIST.Rnc_Id, MRBTS_UNITLIST.WBTS_Id, MRBTS_UNITLIST.mrbts_Id, MRBTS_UNITLIST.primaryConnection, MRBTS_UNITLIST.prodCode, MRBTS_UNITLIST.unitName, MRBTS_UNITLIST.unitNumber, MRBTS_UNITLIST.variant, substr(MRBTS_UNITLIST.prodCode,1,7) AS Codigo, Modulo.Item, Modulo.Name 
+FROM ((MRBTS_UNITLIST LEFT JOIN WBTS ON (MRBTS_UNITLIST.WBTS_Id = WBTS.WBTS_Id) AND (MRBTS_UNITLIST.Rnc_Id = WBTS.Rnc_Id)) LEFT JOIN RNC ON (RNC.RNC_id = WBTS.RNC_Id)) LEFT JOIN Modulo ON (substr(MRBTS_UNITLIST.prodCode,1,7)=Modulo.HWCode)
+WHERE (RNC.RNC_id LIKE '20%' OR RNC.RNC_id LIKE '27%') AND MRBTS_UNITLIST.unitName LIKE 'FS%'
+ORDER BY WBTS.name;
+--
+--
+--Codigos de rfmodules y asignacion
+--
+DROP TABLE IF EXISTS WCEL_RMOD;
+CREATE TABLE WCEL_RMOD AS
+SELECT RNC.Name AS RNCname, WBTS.name as WBTSname, WCEL.name AS WCELname, ANTL.RNC_ID, ANTL.WBTS_ID, WCEL.WCEL_Id, ANTL.MRBTS_Id, ANTL.RMODId, ANTL.ANTL_Id, LCELW_RESOURCELIST.txRxUsage, ANTL.antId, RMOD.prodCode, RMOD.serNum, substr(RMOD.prodCode,1,7) AS Codigo, LCELW_RESOURCELIST.BTSSCW_id, modulo.item, modulo.name  
+FROM (((((RNC LEFT JOIN WBTS ON RNC.Rnc_Id = WBTS.Rnc_Id) LEFT JOIN RMOD ON (WBTS.WBTS_Id = RMOD.WBTS_Id) AND (WBTS.Rnc_Id = RMOD.Rnc_Id)) LEFT JOIN ANTL ON (RMOD.rMod_Id = ANTL.rModId) AND (RMOD.mrbts_Id = ANTL.mrbts_Id) AND (RMOD.WBTS_Id = ANTL.WBTS_Id) AND (RMOD.Rnc_Id = ANTL.Rnc_Id)) LEFT JOIN LCELW_RESOURCELIST ON (ANTL.antl_Id = LCELW_RESOURCELIST.antlId) AND (ANTL.mrbts_Id = LCELW_RESOURCELIST.mrbts_Id) AND (ANTL.WBTS_Id = LCELW_RESOURCELIST.WBTS_Id) AND (ANTL.Rnc_Id = LCELW_RESOURCELIST.Rnc_Id)) LEFT JOIN WCEL ON (LCELW_RESOURCELIST.lCelw_Id = WCEL.WCEL_ID) AND (LCELW_RESOURCELIST.WBTS_Id = WCEL.WBTS_Id) AND (LCELW_RESOURCELIST.Rnc_Id = WCEL.Rnc_Id)) LEFT JOIN Modulo ON substr(RMOD.prodCode,1,7) = Modulo.HWCode
+WHERE ANTL.Rnc_Id LIKE '20%' OR ANTL.RNC_id LIKE '27%'
+ORDER BY RMOD.Rnc_Id,WBTS.NAME,RMOD.WBTS_Id,RMOD.MRBTS_Id, RMOD.RMOD_Id,ANTL.antId;
+--
+--
+--
+--
+--ADJ queries
+--
+--
+--ADJS_Weekly, OK
+--
+SELECT ADJS.Rnc_Id, ADJS.WBTS_Id, ADJS.WCEL_Id, ADJS.ADJS_Id, WCEL.name, WCEL.PriScrCode, ADJS.AdjsCI, ADJS.AdjsLAC, ADJS.AdjsRAC, ADJS.AdjsRNCid, ADJS.AdjsScrCode, WCEL_1.name, ADJS.NrtHopsIdentifier, ADJS.RtHopsIdentifier, ADJS.AdjsEcNoOffset, ADJS.AdjsCPICHTxPwr, ADJS.HSDPAHopsIdentifier, ADJS.RTWithHSDPAHopsIdentifier, WCEL.UARFCN, WCEL.AdminCellState, WCEL.WCelState, WCEL_1.AdminCellState, WCEL_1.WCelState, ADJS.TargetCellDN
+FROM (ADJS LEFT JOIN WCEL ON (ADJS.Rnc_Id = WCEL.Rnc_Id) AND (ADJS.WBTS_Id = WCEL.WBTS_Id) AND (ADJS.WCEL_Id = WCEL.WCEL_Id)) LEFT JOIN WCEL AS WCEL_1 ON (ADJS.AdjsRNCid = WCEL_1.Rnc_Id) AND (ADJS.AdjsCI = WCEL_1.WCEL_Id)
+WHERE ADJS.RNC_id LIKE '20%' OR ADJS.RNC_id LIKE '27%'
+ORDER BY ADJS.Rnc_Id;
+--
+--ADJS_Weekly DISTANCE , OK
+--
+DROP TABLE IF EXISTS ADJS_WK;
+CREATE TABLE ADJS_WK AS
+SELECT ADJS.Rnc_Id, ADJS.WBTS_Id, ADJS.WCEL_Id, ADJS.ADJS_Id, WCEL.name AS NameS, WCEL.PriScrCode, ADJS.AdjsCI, ADJS.AdjsLAC, ADJS.AdjsRAC, ADJS.AdjsRNCid, ADJS.AdjsScrCode, WCEL_1.name AS NameT, ADJS.NrtHopsIdentifier, ADJS.RtHopsIdentifier, ADJS.AdjsEcNoOffset, ADJS.AdjsCPICHTxPwr, ADJS.HSDPAHopsIdentifier, ADJS.RTWithHSDPAHopsIdentifier, WCEL.UARFCN, WCEL.AdminCellState AS AdStS, WCEL.WCelState AS WStS, WCEL_1.AdminCellState AS AdStT, WCEL_1.WCelState AS WStT, ADJS.TargetCellDN, WBTS.Name AS WnameS, WBTS_1.Name AS WnameT, 
+Baseline.Market || '-' || Baseline."Localidad (CRC)" AS ClusterS, Baseline_1.Market || '-' || Baseline_1."Localidad (CRC)" AS ClusterT, Baseline.region AS RegionS, Baseline_1.Region AS RegionT, 
+ROUND (
+      12756273.2 * ASIN(
+                        MIN (1 , 
+                                SQRT(
+                                    POWER( SIN(RADIANS(Baseline.Latitud - Baseline_1.Latitud)/2) , 2) + 
+                                    COS(RADIANS(Baseline.Latitud)) * COS(RADIANS(Baseline_1.Latitud)) * POWER ( SIN(RADIANS(Baseline.Longitud - Baseline_1.Longitud)/2) , 2)
+                                      )
+                            )
+                        )
+         , 0) AS Distance
+FROM (((((ADJS LEFT JOIN WCEL ON (ADJS.Rnc_Id = WCEL.Rnc_Id) AND (ADJS.WBTS_Id = WCEL.WBTS_Id) AND (ADJS.WCEL_Id = WCEL.WCEL_Id)) LEFT JOIN WCEL AS WCEL_1 ON (ADJS.AdjsRNCid = WCEL_1.Rnc_Id) AND (ADJS.AdjsCI = WCEL_1.WCEL_Id)) LEFT JOIN WBTS ON (ADJS.Rnc_Id = WBTS.Rnc_Id) AND (ADJS.WBTS_Id = WBTS.WBTS_Id)) LEFT JOIN WBTS AS WBTS_1 ON (SUBSTR(ADJS.TargetCellDN, INSTR(ADJS.TargetCellDN,'/RNC-') + 5 , INSTR(ADJS.TargetCellDN,'/WBTS-') - INSTR(ADJS.TargetCellDN,'/RNC-') - 5) = WBTS_1.RNC_Id) AND (SUBSTR(ADJS.TargetCellDN, INSTR(ADJS.TargetCellDN,'/WBTS-') + 6 , INSTR(ADJS.TargetCellDN,'/WCEL-') - INSTR(ADJS.TargetCellDN,'/WBTS-') - 6) = WBTS_1.WBTS_Id)) LEFT JOIN Baseline ON (WBTS.Name = Baseline .Sitio) ) LEFT JOIN Baseline AS Baseline_1 ON (WBTS_1.Name = Baseline_1.Sitio) 
+WHERE ADJS.RNC_id LIKE '20%' OR ADJS.RNC_id LIKE '27%'
+ORDER BY WCEL.name;
+--
+-- Import reports from RC7 and RC8 taking ";" delimiter in SQLITESTUDIO import table process
+-- RSRAN046, Detected pairing, Drop after missing cleaning
+DELETE FROM RSRAN046;
+DELETE FROM DET_SET;
+DELETE FROM DRP_AFT_MISSING;
+--
+-- Import RSRAN046, DetectedSet, Drop after missing reports
+--
+--
+--WCEL for NorOcc and neighbors
+--
+DROP TABLE IF EXISTS WCEL_V;
+CREATE TABLE WCEL_V AS
+SELECT *
+FROM WCEL
+WHERE (WCEL.RNC_id LIKE '20%') OR (WCEL.RNC_id LIKE '27%') OR (SUBSTR(WCEL.name,1,3) = "BOL") OR (SUBSTR(WCEL.name,1,3) = "COR") OR (SUBSTR(WCEL.name,1,3) = "TOL") OR (SUBSTR(WCEL.name,1,3) = "SND") OR (SUBSTR(WCEL.name,1,3) = "BOY") OR (SUBSTR(WCEL.name,1,3) = "VAL") OR (SUBSTR(WCEL.name,1,3) = "CUN");
+--
+--
+-- top detect list
+--
+DROP TABLE IF EXISTS DET_SET1;
+CREATE TABLE DET_SET1 AS
+SELECT
+DET_SET.PERIOD_START_TIME,DET_SET.PLMNname,DET_SET.RNCname, DET_SET.hos_id, DET_SET.scid_id, DET_SET.mcc_id, DET_SET.mnc_id, DET_SET.scr_id, DET_SET.CPICH_ECNO_DET_SUM_M1028C0, DET_SET.CPICH_ECNO_DET_DENOM_M1028C1, DET_SET.CPICH_RSCP_DET_SUM_M1028C2, DET_SET.CPICH_RSCP_DET_DENOM_M1028C3 
+FROM DET_SET
+WHERE 1*DET_SET.CPICH_ECNO_DET_DENOM_M1028C1 > 5000;
+--
+--combination selection < 50KMS
+--
+DROP TABLE IF EXISTS DET_DistT;
+CREATE TABLE DET_DistT AS
+SELECT
+DET_SET1.PERIOD_START_TIME, 1*(DET_SET1.hos_id || DET_SET1.scid_id || DET_SET1.scr_id) AS KEY, WCEL_V.Name AS WCELS, WCEL_V_1.Name AS WCELT, DET_SET1.hos_id AS RNCS, DET_SET1.scid_id AS WCEL_IdS, "PLMN-PLMN/RNC-" || WCEL_V_1.RNC_Id || "/WBTS-" || WCEL_V_1.WBts_Id || "/WCEL-" || WCEL_V_1.WCEL_Id AS TargetCellDN, WCEL_V.WBTS_Id AS WBTSIdS, WCEL_V_1.RNC_Id AS RNCT, WCEL_V_1.WBTS_Id AS WBTSIdT, WCEL_V_1.WCEL_Id AS WCEL_IdT, WBTS.Name AS WBTSS, WBTS_1.Name AS WBTST, DET_SET1.RNCname AS RNCnameDET, DET_SET1.mcc_id,DET_SET1.mnc_id, DET_SET1.scr_id AS PSCT, DET_SET1.CPICH_ECNO_DET_SUM_M1028C0,DET_SET1.CPICH_ECNO_DET_DENOM_M1028C1,DET_SET1.CPICH_RSCP_DET_SUM_M1028C2,DET_SET1.CPICH_RSCP_DET_DENOM_M1028C3, Baseline.Market || '-' || Baseline."Localidad (CRC)" AS ClusterS, Baseline_1.Market || '-' || Baseline_1."Localidad (CRC)" AS ClusterT, Baseline.region AS RegionS, Baseline_1.Region AS RegionT, 1*(ROUND (
+      12756273.2 * ASIN(
+                        MIN (1 , 
+                                SQRT(
+                                    POWER( SIN(RADIANS(Baseline.Latitud - Baseline_1.Latitud)/2) , 2) + 
+                                    COS(RADIANS(Baseline.Latitud)) * COS(RADIANS(Baseline_1.Latitud)) * POWER ( SIN(RADIANS(Baseline.Longitud - Baseline_1.Longitud)/2) , 2)
+                                      )
+                            )
+                        )
+         , 0)) AS Distance, DRP_AFT_MISSING.CS_VOICE_DRP_AFT_MISSING_ADJM_1001C714 AS DRPs_AFT_MISS, DRP_AFT_MISSING.SHOOverheadRT AS SHOOvrHd  
+FROM (((((((DET_SET1 LEFT JOIN WCEL_V ON (1*DET_SET1.hos_id = 1*WCEL_V.RNC_Id) AND (1*DET_SET1.scid_id = 1*WCEL_V.WCEL_Id)) 
+LEFT JOIN WCEL_V AS WCEL_V_1 ON (1*DET_SET1.scr_id = 1*WCEL_V_1.PriScrCode) AND (WCEL_V.UARFCN = WCEL_V_1.UARFCN )) 
+LEFT JOIN WBTS ON (1*DET_SET1.hos_id = 1*WBTS.RNC_Id) AND (1*WCEL_V.WBTS_Id = 1*WBTS.WBTS_Id)) 
+LEFT JOIN WBTS AS WBTS_1 ON (1*WCEL_V_1.RNC_Id = 1*WBTS_1.RNC_Id) AND (1*WCEL_V_1.WBTS_Id = 1*WBTS_1.WBTS_Id)) LEFT JOIN baseline ON (WBTS.Name = baseline.Sitio)) 
+LEFT JOIN baseline AS baseline_1 ON (WBTS_1.Name = baseline_1.Sitio))
+LEFT JOIN RNC ON (1*DET_SET1.hos_id = RNC.RNC_Id))
+LEFT JOIN DRP_AFT_MISSING ON (RNC.Name = DRP_AFT_MISSING.RNCname) AND (WCEL_V.WBTS_Id = DRP_AFT_MISSING.WBTSID) AND (WCEL_V.WCEL_Id = DRP_AFT_MISSING.WCELID) 
+WHERE (ROUND (
+      12756273.2 * ASIN(
+                        MIN (1 , 
+                                SQRT(
+                                    POWER( SIN(RADIANS(Baseline.Latitud - Baseline_1.Latitud)/2) , 2) + 
+                                    COS(RADIANS(Baseline.Latitud)) * COS(RADIANS(Baseline_1.Latitud)) * POWER ( SIN(RADIANS(Baseline.Longitud - Baseline_1.Longitud)/2) , 2)
+                                      )
+                            )
+                        )
+         , 0) < 50000) AND (((1*DET_SET1.hos_id) LIKE '20%') OR ((1*DET_SET1.hos_id) LIKE '27%'));
+--
+--toma menor distancia de la llave
+--
+DROP TABLE IF EXISTS DET_DistMin;
+CREATE TABLE DET_DistMin AS
+SELECT
+DET_DistT.Key, 1*(Min(DET_DistT.Distance)) AS MinOfDistancia, WCEL_Param.Cluster, WCEL_Param.Encargado, WCEL_Param.UARFCN
+FROM DET_DistT LEFT JOIN WCEL_Param ON (DET_DistT.RNCS = WCEL_Param.RNC_Id) AND (DET_DistT.WBTSIdS = WCEL_Param.WBTS_Id) AND (DET_DistT.WCEL_IdS = WCEL_Param.WCEL_Id)
+GROUP BY DET_DistT.Key;
+--
+--ADJS QTY PER CELL
+--
+DROP TABLE IF EXISTS ADJS_QTY;
+CREATE TABLE ADJS_QTY AS
+SELECT
+ADJS.PLMN_id, ADJS.RNC_Id, ADJS.WBTS_Id, ADJS.WCEL_Id, 1*(COUNT (ADJS.ADJS_Id)) AS ADJS_QTY
+FROM ADJS
+GROUP BY ADJS.RNC_Id, ADJS.WBTS_Id, ADJS.WCEL_Id; 
+--
+--DETECtED Result
+--
+DROP TABLE IF EXISTS DET_DistF;
+CREATE TABLE DET_DistF AS
+SELECT
+1*(DET_DistT.RNCS|| DET_DistT.WCEL_IdS) AS KEY1, DET_DistT.WCELS,DET_DistT.WCELT,DET_DistT.Distance, ADJS_QTY.ADJS_QTY, DET_DistMin.Encargado, DET_DistT.ClusterS,DET_DistT.ClusterT,DET_DistT.PSCT, DET_DistMin.UARFCN, DET_DistT.RNCS, DET_DistT.mcc_id AS MCCS, DET_DistT.mnc_id AS MNCS, DET_DistT.WCELS, DET_DistT.TargetCellDN,DET_DistT.WCELT, DET_DistT.PERIOD_START_TIME,DET_DistT.KEY,DET_DistT.WCEL_IdS,DET_DistT.WBTSIdS,DET_DistT.RNCT,DET_DistT.WBTSIdT,DET_DistT.WCEL_IdT,DET_DistT.WBTSS,DET_DistT.WBTST,DET_DistT.RNCnameDET, DET_DistT.CPICH_ECNO_DET_SUM_M1028C0,DET_DistT.CPICH_ECNO_DET_DENOM_M1028C1,DET_DistT.CPICH_RSCP_DET_SUM_M1028C2,DET_DistT.CPICH_RSCP_DET_DENOM_M1028C3,DET_DistT.RegionS,DET_DistT.RegionT, 1*(DET_DistT.RNCS|| DET_DistT.WCEL_IdS || DET_DistT.RNCT|| DET_DistT.WCEL_IdT) AS KEY2, DET_DistT.DRPs_AFT_MISS, DET_DistT.SHOOvrHd  
+FROM (DET_DistT INNER JOIN DET_DistMin ON (DET_DistT.Distance = DET_DistMin.MinOfDistancia) AND (DET_DistT.Key = DET_DistMin.Key)) LEFT JOIN ADJS_QTY ON (DET_DistT.RNCS = ADJS_QTY.RNC_Id) AND (DET_DistT.WCEL_IdS = ADJS_QTY.WCEL_Id)  
+ORDER BY DET_DistT.Distance;
+--
+--
+--         
+--046 PARAM AND DISTANCE
+--
+DROP TABLE IF EXISTS S046_DistT;
+CREATE TABLE S046_DistT AS
+SELECT
+(RSRAN046.WCELNameS || RSRAN046.WCELNameT) AS KEY, RSRAN046.WCELNameS AS WCELS, RSRAN046.WCELNameT AS WCELT, WCEL.RNC_Id AS RNCS, RSRAN046.WCEL_IdS, "PLMN-PLMN/RNC-" || WCEL_1.RNC_Id || "/WBTS-" || WCEL_1.WBts_Id || "/WCEL-" || WCEL_1.WCEL_Id AS TargetCellDN, WCEL.WBTS_Id AS WBTSIdS, WCEL_1.RNC_Id AS RNCT, WCEL_1.WBTS_Id AS WBTSIdT, RSRAN046.WCEL_IdT, RSRAN046.WBTSNameS AS WBTSS, RSRAN046.WBTSNameT AS WBTST, RSRAN046.RNCNameS, RSRAN046.adjQTY,RSRAN046.Neighbor,RSRAN046.Att,RSRAN046.Share,RSRAN046.SRperadjacency,RSRAN046.EcNodiffbtwcellpair,RSRAN046.AvgCPICHEcNo, 1*(WCEL.RNC_Id || RSRAN046.WCEL_IdS) AS KEY1, 1*(WCEL.RNC_Id || RSRAN046.WCEL_IdS || WCEL_1.RNC_Id || RSRAN046.WCEL_IdT) AS KEY2, Baseline.Market || '-' || Baseline."Localidad (CRC)" AS ClusterS, Baseline_1.Market || '-' || Baseline_1."Localidad (CRC)" AS ClusterT, Baseline.region AS RegionS, Baseline_1.Region AS RegionT, 1*ROUND (
+      12756273.2 * ASIN(
+                        MIN (1 , 
+                                SQRT(
+                                    POWER( SIN(RADIANS(Baseline.Latitud - Baseline_1.Latitud)/2) , 2) + 
+                                    COS(RADIANS(Baseline.Latitud)) * COS(RADIANS(Baseline_1.Latitud)) * POWER ( SIN(RADIANS(Baseline.Longitud - Baseline_1.Longitud)/2) , 2)
+                                      )
+                            )
+                        )
+         , 0) AS Distance, RSRAN046.CPICHRSCPSHO, DRP_AFT_MISSING.CS_VOICE_DRP_AFT_MISSING_ADJM_1001C714 AS DRPs_AFT_MISS, DRP_AFT_MISSING.SHOOverheadRT AS SHOOvrHd 
+FROM ((((((RSRAN046 LEFT JOIN WCEL ON (RSRAN046.WCELNameS = WCEL.Name) AND (RSRAN046.WCEL_IdS = WCEL.WCEL_Id)) LEFT JOIN WCEL AS WCEL_1 ON (RSRAN046.WCELNameT = WCEL_1.Name) AND (RSRAN046.WCEL_IdT = WCEL_1.WCEL_Id)) LEFT JOIN WBTS ON (WCEL.RNC_Id = WBTS.RNC_Id) AND (WCEL.WBTS_Id = WBTS.WBTS_Id)) LEFT JOIN WBTS AS WBTS_1 ON (WCEL_1.RNC_Id = WBTS_1.RNC_Id) AND (WCEL_1.WBTS_Id = WBTS_1.WBTS_Id)) LEFT JOIN baseline ON (WBTS.Name = baseline.Sitio)) 
+LEFT JOIN baseline AS baseline_1 ON (WBTS_1.Name = baseline_1.Sitio))
+LEFT JOIN DRP_AFT_MISSING ON (RSRAN046.RNCNameS = DRP_AFT_MISSING.RNCname) AND (WCEL.WBTS_Id = DRP_AFT_MISSING.WBTSID) AND (RSRAN046.WCEL_IdS = DRP_AFT_MISSING.WCELID)  
+WHERE (WCEL.RNC_Id LIKE '20%') OR (WCEL.RNC_Id LIKE '27%');
+--
+--
+--046 NEIGHBOR NO
+--DROP TABLE IF EXISTS S046_DistTN;
+--CREATE TABLE S046_DistTN AS
+DELETE FROM S046_DistTN;
+INSERT INTO S046_DistTN
+SELECT
+S046_DistT.KEY1, S046_DistT.KEY2, S046_DistT.WCELS,S046_DistT.WCELT,S046_DistT.RNCS,S046_DistT.WCEL_IdS,S046_DistT.TargetCellDN,S046_DistT.WBTSIdS,S046_DistT.RNCT,S046_DistT.WBTSIdT,S046_DistT.WCEL_IdT,S046_DistT.WBTSS,S046_DistT.WBTST,S046_DistT.adjQTY,S046_DistT.Att, S046_DistT.ClusterS,S046_DistT.ClusterT,S046_DistT.RegionS,S046_DistT.RegionT,S046_DistT.Distance,S046_DistT.DRPs_AFT_MISS ,S046_DistT.SHOOvrHd
+FROM S046_DistT          
+WHERE (S046_DistT.Neighbor LIKE 'No%');
+--
+--
+--046 NEIGHBOR YES with ADJS_Id create table S046_DistTY if necessary 
+--DROP TABLE IF EXISTS S046_DistTY;
+--CREATE TABLE S046_DistTY AS
+---
+DELETE FROM S046_DistTY;
+INSERT INTO S046_DistTY
+SELECT
+S046_DistT.KEY1, S046_DistT.KEY2, S046_DistT.WCELS,S046_DistT.WCELT,S046_DistT.RNCS,S046_DistT.WBTSIdS,S046_DistT.WCEL_IdS, ADJS.ADJS_Id, S046_DistT.TargetCellDN,S046_DistT.RNCT,S046_DistT.WBTSIdT,S046_DistT.WCEL_IdT,S046_DistT.WBTSS,S046_DistT.WBTST,S046_DistT.adjQTY,S046_DistT.Att, S046_DistT.ClusterS,S046_DistT.ClusterT,S046_DistT.RegionS,S046_DistT.RegionT,S046_DistT.Distance,S046_DistT.DRPs_AFT_MISS ,S046_DistT.SHOOvrHd
+FROM ADJS INNER JOIN S046_DistT ON (ADJS.RNC_Id = S046_DistT.RNCS) AND (ADJS.WBTS_Id = S046_DistT.WBTSIdS) AND (ADJS.WCEL_Id = S046_DistT.WCEL_IdS) AND (ADJS.AdjsRNCid = S046_DistT.RNCT) AND (ADJS.AdjsCI = S046_DistT.WCEL_IdT)
+WHERE (S046_DistT.Neighbor LIKE 'Yes%')
+ORDER BY S046_DistT.WCELS, 1*(S046_DistT.Att);
+--
+--
+--  
+--Inner Join Query. 046N and Det coincident Missing Cells. Instead of create del and insert to keep column data types
+--
+--DROP TABLE IF EXISTS MISS1;
+--CREATE TABLE MISS1 AS
+DELETE FROM MISS1;
+INSERT INTO MISS1
+SELECT
+S046_DistTN.KEY1, S046_DistTN.KEY2, S046_DistTN.WCELS,S046_DistTN.WCELT,S046_DistTN.RNCS,S046_DistTN.WCEL_IdS,S046_DistTN.TargetCellDN,S046_DistTN.WBTSIdS,S046_DistTN.RNCT,S046_DistTN.WBTSIdT,S046_DistTN.WCEL_IdT,S046_DistTN.WBTSS,S046_DistTN.WBTST,S046_DistTN.adjQTY,S046_DistTN.Att AS ATT1, DET_DistF.CPICH_ECNO_DET_DENOM_M1028C1 AS ATT2, 1*(S046_DistTN.Att + DET_DistF.CPICH_ECNO_DET_DENOM_M1028C1) AS ATTF, S046_DistTN.ClusterS,S046_DistTN.ClusterT,S046_DistTN.RegionS,S046_DistTN.RegionT,S046_DistTN.Distance,S046_DistTN.DRPs_AFT_MISS ,S046_DistTN.SHOOvrHd
+FROM S046_DistTN INNER JOIN DET_DistF ON (S046_DistTN.RNCS = DET_DistF.RNCS) AND (S046_DistTN.WBTSIdS = DET_DistF.WBTSIdS) AND (S046_DistTN.WCEL_IdS = DET_DistF.WCEL_IdS) AND (S046_DistTN.RNCT = DET_DistF.RNCT) AND (S046_DistTN.WBTSIdT = DET_DistF.WBTSIdT) AND (S046_DistTN.WCEL_IdT = DET_DistF.WCEL_IdT);        
+--
+--Left Join 046 Query. 046N only Missing Cells
+--
+--DROP TABLE IF EXISTS MISS2;
+--CREATE TABLE MISS2 AS
+INSERT INTO MISS1
+SELECT
+S046_DistTN.KEY1, S046_DistTN.KEY2, S046_DistTN.WCELS,S046_DistTN.WCELT,S046_DistTN.RNCS,S046_DistTN.WCEL_IdS,S046_DistTN.TargetCellDN,S046_DistTN.WBTSIdS,S046_DistTN.RNCT,S046_DistTN.WBTSIdT,S046_DistTN.WCEL_IdT,S046_DistTN.WBTSS,S046_DistTN.WBTST,S046_DistTN.adjQTY,S046_DistTN.Att AS ATT1, DET_DistF.CPICH_ECNO_DET_DENOM_M1028C1 AS ATT2, S046_DistTN.Att AS ATTF, S046_DistTN.ClusterS,S046_DistTN.ClusterT,S046_DistTN.RegionS,S046_DistTN.RegionT,S046_DistTN.Distance,S046_DistTN.DRPs_AFT_MISS ,S046_DistTN.SHOOvrHd
+FROM S046_DistTN LEFT JOIN DET_DistF ON (S046_DistTN.RNCS = DET_DistF.RNCS) AND (S046_DistTN.WBTSIdS = DET_DistF.WBTSIdS) AND (S046_DistTN.WCEL_IdS = DET_DistF.WCEL_IdS) AND (S046_DistTN.RNCT = DET_DistF.RNCT) AND (S046_DistTN.WBTSIdT = DET_DistF.WBTSIdT) AND (S046_DistTN.WCEL_IdT = DET_DistF.WCEL_IdT)
+WHERE (DET_DistF.CPICH_ECNO_DET_DENOM_M1028C1 IS NULL) AND (1*S046_DistTN.Att > 500) ;   --just 046 records > 500 att
+--
+--Left Join DET Query. DET only Missing Cells
+--
+--DROP TABLE IF EXISTS MISS3;
+--CREATE TABLE MISS3 AS
+INSERT INTO MISS1
+SELECT
+DET_DistF.KEY1, DET_DistF.KEY2, DET_DistF.WCELS,DET_DistF.WCELT,DET_DistF.RNCS,DET_DistF.WCEL_IdS,DET_DistF.TargetCellDN,DET_DistF.WBTSIdS,DET_DistF.RNCT,DET_DistF.WBTSIdT,DET_DistF.WCEL_IdT,DET_DistF.WBTSS,DET_DistF.WBTST,DET_DistF.adjS_QTY,S046_DistTN.Att AS ATT1, DET_DistF.CPICH_ECNO_DET_DENOM_M1028C1 AS ATT2, DET_DistF.CPICH_ECNO_DET_DENOM_M1028C1 AS ATTF, DET_DistF.ClusterS,DET_DistF.ClusterT,DET_DistF.RegionS,DET_DistF.RegionT,DET_DistF.Distance,DET_DistF.DRPs_AFT_MISS ,DET_DistF.SHOOvrHd
+FROM DET_DistF LEFT JOIN S046_DistTN ON (DET_DistF.RNCS = S046_DistTN.RNCS) AND (DET_DistF.WBTSIdS = S046_DistTN.WBTSIdS) AND (DET_DistF.WCEL_IdS = S046_DistTN.WCEL_IdS) AND (DET_DistF.RNCT = S046_DistTN.RNCT) AND (DET_DistF.WBTSIdT = S046_DistTN.WBTSIdT) AND (DET_DistF.WCEL_IdT = S046_DistTN.WCEL_IdT)
+WHERE (S046_DistTN.Att) IS NULL;   --just DET records
+--
+--
+--depuration queries due to different target distance according to cluster types
+--src city tgt dep
+--DROP TABLE IF EXISTS MISS2;
+--CREATE TABLE MISS2 AS
+DELETE FROM MISS2;
+INSERT INTO MISS2
+SELECT
+MISS1.KEY1,MISS1.KEY2,MISS1.WCELS,MISS1.WCELT,MISS1.RNCS,MISS1.WCEL_IdS,MISS1.TargetCellDN,MISS1.WBTSIdS,MISS1.RNCT,MISS1.WBTSIdT,MISS1.WCEL_IdT,MISS1.WBTSS,MISS1.WBTST,MISS1.adjQTY,MISS1.ATT1,MISS1.ATT2,MISS1.ATTF,MISS1.ClusterS,MISS1.ClusterT,MISS1.RegionS,MISS1.RegionT,MISS1.Distance,MISS1.DRPs_AFT_MISS,MISS1.SHOOvrHd, "C" AS TypeS, "D" AS TypeT
+FROM MISS1
+WHERE (1*MISS1.Distance <2001) AND ((SUBSTR(MISS1.WCELS,1,3) = "MED") OR (SUBSTR(MISS1.WCELS,1,3) = "MAN") OR (SUBSTR(MISS1.WCELS,1,3) = "PER") OR (SUBSTR(MISS1.WCELS,1,3) = "ARM")) AND ((SUBSTR(MISS1.WCELT,1,3) = "ANT") OR (SUBSTR(MISS1.WCELT,1,3) = "CAD") OR (SUBSTR(MISS1.WCELT,1,3) = "RIS") OR (SUBSTR(MISS1.WCELT,1,3) = "CHO") OR (SUBSTR(MISS1.WCELT,1,3) = "QUB") OR (SUBSTR(MISS1.WCELT,1,3) = "BOL") OR (SUBSTR(MISS1.WCELT,1,3) = "COR") OR (SUBSTR(MISS1.WCELT,1,3) = "TOL") OR (SUBSTR(MISS1.WCELT,1,3) = "SND") OR (SUBSTR(MISS1.WCELT,1,3) = "BOY") OR (SUBSTR(MISS1.WCELT,1,3) = "VAL") OR (SUBSTR(MISS1.WCELT,1,3) = "CUN"));
+--
+--src city tgt city
+--
+INSERT INTO MISS2
+SELECT
+MISS1.KEY1,MISS1.KEY2,MISS1.WCELS,MISS1.WCELT,MISS1.RNCS,MISS1.WCEL_IdS,MISS1.TargetCellDN,MISS1.WBTSIdS,MISS1.RNCT,MISS1.WBTSIdT,MISS1.WCEL_IdT,MISS1.WBTSS,MISS1.WBTST,MISS1.adjQTY,MISS1.ATT1,MISS1.ATT2,MISS1.ATTF,MISS1.ClusterS,MISS1.ClusterT,MISS1.RegionS,MISS1.RegionT,MISS1.Distance,MISS1.DRPs_AFT_MISS,MISS1.SHOOvrHd, "C" AS TypeS, "C" AS TypeT
+FROM MISS1
+WHERE (1*MISS1.Distance <1001) AND ((SUBSTR(MISS1.WCELS,1,3) = "MED") OR (SUBSTR(MISS1.WCELS,1,3) = "MAN") OR (SUBSTR(MISS1.WCELS,1,3) = "PER") OR (SUBSTR(MISS1.WCELS,1,3) = "ARM")) AND ((SUBSTR(MISS1.WCELT,1,3) = "MED") OR (SUBSTR(MISS1.WCELT,1,3) = "MAN") OR (SUBSTR(MISS1.WCELT,1,3) = "PER") OR (SUBSTR(MISS1.WCELT,1,3) = "ARM"));
+--
+--src dep tgt dep
+--
+INSERT INTO MISS2
+SELECT
+MISS1.KEY1,MISS1.KEY2,MISS1.WCELS,MISS1.WCELT,MISS1.RNCS,MISS1.WCEL_IdS,MISS1.TargetCellDN,MISS1.WBTSIdS,MISS1.RNCT,MISS1.WBTSIdT,MISS1.WCEL_IdT,MISS1.WBTSS,MISS1.WBTST,MISS1.adjQTY,MISS1.ATT1,MISS1.ATT2,MISS1.ATTF,MISS1.ClusterS,MISS1.ClusterT,MISS1.RegionS,MISS1.RegionT,MISS1.Distance,MISS1.DRPs_AFT_MISS,MISS1.SHOOvrHd, "D" AS TypeS, "D" AS TypeT
+FROM MISS1
+WHERE (1*MISS1.Distance <10001) AND ((SUBSTR(MISS1.WCELS,1,3) = "ANT") OR (SUBSTR(MISS1.WCELS,1,3) = "CAD") OR (SUBSTR(MISS1.WCELS,1,3) = "RIS") OR (SUBSTR(MISS1.WCELS,1,3) = "CHO") OR (SUBSTR(MISS1.WCELS,1,3) = "QUB") OR (SUBSTR(MISS1.WCELS,1,3) = "BOL") OR (SUBSTR(MISS1.WCELS,1,3) = "COR") OR (SUBSTR(MISS1.WCELS,1,3) = "TOL") OR (SUBSTR(MISS1.WCELS,1,3) = "SND") OR (SUBSTR(MISS1.WCELS,1,3) = "BOY") OR (SUBSTR(MISS1.WCELS,1,3) = "VAL") OR (SUBSTR(MISS1.WCELS,1,3) = "CUN")) AND ((SUBSTR(MISS1.WCELT,1,3) = "ANT") OR (SUBSTR(MISS1.WCELT,1,3) = "CAD") OR (SUBSTR(MISS1.WCELT,1,3) = "RIS") OR (SUBSTR(MISS1.WCELT,1,3) = "CHO") OR (SUBSTR(MISS1.WCELT,1,3) = "QUB") OR (SUBSTR(MISS1.WCELT,1,3) = "BOL") OR (SUBSTR(MISS1.WCELT,1,3) = "COR") OR (SUBSTR(MISS1.WCELT,1,3) = "TOL") OR (SUBSTR(MISS1.WCELT,1,3) = "SND") OR (SUBSTR(MISS1.WCELT,1,3) = "BOY") OR (SUBSTR(MISS1.WCELT,1,3) = "VAL") OR (SUBSTR(MISS1.WCELT,1,3) = "CUN"));
+--
+--src dep tgt city
+--
+INSERT INTO MISS2
+SELECT
+MISS1.KEY1,MISS1.KEY2,MISS1.WCELS,MISS1.WCELT,MISS1.RNCS,MISS1.WCEL_IdS,MISS1.TargetCellDN,MISS1.WBTSIdS,MISS1.RNCT,MISS1.WBTSIdT,MISS1.WCEL_IdT,MISS1.WBTSS,MISS1.WBTST,MISS1.adjQTY,MISS1.ATT1,MISS1.ATT2,MISS1.ATTF,MISS1.ClusterS,MISS1.ClusterT,MISS1.RegionS,MISS1.RegionT,MISS1.Distance,MISS1.DRPs_AFT_MISS,MISS1.SHOOvrHd, "D" AS TypeS, "C" AS TypeT
+FROM MISS1
+WHERE (1*MISS1.Distance <2001) AND ((SUBSTR(MISS1.WCELS,1,3) = "ANT") OR (SUBSTR(MISS1.WCELS,1,3) = "CAD") OR (SUBSTR(MISS1.WCELS,1,3) = "RIS") OR (SUBSTR(MISS1.WCELS,1,3) = "CHO") OR (SUBSTR(MISS1.WCELS,1,3) = "QUB") OR (SUBSTR(MISS1.WCELS,1,3) = "BOL") OR (SUBSTR(MISS1.WCELS,1,3) = "COR") OR (SUBSTR(MISS1.WCELS,1,3) = "TOL") OR (SUBSTR(MISS1.WCELS,1,3) = "SND") OR (SUBSTR(MISS1.WCELS,1,3) = "BOY") OR (SUBSTR(MISS1.WCELS,1,3) = "VAL") OR (SUBSTR(MISS1.WCELS,1,3) = "CUN")) AND ((SUBSTR(MISS1.WCELT,1,3) = "MED") OR (SUBSTR(MISS1.WCELT,1,3) = "MAN") OR (SUBSTR(MISS1.WCELT,1,3) = "PER") OR (SUBSTR(MISS1.WCELT,1,3) = "ARM"));
+--
+--MISS qty per cell
+--
+--DROP TABLE IF EXISTS MISS_Q;
+--CREATE TABLE MISS_Q AS
+DELETE FROM MISS_Q;
+INSERT INTO MISS_Q
+SELECT
+MISS2.RNCS,MISS2.WBTSIdS,MISS2.WCEL_IdS, COUNT (MISS2.KEY1) AS MISS_QTY
+FROM MISS2
+GROUP BY MISS2.RNCS,MISS2.WBTSIdS,MISS2.WCEL_IdS; 
+--
+--Missing ordered by wcels and attf
+--
+DROP TABLE IF EXISTS MISS3;
+CREATE TABLE MISS3 AS
+SELECT
+MISS2.KEY1, MISS2.KEY2, MISS2.WCELS, MISS2.WCELT, MISS2.RNCS, MISS2.WCEL_IdS, MISS2.TargetCellDN, MISS2.WBTSIdS, MISS2.RNCT, MISS2.WBTSIdT, MISS2.WCEL_IdT, MISS2.WBTSS, MISS2.WBTST, MISS2.adjQTY, MISS2.ATT1, MISS2.ATT2, MISS2.ATTF, MISS2.ClusterS, MISS2.ClusterT, MISS2.RegionS, MISS2.RegionT, MISS2.Distance, MISS2.DRPs_AFT_MISS, MISS2.SHOOvrHd, MISS2.TypeS, MISS2.TypeT, MISS_Q.MISS_QTY
+FROM MISS2 INNER JOIN MISS_Q ON (MISS2.RNCS = MISS_Q.RNCS) AND (MISS2.WBTSIdS = MISS_Q.WBTSIdS) AND (MISS2.WCEL_IdS = MISS_Q.WCEL_IdS)
+ORDER BY MISS2.WCELS, MISS2.ATTF DESC;
+--
+--
+--
+--
+--ADJI INICIAL ok
+--
+SELECT WCEL.name AS ADJIs, WCEL_1.name AS ADJIt, ADJI.Rnc_Id, ADJI.WBTS_Id, ADJI.WCEL_Id, ADJI.ADJI_Id, WBTS.name AS WBTSs, WBTS_1.name AS WBTSt, WCEL.UARFCN, ADJI.AdjiUARFCN, ADJI.AdjiRNCid, WCEL_1.WBTS_Id AS WBTSIdt, ADJI.AdjiCI, WCEL.PriScrCode, ADJI.AdjiScrCode, ADJI.BlindHOTargetCell, ADJI.NrtHopiIdentifier, ADJI.RtHopiIdentifier, WCEL.SectorID AS SectorID1, WCEL_1.SectorID AS SectorID2, ADJI.TargetCellDN, CASE WHEN WCEL.UARFCN < 9685 THEN 850 ELSE 1900 END Banda1, CASE WHEN WCEL_1.UARFCN < 9685 THEN 850 ELSE 1900 END Banda2, CASE WHEN (CASE WHEN WCEL.UARFCN < 9685 THEN 850 ELSE 1900 END) = (CASE WHEN WCEL_1.UARFCN < 9685 THEN 850 ELSE 1900 END) THEN 1 ELSE 0 END SameBand, CASE WHEN WCEL.SectorID = WCEL_1.SectorID THEN 1 ELSE 0 END SameSector, CASE WHEN WBTS.name = WBTS_1.name THEN 1 ELSE 0 END SameSite  
+FROM (((ADJI LEFT JOIN WCEL ON (ADJI.WCEL_Id = WCEL.WCEL_Id) AND (ADJI.WBTS_Id = WCEL.WBTS_Id) AND (ADJI.Rnc_Id = WCEL.Rnc_Id)) LEFT JOIN WBTS ON (WCEL.WBTS_Id = WBTS.WBTS_Id) AND (WCEL.Rnc_Id = WBTS.Rnc_Id)) LEFT JOIN WCEL AS WCEL_1 ON (ADJI.AdjiCI = WCEL_1.WCEL_Id) AND (ADJI.AdjiLAC = WCEL_1.LAC) AND (ADJI.AdjiRNCid = WCEL_1.Rnc_Id)) LEFT JOIN WBTS AS WBTS_1 ON (WCEL_1.WBTS_Id = WBTS_1.WBTS_Id) AND (WCEL_1.Rnc_Id = WBTS_1.Rnc_Id)
+WHERE ADJI.RNC_id LIKE '20%' OR ADJI.RNC_id LIKE '27%'
+ORDER BY ADJI.Rnc_Id;
+--           
+--ADJI_Weekly Distance, OK
+--
+DROP TABLE IF EXISTS ADJI_Wk;
+CREATE TABLE ADJI_Wk AS
+SELECT WCEL.name AS ADJIs, WCEL_1.name AS ADJIt, ADJI.Rnc_Id, ADJI.WBTS_Id, ADJI.WCEL_Id, ADJI.ADJI_Id, WBTS.name AS WBTSs, WBTS_1.name AS WBTSt, WCEL.UARFCN, ADJI.AdjiUARFCN, ADJI.AdjiRNCid, WCEL_1.WBTS_Id AS WBTSIdt, ADJI.AdjiCI, WCEL.PriScrCode, ADJI.AdjiScrCode, ADJI.BlindHOTargetCell, ADJI.NrtHopiIdentifier, ADJI.RtHopiIdentifier, WCEL.SectorID AS SectorID1, WCEL_1.SectorID AS SectorID2, ADJI.TargetCellDN, CASE WHEN WCEL.UARFCN < 9685 THEN 850 ELSE 1900 END Banda1, CASE WHEN WCEL_1.UARFCN < 9685 THEN 850 ELSE 1900 END Banda2, CASE WHEN (CASE WHEN WCEL.UARFCN < 9685 THEN 850 ELSE 1900 END) = (CASE WHEN WCEL_1.UARFCN < 9685 THEN 850 ELSE 1900 END) THEN 1 ELSE 0 END SameBand, CASE WHEN WCEL.SectorID = WCEL_1.SectorID THEN 1 ELSE 0 END SameSector, CASE WHEN WBTS.name = WBTS_1.name THEN 1 ELSE 0 END SameSite, 
+Baseline.Market || '-' || Baseline."Localidad (CRC)" AS ClusterS, Baseline_1.Market || '-' || Baseline_1."Localidad (CRC)" AS ClusterT, Baseline.region AS RegionS, Baseline_1.Region AS RegionT, 
+ROUND (
+      12756273.2 * ASIN(
+                        MIN (1 , 
+                                SQRT(
+                                    POWER( SIN(RADIANS(Baseline.Latitud - Baseline_1.Latitud)/2) , 2) + 
+                                    COS(RADIANS(Baseline.Latitud)) * COS(RADIANS(Baseline_1.Latitud)) * POWER ( SIN(RADIANS(Baseline.Longitud - Baseline_1.Longitud)/2) , 2)
+                                      )
+                            )
+                        )
+         , 0) AS Distance
+FROM (((((ADJI LEFT JOIN WCEL ON (ADJI.Rnc_Id = WCEL.Rnc_Id) AND (ADJI.WBTS_Id = WCEL.WBTS_Id) AND (ADJI.WCEL_Id = WCEL.WCEL_Id)) LEFT JOIN WCEL AS WCEL_1 ON (ADJI.ADJIRNCid = WCEL_1.Rnc_Id) AND (ADJI.ADJICI = WCEL_1.WCEL_Id)) LEFT JOIN WBTS ON (ADJI.Rnc_Id = WBTS.Rnc_Id) AND (ADJI.WBTS_Id = WBTS.WBTS_Id)) LEFT JOIN WBTS AS WBTS_1 ON (SUBSTR(ADJI.TargetCellDN, INSTR(ADJI.TargetCellDN,'/RNC-') + 5 , INSTR(ADJI.TargetCellDN,'/WBTS-') - INSTR(ADJI.TargetCellDN,'/RNC-') - 5) = WBTS_1.RNC_Id) AND (SUBSTR(ADJI.TargetCellDN, INSTR(ADJI.TargetCellDN,'/WBTS-') + 6 , INSTR(ADJI.TargetCellDN,'/WCEL-') - INSTR(ADJI.TargetCellDN,'/WBTS-') - 6) = WBTS_1.WBTS_Id)) LEFT JOIN Baseline ON (WBTS.Name = Baseline .Sitio) ) LEFT JOIN Baseline AS Baseline_1 ON (WBTS_1.Name = Baseline_1.Sitio) 
+WHERE ADJI.RNC_id LIKE '20%' OR ADJI.RNC_id LIKE '27%'
+ORDER BY WCEL.name;
+--
+--
+--
+--ADJW_Weekly, OK
+--
+SELECT BTS.name AS BTSs, WCEL.name AS WCELt, ADJW.bsc_Id, ADJW.bcf_Id, ADJW.bts_Id, ADJW.adjw_Id, BTS.cellId, ADJW.LAC, ADJW.rncId, WCEL.WBTS_Id, ADJW.ADJWCId AS WCEL_Id, ADJW.scramblingCode AS PriScrCode, ADJW.SAC, ADJW.UARFCN, WBTS.name AS WBTSname, ADJW.name, ADJW.targetCellDN
+FROM (ADJW LEFT JOIN BTS ON (ADJW.bsc_Id = BTS.bsc_Id) AND (ADJW.bcf_Id = BTS.bcf_Id) AND (ADJW.bts_Id = BTS.bts_Id)) LEFT JOIN (WCEL LEFT JOIN WBTS ON (WCEL.WBTS_Id = WBTS.WBTS_Id) AND (WCEL.Rnc_Id = WBTS.Rnc_Id)) ON (ADJW.lac = WCEL.LAC) AND (ADJW.rncId = WCEL.Rnc_Id) AND (ADJW.AdjwCId = WCEL.WCEL_Id)
+WHERE ADJW.rncId LIKE '20%' OR ADJW.rncId LIKE '27%'
+ORDER BY BTS.name;
+--
+--ADJW_Weekly DISTANCE, OK
+--
+DROP TABLE IF EXISTS ADJW_Wk;
+CREATE TABLE ADJW_Wk AS
+SELECT BTS.name AS BTSs, WCEL.name AS WCELt, ADJW.bsc_Id, ADJW.bcf_Id, ADJW.bts_Id, ADJW.adjw_Id, BTS.cellId, ADJW.LAC, ADJW.rncId, WCEL.WBTS_Id, ADJW.ADJWCId AS WCEL_Id, ADJW.scramblingCode AS PriScrCode, ADJW.SAC, ADJW.UARFCN, ADJW.name, ADJW.targetCellDN,
+BCF.Name AS BCFS, WBTS.Name AS WnameT, 
+Baseline.Market || '-' || Baseline."Localidad (CRC)" AS ClusterS, Baseline_1.Market || '-' || Baseline_1."Localidad (CRC)" AS ClusterT, Baseline.region AS RegionS, Baseline_1.Region AS RegionT, 
+ROUND (
+      12756273.2 * ASIN(
+                        MIN (1 , 
+                                SQRT(
+                                    POWER( SIN(RADIANS(Baseline.Latitud - Baseline_1.Latitud)/2) , 2) + 
+                                    COS(RADIANS(Baseline.Latitud)) * COS(RADIANS(Baseline_1.Latitud)) * POWER ( SIN(RADIANS(Baseline.Longitud - Baseline_1.Longitud)/2) , 2)
+                                      )
+                            )
+                        )
+         , 0) AS Distance
+FROM (((((ADJW LEFT JOIN BTS ON (ADJW.bsc_Id = BTS.bsc_Id) AND (ADJW.bcf_Id = BTS.bcf_Id) AND (ADJW.bts_Id = BTS.bts_Id)) LEFT JOIN WCEL ON (ADJW.RNCid = WCEL.Rnc_Id) AND (ADJW.ADJWCID = WCEL.WCEL_Id)) LEFT JOIN BCF ON (ADJW.BSC_Id = BCF.BSC_Id) AND (ADJW.BCF_Id = BCF.BCF_Id)) LEFT JOIN WBTS ON (SUBSTR(ADJW.TargetCellDN, INSTR(ADJW.TargetCellDN,'/RNC-') + 5 , INSTR(ADJW.TargetCellDN,'/WBTS-') - INSTR(ADJW.TargetCellDN,'/RNC-') - 5) = WBTS.RNC_Id) AND (SUBSTR(ADJW.TargetCellDN, INSTR(ADJW.TargetCellDN,'/WBTS-') + 6 , INSTR(ADJW.TargetCellDN,'/WCEL-') - INSTR(ADJW.TargetCellDN,'/WBTS-') - 6) = WBTS.WBTS_Id)) LEFT JOIN Baseline ON (BCF.Name = Baseline.Sitio)) LEFT JOIN Baseline AS Baseline_1 ON (WBTS.Name = Baseline_1.Sitio) 
+WHERE ADJW.rncId LIKE '20%' OR ADJW.rncId LIKE '27%'
+ORDER BY BTS.name;
+--
+--
+--
+--ADJG_Weekly, OK
+SELECT ADJG.Rnc_Id, ADJG.WBTS_Id, ADJG.WCEL_id, ADJG.ADJG_Id, WCEL.name, WCEL.UARFCN, BSC.name AS BSCname, BTS.BSC_Id, BTS.BCF_Id, BTS.BTS_Id, BTS.name AS BTSname1, ADJG.AdjgBandIndicator, ADJG.AdjgBCC, ADJG.AdjgBCCH, ADJG.AdjgCI, ADJG.AdjgLAC, ADJG.AdjgMCC, ADJG.AdjgMNC, ADJG.AdjgNCC, ADJG.AdjgTxPwrMaxRACH, ADJG.AdjgTxPwrMaxTCH, ADJG.NrtHopgIdentifier, ADJG.RtHopgIdentifier, ADJG.TargetCellDN, ADJG.name AS BTSname2, ADJG.AdjgSIB
+FROM ((ADJG INNER JOIN WCEL ON (ADJG.WCEL_id = WCEL.WCEL_id) AND (ADJG.WBTS_Id = WCEL.WBTS_Id) AND (ADJG.Rnc_Id = WCEL.Rnc_Id)) LEFT JOIN BTS ON (ADJG.AdjgLAC = BTS.locationAreaIdLAC) AND (ADJG.AdjgCI = BTS.cellId)) LEFT JOIN BSC ON BTS.BSC_Id = BSC.BSC_Id
+WHERE ADJG.rnc_Id LIKE '20%' OR ADJG.rnc_Id LIKE '27%'
+ORDER BY WCEL.name;
+--
+--ADJG_Weekly DISTANCE, OK
+--
+DROP TABLE IF EXISTS ADJG_Wk;
+CREATE TABLE ADJG_Wk AS
+SELECT WCEL.name AS WCELS, BTS.Name AS BTST, ADJG.Rnc_Id, ADJG.WBTS_Id, ADJG.WCEL_id, ADJG.ADJG_Id,  WCEL.UARFCN, BSC.name AS BSCname, BTS.BSC_Id, BTS.BCF_Id, BTS.BTS_Id, BTS.name AS BTSname1, ADJG.AdjgBandIndicator, ADJG.AdjgBCC, ADJG.AdjgBCCH, ADJG.AdjgCI, ADJG.AdjgLAC, ADJG.AdjgMCC, ADJG.AdjgMNC, ADJG.AdjgNCC, ADJG.AdjgTxPwrMaxRACH, ADJG.AdjgTxPwrMaxTCH, ADJG.NrtHopgIdentifier, ADJG.RtHopgIdentifier, ADJG.TargetCellDN, ADJG.name AS BTSnameT, ADJG.AdjgSIB,
+WBTS.Name AS WBTSS, BCF.Name AS BCFT, 
+Baseline.Market || '-' || Baseline."Localidad (CRC)" AS ClusterS, Baseline_1.Market || '-' || Baseline_1."Localidad (CRC)" AS ClusterT, Baseline.region AS RegionS, Baseline_1.Region AS RegionT, 
+ROUND (
+      12756273.2 * ASIN(
+                        MIN (1 , 
+                                SQRT(
+                                    POWER( SIN(RADIANS(Baseline.Latitud - Baseline_1.Latitud)/2) , 2) + 
+                                    COS(RADIANS(Baseline.Latitud)) * COS(RADIANS(Baseline_1.Latitud)) * POWER ( SIN(RADIANS(Baseline.Longitud - Baseline_1.Longitud)/2) , 2)
+                                      )
+                            )
+                        )
+         , 0) AS Distance
+FROM ((((((ADJG LEFT JOIN WCEL ON (ADJG.Rnc_Id = WCEL.Rnc_Id) AND (ADJG.WBTS_Id = WCEL.WBTS_Id) AND (ADJG.WCEL_Id = WCEL.WCEL_Id)) LEFT JOIN BTS ON (SUBSTR(ADJG.TargetCellDN, INSTR(ADJG.TargetCellDN,'/BSC-') + 5 , INSTR(ADJG.TargetCellDN,'/BCF-') - INSTR(ADJG.TargetCellDN,'/BSC-') - 5) = BTS.BSC_Id) AND (SUBSTR(ADJG.TargetCellDN, INSTR(ADJG.TargetCellDN,'/BCF-') + 5 , INSTR(ADJG.TargetCellDN,'/BTS-') - INSTR(ADJG.TargetCellDN,'/BCF-') - 5) = BTS.BCF_Id) AND (SUBSTR(ADJG.TargetCellDN, INSTR(ADJG.TargetCellDN,'/BTS-') + 5 , LENGTH(ADJG.TargetCellDN) - INSTR(ADJG.TargetCellDN,'/BTS-') - 4) =BTS.BTS_Id)) 
+LEFT JOIN WBTS ON (ADJG.Rnc_Id = WBTS.Rnc_Id) AND (ADJG.WBTS_Id = WBTS.WBTS_Id)) LEFT JOIN BCF ON (BTS.BSC_Id = BCF.BSC_Id) AND (BTS.BCF_Id = BCF.BCF_Id)) LEFT JOIN Baseline ON (WBTS.Name = Baseline .Sitio) ) LEFT JOIN Baseline AS Baseline_1 ON (BCF.Name = Baseline_1.Sitio)) LEFT JOIN BSC ON BTS.BSC_Id = BSC.BSC_Id 
+WHERE ADJG.RNC_id LIKE '20%' OR ADJG.RNC_id LIKE '27%'
+ORDER BY WCEL.name;
+--
+--
+--
+--ADCE_Weekly, OK
+--
+SELECT BTS.name || BTS_1.name AS KEY, BSC.name AS BSCnameS, ADCE.bsc_Id, ADCE.bcf_Id, ADCE.bts_Id, BTS.name, BTS.cellId, BTS.locationAreaIdLAC, BTS_1.name AS namet, BSC_1.name AS BSCnameT, BTS_1.bsc_Id AS bsc_Idt, BTS_1.bcf_Id AS bcf_Idt, BTS_1.bts_Id AS bts_Idt, BTS.bsIdentityCodeBCC AS BCC, BTS.bsIdentityCodeNCC AS NCC, ADCE.adjCellBsicBcc, ADCE.adjCellBsicNcc, CASE WHEN BTS.bsIdentityCodeNCC||BTS.bsIdentityCodeBCC = BTS_1.bsIdentityCodeNCC||BTS_1.bsIdentityCodeBCC THEN 1 ELSE 0 END sameBSIC, ADCE.adjCellLayer, ADCE.adjacentCellIdCI, ADCE.adjacentCellIdLac, ADCE.adjacentCellIdMCC, ADCE.adjacentCellIdMNC, ADCE.adjcIndex, ADCE.amrDadlbTargetCell, ADCE.bcchFrequency, ADCE.cellType, ADCE.chainedAdjacentCell, ADCE.dadlbTargetCell, ADCE.drThreshold, ADCE.dtmEnabled, ADCE.dtmPowerBudgetMargin, ADCE.enableDerivedHandoverPower, ADCE.enableHoMarginLevQual, ADCE.fastMovingThreshold, ADCE.gprsEnabled, ADCE.gprsMsTxPwrMaxCCH1x00, ADCE.gprsMsTxpwrMaxCCH, ADCE.gprsPenaltyTime, ADCE.gprsRxlevAccessMin, ADCE.gprsTemporaryOffset, ADCE.hcsPriorityClass, ADCE.hcsThreshold, ADCE.hoLevelUmbrella, ADCE.hoLoadFactor, ADCE.hoMarginDelayTime, ADCE.hoMarginLev, ADCE.hoMarginPbgt, ADCE.hoMarginQual, ADCE.hoPriorityLevel, ADCE.hoTargetArea, ADCE.msPwrOptLevel, ADCE.msTxPwrMaxGSM, ADCE.msTxPwrMaxGSM1x00, ADCE.nccrEgprsPbgtMargin, ADCE.nccrEgprsQualityMargin, ADCE.nccrGprsPbgtMargin, ADCE.nccrGprsQualityMargin, ADCE.neighbourCellRanking, ADCE.rac, ADCE.reportingPriority, ADCE.rxLevMinCell, ADCE.synchronized, ADCE.trhoTargetLevel, ADCE.frequencyBandInUse, ADCE.name AS Namet2, ADCE.targetCellDN
+FROM (((ADCE LEFT JOIN BTS ON (ADCE.bts_Id = BTS.bts_Id) AND (ADCE.bcf_Id = BTS.bcf_Id) AND (ADCE.bsc_Id = BTS.bsc_Id)) LEFT JOIN BTS AS BTS_1 ON (ADCE.adjacentCellIdLac = BTS_1.locationAreaIdLAC) AND (ADCE.adjacentCellIdCI = BTS_1.cellId)) LEFT JOIN BSC ON ADCE.BSC_Id = BSC.BSC_Id) LEFT JOIN BSC AS BSC_1 ON BTS_1.BSC_Id = BSC_1.BSC_Id
+WHERE BSC.name LIKE '%MED' OR BSC.name LIKE '%PER' OR BSC_1.name LIKE '%MED' OR BSC_1.name LIKE '%PER';
+--
+--ADCE_Weekly DISTANCIA, OK
+--
+DROP TABLE IF EXISTS ADCE_WK;
+CREATE TABLE ADCE_WK AS
+SELECT BTS.name || BTS_1.name AS KEY, BTS.name AS BTSS, BTS_1.name AS BTST, BSC.name AS BSCnameS, ADCE.bsc_Id, ADCE.bcf_Id, ADCE.bts_Id, BTS.cellId, BTS.locationAreaIdLAC, BSC_1.name AS BSCnameT, BTS_1.bsc_Id AS bsc_Idt, BTS_1.bcf_Id AS bcf_Idt, BTS_1.bts_Id AS bts_Idt, BTS.bsIdentityCodeBCC AS BCC, BTS.bsIdentityCodeNCC AS NCC, ADCE.adjCellBsicBcc, ADCE.adjCellBsicNcc, CASE WHEN BTS.bsIdentityCodeNCC||BTS.bsIdentityCodeBCC = BTS_1.bsIdentityCodeNCC||BTS_1.bsIdentityCodeBCC THEN 1 ELSE 0 END sameBSIC, ADCE.adjCellLayer, ADCE.adjacentCellIdCI, ADCE.adjacentCellIdLac, ADCE.adjacentCellIdMCC, ADCE.adjacentCellIdMNC, ADCE.adjcIndex, ADCE.amrDadlbTargetCell, ADCE.bcchFrequency, ADCE.cellType, ADCE.chainedAdjacentCell, ADCE.dadlbTargetCell, ADCE.drThreshold, ADCE.dtmEnabled, ADCE.dtmPowerBudgetMargin, ADCE.enableDerivedHandoverPower, ADCE.enableHoMarginLevQual, ADCE.fastMovingThreshold, ADCE.gprsEnabled, ADCE.gprsMsTxPwrMaxCCH1x00, ADCE.gprsMsTxpwrMaxCCH, ADCE.gprsPenaltyTime, ADCE.gprsRxlevAccessMin, ADCE.gprsTemporaryOffset, ADCE.hcsPriorityClass, ADCE.hcsThreshold, ADCE.hoLevelUmbrella, ADCE.hoLoadFactor, ADCE.hoMarginDelayTime, ADCE.hoMarginLev, ADCE.hoMarginPbgt, ADCE.hoMarginQual, ADCE.hoPriorityLevel, ADCE.hoTargetArea, ADCE.msPwrOptLevel, ADCE.msTxPwrMaxGSM, ADCE.msTxPwrMaxGSM1x00, ADCE.nccrEgprsPbgtMargin, ADCE.nccrEgprsQualityMargin, ADCE.nccrGprsPbgtMargin, ADCE.nccrGprsQualityMargin, ADCE.neighbourCellRanking, ADCE.rac, ADCE.reportingPriority, ADCE.rxLevMinCell, ADCE.synchronized, ADCE.trhoTargetLevel, ADCE.frequencyBandInUse, ADCE.name AS Namet2, ADCE.targetCellDN, BCF.Name AS BCFS, BCF_1.Name AS BCFT, 
+Baseline.Market || '-' || Baseline."Localidad (CRC)" AS ClusterS, Baseline_1.Market || '-' || Baseline_1."Localidad (CRC)" AS ClusterT, Baseline.region AS RegionS, Baseline_1.Region AS RegionT, 
+ROUND (
+      12756273.2 * ASIN(
+                        MIN (1 , 
+                                SQRT(
+                                    POWER( SIN(RADIANS(Baseline.Latitud - Baseline_1.Latitud)/2) , 2) + 
+                                    COS(RADIANS(Baseline.Latitud)) * COS(RADIANS(Baseline_1.Latitud)) * POWER ( SIN(RADIANS(Baseline.Longitud - Baseline_1.Longitud)/2) , 2)
+                                      )
+                            )
+                        )
+         , 0) AS Distance
+FROM (((((((ADCE LEFT JOIN BTS ON (ADCE.bsc_Id = BTS.bsc_Id) AND (ADCE.bcf_Id = BTS.bcf_Id) AND (ADCE.bts_Id = BTS.bts_Id)) LEFT JOIN BTS AS BTS_1 ON (SUBSTR(ADCE.TargetCellDN, INSTR(ADCE.TargetCellDN,'/BSC-') + 5 , INSTR(ADCE.TargetCellDN,'/BCF-') - INSTR(ADCE.TargetCellDN,'/BSC-') - 5) = BTS_1.BSC_Id) AND (SUBSTR(ADCE.TargetCellDN, INSTR(ADCE.TargetCellDN,'/BCF-') + 5 , INSTR(ADCE.TargetCellDN,'/BTS-') - INSTR(ADCE.TargetCellDN,'/BCF-') - 5) = BTS_1.BCF_Id) AND (SUBSTR(ADCE.TargetCellDN, INSTR(ADCE.TargetCellDN,'/BTS-') + 5 , LENGTH(ADCE.TargetCellDN) - INSTR(ADCE.TargetCellDN,'/BTS-') - 4) = BTS_1.BTS_Id)) LEFT JOIN BCF ON (ADCE.bsc_Id = BCF.bsc_Id) AND (ADCE.bcf_Id = BCF.bcf_Id)) LEFT JOIN BCF AS BCF_1 ON (BTS_1.bsc_Id = BCF_1.bsc_Id) AND (BTS_1.bcf_Id = BCF_1.bcf_Id)) LEFT JOIN Baseline ON (BCF.Name = Baseline.Sitio)) LEFT JOIN Baseline AS Baseline_1 ON (BCF_1.Name = Baseline_1.Sitio)) LEFT JOIN BSC ON ADCE.BSC_Id = BSC.BSC_Id) LEFT JOIN BSC AS BSC_1 ON BTS_1.BSC_Id = BSC_1.BSC_Id
+WHERE (ADCE.PLMN_Id = 'RC8') OR (ADCE.PLMN_Id = 'RC7' AND (BTS.name LIKE 'CAD%' OR BTS.name LIKE 'MAN%' OR BTS.name LIKE 'RIS%' OR BTS.name LIKE 'PER%' OR BTS.name LIKE 'QUI%' OR BTS.name LIKE 'ARM%' OR BTS.name LIKE 'CHO%' OR BTS.name LIKE 'QUB%'))
+ORDER BY BTS.name;
+--
+--
+--013 015 REPORT analisys for add and depuration
+
+
+
+
+
+
+
+
+
+--Table1 PSC audit. incluye coPSC y sus ditancias
+
+DROP TABLE IF EXISTS PSC_DistT;
+CREATE TABLE PSC_DistT AS
+SELECT
+WCEL.Name || WCEL.PriScrCode AS Key, WCEL.Name AS WcelSRC, WCEL_1.Name AS WcelTGT, WCEL.PriScrCode, CASE WHEN (WBTS.Name = WBTS_1.Name) THEN 1 ELSE 0 END AS SameSite, CASE WHEN (WCEL.UARFCN = WCEL_1.UARFCN) THEN 1 ELSE 0 END AS SameCarrier, WCEL.Rnc_Id, WCEL.WBTS_Id, WCEL.WCEL_Id, WCEL.SectorID AS SidSRC, WCEL_1.Rnc_Id AS RncIdT, WCEL_1.WBTS_Id AS WBTSIdT, WCEL_1.WCEL_Id AS WCEL_IdT, WCEL_1.SectorID AS SidTGT, WCEL.UARFCN AS UARFCN_SRC, WCEL_1.UARFCN AS UARFCN_TGT, WBTS.name AS WbtsSrc, WBTS_1.name AS WbtsTgt,
+ROUND (12756273.2 * ASIN(MIN (1 , SQRT(POWER( SIN(RADIANS(Baseline.Latitud - Baseline_1.Latitud)/2) , 2) + COS(RADIANS(Baseline.Latitud)) * COS(RADIANS(Baseline_1.Latitud)) * POWER ( SIN(RADIANS(Baseline.Longitud - Baseline_1.Longitud)/2) , 2)))) , 0) AS Distance
+FROM ((((WCEL INNER JOIN WCEL AS WCEL_1 ON (WCEL.PriScrCode = WCEL_1.PriScrCode)) INNER JOIN WBTS ON (WCEL.RNC_id = WBTS.RNC_id) AND (WCEL.WBTS_id = WBTS.WBTS_id)) INNER JOIN WBTS AS WBTS_1 ON (WCEL_1.RNC_id = WBTS_1.RNC_id) AND (WCEL_1.WBTS_id = WBTS_1.WBTS_id)) INNER JOIN baseLine ON (WBTS.Name = baseline.Sitio)) INNER JOIN baseline AS baseline_1 ON (WBTS_1.Name = baseline_1.Sitio)
+WHERE ((CASE WHEN (WCEL.UARFCN = WCEL_1.UARFCN) THEN 1 ELSE 0 END) = 1) AND ((CASE WHEN (WCEL.Name = WCEL_1.Name) THEN 1 ELSE 0 END) = 0 ) AND (WCEL.RNC_id LIKE '20%' OR WCEL.RNC_id LIKE '27%');
+--toma menor distancia de la llave
+DROP TABLE IF EXISTS PSC_DistMin;
+CREATE TABLE PSC_DistMin AS
+SELECT
+PSC_DistT.Key, Min(PSC_DistT.Distance) AS MinOfDistancia, WCEL_Param.Cluster, WCEL_Param.Encargado
+FROM PSC_DistT LEFT JOIN WCEL_Param ON (PSC_DistT.RNC_Id = WCEL_Param.RNC_Id) AND (PSC_DistT.WBTS_Id = WCEL_Param.WBTS_Id) AND (PSC_DistT.WCEL_Id = WCEL_Param.WCEL_Id)
+GROUP BY PSC_DistT.Key;
+--Query resultado
+SELECT
+PSC_DistMin.Cluster, PSC_DistMin.Encargado, PSC_DistT.Key,PSC_DistT.WcelSRC,PSC_DistT.WcelTGT,PSC_DistT.PriScrCode,PSC_DistT.Distance,PSC_DistT.RNC_id,PSC_DistT.WBTS_id,PSC_DistT.WCEL_id,PSC_DistT.SidSRC,PSC_DistT.RncIdT,PSC_DistT.WBTSIdT,PSC_DistT.WCEL_IdT,PSC_DistT.SidTGT,PSC_DistT.UARFCN_SRC,PSC_DistT.UARFCN_TGT,PSC_DistT.WbtsSrc,PSC_DistT.WbtsTgt ,PSC_DistT.SameSite,PSC_DistT.SameCarrier
+FROM PSC_DistT INNER JOIN PSC_DistMin ON (PSC_DistT.Distance = PSC_DistMin.MinOfDistancia) AND (PSC_DistT.Key = PSC_DistMin.Key)
+ORDER BY PSC_DistT.Distance;
+
+ --LTE
+ 
+ --LNCEL full
+ 
+SELECT
+LNCEL.PLMN_id,LNCEL.MRBTS_id,LNCEL.LNBTS_id,LNCEL.LNCEL_id,LNBTS.name AS LNBTSname, LNCEL.name AS LNCELname, LNCEL.moVersion,LNCEL.mcc,LNCEL.mnc,LNCEL.siteTemplateName,LNCEL.a1TimeToTriggerDeactInterMeas,LNCEL.a2RedirectQci1,LNCEL.a2TimeToTriggerActGERANMeas,LNCEL.a2TimeToTriggerActInterFreqMeas,LNCEL.a2TimeToTriggerActWcdmaMeas,LNCEL.a2TimeToTriggerRedirect,LNCEL.a3Offset,LNCEL.a3ReportInterval,LNCEL.a3TimeToTrigger,LNCEL.a3TriggerQuantityHO,LNCEL.a5ReportInterval,LNCEL.a5TimeToTrigger,LNCEL.actAmle,LNCEL.actCsiRsSubFNonTM9Sch,LNCEL.actDataSessionProf,LNCEL.actDl256QamChQualEst,LNCEL.actDlsOldtc,LNCEL.actDlsVoicePacketAgg,LNCEL.actDownSampling,LNCEL.actDrx,LNCEL.actDrxDuringMeasGap,LNCEL.actDrxDuringTTIB,LNCEL.actEDrxIdle,LNCEL.actEicic,LNCEL.actFlexDupGap,LNCEL.actGsmSrvccMeasOpt,LNCEL.actInactiveTimeForwarding,LNCEL.actInterFreqLB,LNCEL.actIntraFreqLoadBal,LNCEL.actLBSpidUeSel,LNCEL.actLdPdcch,LNCEL.actMicroDtx,LNCEL.actModulationSchemeDl,LNCEL.actModulationSchemeUL,LNCEL.actNbrForNonGbrBearers,LNCEL.actNoIntraBandIFMeasurements,LNCEL.actOlLaPdcch,LNCEL.actOtdoa,LNCEL.actProactSchedBySrb,LNCEL.actPrsTxDiv,LNCEL.actQci1RfDrx,LNCEL.actQci1eVTT,LNCEL.actSixIfMeasurements,LNCEL.actSmartDrx,LNCEL.actSrb1Robustness,LNCEL.actTtiBundling,LNCEL.actTtibAcqi,LNCEL.actTtibRsc,LNCEL.actUePowerBasedMobThr,LNCEL.actUlGrpHop,LNCEL.actUlLnkAdp,LNCEL.actUlpcMethod,LNCEL.actUlpcRachPwrCtrl,LNCEL.actVoipCovBoost,LNCEL.addGbrTrafficRrHo,LNCEL.addGbrTrafficTcHo,LNCEL.addSpectrEmi,LNCEL.administrativeState,LNCEL.allowPbIndexZero,LNCEL.amleMaxNumHo,LNCEL.amlePeriodLoadExchange,LNCEL.cellIndOffServ,LNCEL.cellName,LNCEL.cellResourceSharingMode,LNCEL.cellTechnology,LNCEL.cellType,LNCEL.cqiAperEnable,LNCEL.cqiAperMode,LNCEL.cqiPerSbCycK,LNCEL.cqiPerSimulAck,LNCEL.csgType,LNCEL.dFpucchF1,LNCEL.dFpucchF1b,LNCEL.dFpucchF2,LNCEL.dFpucchF2a,LNCEL.dFpucchF2b,LNCEL.dSrTransMax,LNCEL.defPagCyc,LNCEL.deltaLbCioMargin,LNCEL.deltaPreMsg3,LNCEL.deltaTfEnabled,LNCEL.dlCellPwrRed,LNCEL.dlInterferenceEnable,LNCEL.dlInterferenceLevel,LNCEL.dlInterferenceModulation,LNCEL.dlOlqcEnable,LNCEL.dlPathlossChg,LNCEL.dlPcfichBoost,LNCEL.dlPhichBoost,LNCEL.dlSrbCqiOffset,LNCEL.dlTargetBler,LNCEL.dlamcCqiDef,LNCEL.dlamcEnable,LNCEL.dlsDciCch,LNCEL.dlsOldtcTarget,LNCEL.dlsUsePartPrb,LNCEL.drxProfile101drxInactivityT,LNCEL.drxProfile101drxLongCycle,LNCEL.drxProfile101drxOnDuratT,LNCEL.drxProfile101drxProfileIndex,LNCEL.drxProfile101drxProfilePriority,LNCEL.drxProfile101drxRetransT,LNCEL.drxProfile102drxInactivityT,LNCEL.drxProfile102drxLongCycle,LNCEL.drxProfile102drxOnDuratT,LNCEL.drxProfile102drxProfileIndex,LNCEL.drxProfile102drxProfilePriority,LNCEL.drxProfile102drxRetransT,LNCEL.drxProfile103drxInactivityT,LNCEL.drxProfile103drxLongCycle,LNCEL.drxProfile103drxOnDuratT,LNCEL.drxProfile103drxProfileIndex,LNCEL.drxProfile103drxProfilePriority,LNCEL.drxProfile103drxRetransT,LNCEL.eUlLaAtbPeriod,LNCEL.eUlLaBlerAveWin,LNCEL.eUlLaDeltaMcs,LNCEL.eUlLaLowMcsThr,LNCEL.eUlLaLowPrbThr,LNCEL.eUlLaPrbIncDecFactor,LNCEL.enableAmcPdcch,LNCEL.enableBetterCellHo,LNCEL.enableCovHo,LNCEL.enableLowAgg,LNCEL.enablePcPdcch,LNCEL.energySavingState,LNCEL.eutraCelId,LNCEL.expectedCellSize,LNCEL.fUlLAAtbTrigThr,LNCEL.filterCoeff,LNCEL.filterCoefficientCSFBCpichEcn0,LNCEL.filterCoefficientCSFBCpichRscp,LNCEL.filterCoefficientCpichEcn0,LNCEL.filterCoefficientCpichRscp,LNCEL.filterCoefficientRSRP,LNCEL.filterCoefficientRSRQ,LNCEL.filterCoefficientRSSI,LNCEL.gbrCongHandling,LNCEL.grpAssigPUSCH,LNCEL.harqMaxMsg3,LNCEL.harqMaxTrDl,LNCEL.harqMaxTrUlTtiBundling,LNCEL.harqMaxTxUl,LNCEL.hopModePusch,LNCEL.hysA3Offset,LNCEL.hysThreshold2GERAN,LNCEL.hysThreshold2InterFreq,LNCEL.hysThreshold2Wcdma,LNCEL.hysThreshold2a,LNCEL.hysThreshold3,LNCEL.hysThreshold4,LNCEL.iFLBBearCheckTimer,LNCEL.iFLBHighLoadGBRDL,LNCEL.iFLBHighLoadNonGBRDL,LNCEL.iFLBHighLoadPdcch,LNCEL.iFLBRetryTimer,LNCEL.idleLBCapThresh,LNCEL.idleLBCelResWeight,LNCEL.idleLBPercCaUe,LNCEL.idleLBPercentageOfUes,LNCEL.ilReacTimerUl,LNCEL.inactivityTimer,LNCEL.inactivityTimerQci5Sign,LNCEL.iniMcsDl,LNCEL.iniMcsUl,LNCEL.iniPrbsUl,LNCEL.highLoadGbrDl,LNCEL.highLoadNonGbrDl,LNCEL.highLoadPdcch,LNCEL.hysteresisLoadDlGbr,LNCEL.hysteresisLoadDlNonGbr,LNCEL.hysteresisLoadPdcch,LNCEL.loadBalancingProfile,LNCEL.maxLbPartners,LNCEL.lbLoadFilCoeff,LNCEL.lcrId,LNCEL.cellCapClass,LNCEL.mlbEicicOperMode,LNCEL.nomNumPrbNonGbr,LNCEL.targetLoadGbrDl,LNCEL.targetLoadNonGbrDl,LNCEL.targetLoadPdcch,LNCEL.ulCacIgnore,LNCEL.ulCacSelection,LNCEL.ulStaticCac,LNCEL.longPeriodScellChEst,LNCEL.lowerMarginCio,LNCEL.maxBitrateDl,LNCEL.maxBitrateUl,LNCEL.maxCrPgDl,LNCEL.maxCrRa4Dl,LNCEL.maxCrRaDl,LNCEL.maxCrRaDlHo,LNCEL.maxCrSibDl,LNCEL.maxGbrTrafficLimit,LNCEL.maxNumCaUeScell,LNCEL.maxNumScells,LNCEL.maxNumVoLteProactUlGrantsPerTti,LNCEL.maxPdcchAgg,LNCEL.maxPdcchAggHighLoad,LNCEL.maxPeriodicCqiIncrease,LNCEL.maxPhyCces,LNCEL.mbrSelector,LNCEL.measQuantityCSFBUtra,LNCEL.measQuantityUtra,LNCEL.minBitrateDl,LNCEL.minBitrateUl,LNCEL.mobStateParamNCelChgHgh,LNCEL.mobStateParamNCelChgMed,LNCEL.mobStateParamTEval,LNCEL.mobStateParamTHystNorm,LNCEL.msg3ConsecutiveDtx,LNCEL.msg3DtxOffset,LNCEL.multLoadMeasRrm,LNCEL.multLoadMeasRrmEicic,LNCEL.nbIoTMode,LNCEL.offsetFreqIntra,LNCEL.operationalState,LNCEL.p0NomPucch,LNCEL.p0NomPusch,LNCEL.pMax,LNCEL.pagingNb,LNCEL.pdcchAggDefUe,LNCEL.pdcchAggMsg4,LNCEL.pdcchAggPaging,LNCEL.pdcchAggPreamb,LNCEL.pdcchAggRaresp,LNCEL.pdcchAggRarespHo,LNCEL.pdcchAggSib,LNCEL.pdcchAlpha,LNCEL.pdcchCqiShift,LNCEL.pdcchHarqTargetBler,LNCEL.pdcchOrderConfig,LNCEL.pdcchUlDlBal,LNCEL.periodicCqiFeedbackType,LNCEL.phyCellId,LNCEL.preventCellActivation,LNCEL.prsMutingInfo,LNCEL.prsMutingInfoPatternLen,LNCEL.prsPowerBoost,LNCEL.puschAckOffI,LNCEL.puschCqiOffI,LNCEL.puschRiOffI,LNCEL.qci1ProtectionTimer,LNCEL.raContResoT,LNCEL.raLargeMcsUl,LNCEL.raMsgPoffGrB,LNCEL.raNondedPreamb,LNCEL.raPreGrASize,LNCEL.raRespWinSize,LNCEL.raSmallMcsUl,LNCEL.raSmallVolUl,LNCEL.rcAmbrMgnDl,LNCEL.rcAmbrMgnUl,LNCEL.rcEnableDl,LNCEL.rcEnableUl,LNCEL.redBwEnDl,LNCEL.redBwMaxRbDl,LNCEL.redBwMaxRbUl,LNCEL.redBwMinRbUl,LNCEL.redBwRpaEnUl,LNCEL.rttCsfbType,LNCEL.sbHoMode,LNCEL.scellBadChQualThr,LNCEL.scellGoodChQualThr,LNCEL.scellNotDetectableThr,LNCEL.shortPeriodScellChEst,LNCEL.t302,LNCEL.t304InterRAT,LNCEL.t304InterRATGsm,LNCEL.t304IntraLte,LNCEL.t304eNaccGsm,LNCEL.t320,LNCEL.tExtendedWait,LNCEL.tLoadMeasX2,LNCEL.tLoadMeasX2Eicic,LNCEL.tPeriodicBsr,LNCEL.tPeriodicPhr,LNCEL.tPingPong,LNCEL.tProhibitPhr,LNCEL.tReTxBsrTime,LNCEL.tStoreUeCntxt,LNCEL.taMaxOffset,LNCEL.taTimer,LNCEL.taTimerMargin,LNCEL.tac,LNCEL.targetSelMethod,LNCEL.threshold1,LNCEL.threshold2GERAN,LNCEL.threshold2InterFreq,LNCEL.threshold2Wcdma,LNCEL.threshold2WcdmaQci1,LNCEL.threshold2a,LNCEL.threshold2aQci1,LNCEL.threshold3,LNCEL.threshold3a,LNCEL.threshold4,LNCEL.timeToTriggerSfHigh,LNCEL.timeToTriggerSfMedium,LNCEL.ttiBundlingBlerTarget,LNCEL.ttiBundlingBlerThreshold,LNCEL.ttiBundlingSinrThreshold,LNCEL.ttibAltUlPrbThreshold,LNCEL.ttibMinUlPrb,LNCEL.ttibOperMode,LNCEL.ttibUlsMinTbs,LNCEL.ulRsCs,LNCEL.ulTargetBler,LNCEL.ulamcAllTbEn,LNCEL.ulamcSwitchPer,LNCEL.ulatbEventPer,LNCEL.ulpcAlpha,LNCEL.p0NomPuschIAw,LNCEL.ulpcCEBalanceIAw,LNCEL.ulpcMinQualIAw,LNCEL.ulpcMinWaitForPc,LNCEL.ulpcRefPwrIAw,LNCEL.ulpcLowlevCch,LNCEL.ulpcLowqualCch,LNCEL.ulpcUplevCch,LNCEL.ulpcUpqualCch,LNCEL.ulpcLowlevSch,LNCEL.ulpcLowqualSch,LNCEL.ulpcUplevSch,LNCEL.ulpcUpqualSch,LNCEL.ulpcReadPeriod,LNCEL.ulsFdPrbAssignAlg,LNCEL.ulsMaxPacketAgg,LNCEL.ulsMinRbPerUe,LNCEL.ulsMinTbs,LNCEL.ulsNumSchedAreaUl,LNCEL.ulsSchedMethod,LNCEL.upperMarginCio,LNCEL.ulsMinNumCoverageLimitationStateCheck,LNCEL.ulsPhrQci1Hyst,LNCEL.ulsPhrQci1Low,LNCEL.act3fdd3tddRestrict,LNCEL.actAutoPucchAlloc,LNCEL.actCombSuperCell,LNCEL.actFastMimoSwitch,LNCEL.actNBIoT,LNCEL.actPuschMask,LNCEL.actRepeaterMode,LNCEL.actSuperCell,LNCEL.actUciOnlyGrants,LNCEL.actUlMultiCluster,LNCEL.addNumDrbRadioReasHo,LNCEL.addNumDrbTimeCriticalHo,LNCEL.addNumQci1DrbRadioReasHo,LNCEL.addNumQci1DrbTimeCriticalHo,LNCEL.applyFeicicFunctionality,LNCEL.blankedPucch,LNCEL.dlChBw,LNCEL.dlMimoMode,LNCEL.dlRsBoost,LNCEL.dlpcMimoComp,LNCEL.eIcicCioAdaptAlgo,LNCEL.eIcicMaxCre,LNCEL.earfcnDL,LNCEL.earfcnUL,LNCEL.idleLBCapThreshCaUe,LNCEL.inactivityTimerMult,LNCEL.inactivityTimerPubSafety,LNCEL.maxNrSymPdcch,LNCEL.maxNumActDrb,LNCEL.maxNumActUE,LNCEL.maxNumCaConfUe,LNCEL.maxNumCaConfUe3c,LNCEL.maxNumCaConfUeDc,LNCEL.maxNumQci1Drb,LNCEL.maxNumUeDl,LNCEL.maxNumUeUl,LNCEL.maxPrbHighPrioUciGrant,LNCEL.mdtxAggressiveness,LNCEL.mdtxPdcchSymb,LNCEL.mimoClCqiThD,LNCEL.mimoClCqiThU,LNCEL.mimoClRiThD,LNCEL.mimoClRiThU,LNCEL.mimoOlCqiThD,LNCEL.mimoOlCqiThU,LNCEL.mimoOlRiThD,LNCEL.mimoOlRiThU,LNCEL.multCioAdaptExecEicic,LNCEL.multNumUeHighPrioUciGrant,LNCEL.multUciGrant,LNCEL.nOverbookingRac,LNCEL.prachCS,LNCEL.prachConfIndex,LNCEL.prachFreqOff,LNCEL.prachHsFlag,LNCEL.prsConfigurationIndex,LNCEL.prsNumDlFrames,LNCEL.pucchNAnCs,LNCEL.rfSensitivity,LNCEL.rootSeqIndex,LNCEL.srsPwrOffset,LNCEL.syncSigTxMode,LNCEL.ttibSinrThresholdIn,LNCEL.ttibSinrThresholdOut,LNCEL.ueLevelMroOffset,LNCEL.ulChBw,LNCEL.ulCombinationMode,LNCEL.ulpcRarespTpc,LNCEL.angle,LNCEL.deploymentType,LNCEL.act1TxIn2Tx,LNCEL.actLiquidCell,LNCEL.actSdlc,LNCEL.cellPwrRedForMBMS,LNCEL.creCqiAvg,LNCEL.eIcicAbsAdaptationBeta,LNCEL.eIcicAbsAdaptationThreshold0To1,LNCEL.eIcicAbsDeltaAdjustment,LNCEL.eIcicAbsPatChangeDelayT,LNCEL.eIcicCreDelta,LNCEL.eIcicMp0DelayT,LNCEL.eIcicPartnerCacAbsTarget,LNCEL.eIcicPartnerCacTarget,LNCEL.ecidMeasSupervisionTimer,LNCEL.iFServiceBasedHoRetryTimer,LNCEL.maxNbrTrafficLimit,LNCEL.maxPrbsPerNbrUe,LNCEL.nbrCongHandling,LNCEL.rttCellIdInfo,LNCEL.selectOuterPuschRegion,LNCEL.srsActivation,LNCEL.tPageCorrInt,LNCEL.eIcicMaxMutePattern,LNCEL.eIcicMaxNumPartners,LNCEL.pref4LayerMimoVsCAggr,LNCEL.threshold2GERANQci1,LNCEL.threshold2InterFreqQci1,LNCEL.a3ReportAmount,LNCEL.a5ReportAmount,LNCEL.a5TriggerQuantityIntraFreqHO,LNCEL.actAntPortMap,LNCEL.actCaArchEnh,LNCEL.actCaBlocking,LNCEL.actCaScellSchedWeightFactor,LNCEL.actDlPwBackoff,LNCEL.actDlsLdAdaptPf,LNCEL.actDynamicDataSessionProf,LNCEL.actFlowCtrlEnh,LNCEL.actForcedDrxS1Ho,LNCEL.actHapPrachCfg,LNCEL.actHapPrachTaFilt,LNCEL.actQci1BlerTgt,LNCEL.actReducedFormat,LNCEL.actScellBadChQualExtMonitor,LNCEL.actTcpServiceDiff,LNCEL.actUl256QamChQualEst,LNCEL.actUlDynamicTargetBler,LNCEL.actUlsLdAdaptPf,LNCEL.actVoLteSrcRate,LNCEL.adaptPdcchDwellTime,LNCEL.amRlcSnFieldLengthDl,LNCEL.caPoolId,LNCEL.dlCaCqiWindow,LNCEL.dlCaMinPcellCqi,LNCEL.dlCaMinPcellCqiQci1,LNCEL.drxInactivityT,LNCEL.drxLongCycle,LNCEL.drxOnDuratT,LNCEL.drxProfileIndex,LNCEL.drxProfilePriority,LNCEL.drxRetransT,LNCEL.harqMaxTrSignalingDl,LNCEL.harqMaxTrVoLteDl,LNCEL.pdcchCqiShift4Tx,LNCEL.puschHarqMode,LNCEL.scellFastSchedulingSelect,LNCEL.syncDeboost4Tx,LNCEL.t301Guard,LNCEL.ulCaMinPcellSinr,LNCEL.ulCaMinPcellSinrQci1,LNCEL.ulCaSinrWindow,LNCEL.perDl256QamChQualEst, LNCEL_FDD.LNCEL_FDD_id,LNCEL_FDD.moVersion,LNCEL_FDD.act1TxIn2Tx,LNCEL_FDD.actAutoPucchAlloc,LNCEL_FDD.actCatM,LNCEL_FDD.actCombSuperCell,LNCEL_FDD.actDlSlimCarrier,LNCEL_FDD.actFastMimoSwitch,LNCEL_FDD.actLiquidCell,LNCEL_FDD.actMMimo,LNCEL_FDD.actPdcchLoadGen,LNCEL_FDD.actPuschMask,LNCEL_FDD.actRedFreqOffset,LNCEL_FDD.actRepeaterMode,LNCEL_FDD.actSdlc,LNCEL_FDD.actShutdownTxPath,LNCEL_FDD.actSuperCell,LNCEL_FDD.actUciOnlyGrants,LNCEL_FDD.actUlMultiCluster,LNCEL_FDD.actUlPwrRestrScn,LNCEL_FDD.addNumDrbRadioReasHo,LNCEL_FDD.addNumDrbTimeCriticalHo,LNCEL_FDD.addNumQci1DrbRadioReasHo,LNCEL_FDD.addNumQci1DrbTimeCriticalHo,LNCEL_FDD.blankedPucch,LNCEL_FDD.dlChBw,LNCEL_FDD.dlMimoMode,LNCEL_FDD.dlRsBoost,LNCEL_FDD.dlSrbMimoMode,LNCEL_FDD.dlpcMimoComp,LNCEL_FDD.earfcnDL,LNCEL_FDD.earfcnUL,LNCEL_FDD.maxNrSymPdcch,LNCEL_FDD.maxNumActDrb,LNCEL_FDD.maxNumActUE,LNCEL_FDD.maxNumCaConfUe,LNCEL_FDD.maxNumCaConfUe3c,LNCEL_FDD.maxNumCaConfUeDc,LNCEL_FDD.maxNumQci1Drb,LNCEL_FDD.maxNumUeDl,LNCEL_FDD.maxNumUeUl,LNCEL_FDD.mimoClCqiThD,LNCEL_FDD.mimoClCqiThU,LNCEL_FDD.mimoClRiThD,LNCEL_FDD.mimoClRiThU,LNCEL_FDD.mimoOlCqiThD,LNCEL_FDD.mimoOlCqiThU,LNCEL_FDD.mimoOlRiThD,LNCEL_FDD.mimoOlRiThU,LNCEL_FDD.prachCS,LNCEL_FDD.prachConfIndex,LNCEL_FDD.prachFreqOff,LNCEL_FDD.prachHsFlag,LNCEL_FDD.prsConfigurationIndex,LNCEL_FDD.prsNumDlFrames,LNCEL_FDD.pucchNAnCs,LNCEL_FDD.rootSeqIndex,LNCEL_FDD.selectOuterPuschRegion,LNCEL_FDD.srsActivation,LNCEL_FDD.srsPwrOffset,LNCEL_FDD.syncSigTxMode,LNCEL_FDD.twoLayerMimoAvSpectralEff,LNCEL_FDD.ulChBw,LNCEL_FDD.ulCombinationMode,LNCEL_FDD.ulpcRarespTpc,LNCEL_FDD.cqiAperPollT,LNCEL_FDD.slimRfFilterDL,LNCEL_FDD.slimRfFilterUL,LNCEL_FDD.numBlankDlPrbsDown,LNCEL_FDD.numBlankDlPrbsUp,LNCEL_FDD.utranLbLoadThresholdshighLoadGbrDl,LNCEL_FDD.utranLbLoadThresholdshighLoadNonGbrDl,LNCEL_FDD.utranLbLoadThresholdshighLoadPdcch,LNCEL_FDD.csiRsPwrOffsetAP,LNCEL_FDD.csiRsPwrOffsetOverlap,LNCEL_FDD.csiRsSubfr,LNCEL_FDD.liquidCellSuMuMode,LNCEL_FDD.uLMeasAlphaBase,LNCEL_FDD.uLMeasHystJT,LNCEL_FDD.uLMeasHystSuMu,LNCEL_FDD.uLMeasN,LNCEL_FDD.uLMeasThrJtCsiRs,LNCEL_FDD.uLMeasThrSuMuCsiRs,LNCEL_FDD.actRIPAlarming,LNCEL_FDD.alarmThresholdCrossingTime,LNCEL_FDD.alarmThresholdULSF,LNCEL_FDD.ulInterferenceOffset,LNCEL_FDD.rfSensitivity,LNCEL_FDD.activatedMimoTM,LNCEL_FDD.csiRsPwrOffset,LNCEL_FDD.csiRsResourceConf,LNCEL_FDD.csiRsSubfrConf,LNCEL_FDD.numOfCsiRsAntennaPorts,LNCEL_FDD.fourLayerMimoAvSpectralEff,LNCEL_FDD.maxPrbHighPrioUciGrant,LNCEL_FDD.multNumUeHighPrioUciGrant,LNCEL_FDD.multUciGrant,LNCEL_FDD.catMProfId,LNCEL_FDD.redFreqOffset,LNCEL_FDD.pdcchLoadLevel,LNCEL_FDD.pdcchLoadPsdOffset,LNCEL_FDD.actDlMuMimo,LNCEL_FDD.actSrs14Pos,LNCEL_FDD.rachDensity,LNCEL_FDD.lnuprId,LNCEL_FDD.catMBProfId,LNCEL_FDD.pMaxLaa,LNCEL_FDD.csiRepSubmode,LNCEL.activatedMimoTM,LNCEL.csiRsPwrOffset,LNCEL.csiRsResourceConf,LNCEL.csiRsSubfrConf,LNCEL.numOfCsiRsAntennaPorts,LNCEL.ocAcBarACOvl,LNCEL.ocAcBarTimeOvl,LNCEL.ocAcProbFacOvl,LNCEL.sigAcBarACOvl,LNCEL.sigAcBarTimeOvl,LNCEL.sigAcProbFacOvl,LNCEL.acBarSkipForMMTELVideo,LNCEL.acBarSkipForMMTELVoice,LNCEL.acBarSkipForSMS,LNCEL.addAUeRrHo,LNCEL.addAUeTcHo,LNCEL.addEmergencySessions,LNCEL.applyOutOfSyncState,LNCEL.autoACBarringStopTimer,LNCEL.autoAcBarringStartTimer,LNCEL.celResTiFHM,LNCEL.celResTiFMM,LNCEL.cellBarred,LNCEL.cellReSelPrio,LNCEL.cellSrPeriod,LNCEL.cqiPerNp,LNCEL.deltaPucchShift,LNCEL.dl64QamEnable,LNCEL.drxApplyDeviceType,LNCEL.drxProfile1drxProfileIndex,LNCEL.drxProfile1drxProfilePriority,LNCEL.drxProfile2drxInactivityT,LNCEL.drxProfile2drxLongCycle,LNCEL.drxProfile2drxOnDuratT,LNCEL.drxProfile2drxProfileIndex,LNCEL.drxProfile2drxProfilePriority,LNCEL.drxProfile2drxRetransT,LNCEL.drxProfile3drxInactivityT,LNCEL.drxProfile3drxLongCycle,LNCEL.drxProfile3drxOnDuratT,LNCEL.drxProfile3drxProfileIndex,LNCEL.drxProfile3drxProfilePriority,LNCEL.drxProfile3drxRetransT,LNCEL.drxProfile4drxInactivityT,LNCEL.drxProfile4drxLongCycle,LNCEL.drxProfile4drxOnDuratT,LNCEL.drxProfile4drxProfileIndex,LNCEL.drxProfile4drxProfilePriority,LNCEL.drxProfile4drxRetransT,LNCEL.drxProfile5drxInactivityT,LNCEL.drxProfile5drxLongCycle,LNCEL.drxProfile5drxOnDuratT,LNCEL.drxProfile5drxProfileIndex,LNCEL.drxProfile5drxProfilePriority,LNCEL.drxProfile5drxRetransT,LNCEL.drxSmartProfile2drxInactivityT,LNCEL.drxSmartProfile2drxLongCycle,LNCEL.drxSmartProfile2drxOnDuratT,LNCEL.drxSmartProfile2drxProfileIndex,LNCEL.drxSmartProfile2drxProfilePriority,LNCEL.drxSmartProfile2drxRetransT,LNCEL.drxSmartProfile2drxShortCycle,LNCEL.drxSmartProfile2drxShortCycleT,LNCEL.drxSmartProfile2smartStInactFactor,LNCEL.drxSmartProfile3drxInactivityT,LNCEL.drxSmartProfile3drxLongCycle,LNCEL.drxSmartProfile3drxOnDuratT,LNCEL.drxSmartProfile3drxProfileIndex,LNCEL.drxSmartProfile3drxProfilePriority,LNCEL.drxSmartProfile3drxRetransT,LNCEL.drxSmartProfile3drxShortCycle,LNCEL.drxSmartProfile3drxShortCycleT,LNCEL.drxSmartProfile3smartStInactFactor,LNCEL.drxSmartProfile4drxInactivityT,LNCEL.drxSmartProfile4drxLongCycle,LNCEL.drxSmartProfile4drxOnDuratT,LNCEL.drxSmartProfile4drxProfileIndex,LNCEL.drxSmartProfile4drxProfilePriority,LNCEL.drxSmartProfile4drxRetransT,LNCEL.drxSmartProfile4drxShortCycle,LNCEL.drxSmartProfile4drxShortCycleT,LNCEL.drxSmartProfile4smartStInactFactor,LNCEL.drxSmartProfile5drxInactivityT,LNCEL.drxSmartProfile5drxLongCycle,LNCEL.drxSmartProfile5drxOnDuratT,LNCEL.drxSmartProfile5drxProfileIndex,LNCEL.drxSmartProfile5drxProfilePriority,LNCEL.drxSmartProfile5drxRetransT,LNCEL.drxSmartProfile5drxShortCycle,LNCEL.drxSmartProfile5drxShortCycleT,LNCEL.drxSmartProfile5smartStInactFactor,LNCEL.eCallAcBarred,LNCEL.eCallAcBarredOvl,LNCEL.enableDl16Qam,LNCEL.intrFrqCelRes,LNCEL.intraPresAntP,LNCEL.maxNumRrc,LNCEL.maxNumRrcEmergency,LNCEL.modPeriodCoeff,LNCEL.n1PucchAn,LNCEL.n310,LNCEL.n311,LNCEL.nCqiRb,LNCEL.nPucchF3Prbs,LNCEL.phichDur,LNCEL.phichRes,LNCEL.prachPwrRamp,LNCEL.preambTxMax,LNCEL.primPlmnCellres,LNCEL.qHyst,LNCEL.qrxlevmin,LNCEL.qrxlevminintraF,LNCEL.riEnable,LNCEL.riPerM,LNCEL.riPerOffset,LNCEL.sIntrasearch,LNCEL.sNonIntrsearch,LNCEL.siWindowLen,LNCEL.sib2SchedulingsiMessagePeriodicity,LNCEL.sib2SchedulingsiMessageRepetition,LNCEL.sib2SchedulingsiMessageSibType,LNCEL.sib2xTransmit,LNCEL.sib3SchedulingsiMessagePeriodicity,LNCEL.sib3SchedulingsiMessageRepetition,LNCEL.sib3SchedulingsiMessageSibType,LNCEL.nCellChgHigh,LNCEL.nCellChgMed,LNCEL.qHystSfHigh,LNCEL.qHystSfMed,LNCEL.tEvaluation,LNCEL.tHystNormal,LNCEL.stInactFactor,LNCEL.t300,LNCEL.t301,LNCEL.t310,LNCEL.t311,LNCEL.tReselEutr,LNCEL.threshSrvLow,LNCEL.ulpcIniPrePwr,LNCEL.SBTS_id,LNCEL.acBarCsfbOcacBarAC,LNCEL.acBarCsfbOcacBarTime,LNCEL.acBarCsfbOcprobFac,LNCEL.acBarCsfbOcOvlacBarACOvl,LNCEL.acBarCsfbOcOvlacBarTimeOvl,LNCEL.acBarCsfbOcOvlprobFacOvl,LNCEL.acBarMMTelVideoOcacBarAC,LNCEL.acBarMMTelVideoOcacBarTime,LNCEL.acBarMMTelVideoOcprobFac,LNCEL.acBarMMTelVideoOcOvlacBarACOvl,LNCEL.acBarMMTelVideoOcOvlacBarTimeOvl,LNCEL.acBarMMTelVideoOcOvlprobFacOvl,LNCEL.acBarMMTelVoiceOcacBarAC,LNCEL.acBarMMTelVoiceOcacBarTime,LNCEL.acBarMMTelVoiceOcprobFac,LNCEL.acBarMMTelVoiceOcOvlacBarACOvl,LNCEL.acBarMMTelVoiceOcOvlacBarTimeOvl,LNCEL.acBarMMTelVoiceOcOvlprobFacOvl,LNCEL.ocAcBarAC,LNCEL.ocAcBarTime,LNCEL.ocAcProbFac,LNCEL.sigAcBarAC,LNCEL.sigAcBarTime,LNCEL.sigAcProbFac,LNCEL.arpPrioLev,LNCEL.nbrUlDlSF,LNCEL.schedulingWeightSF,LNCEL.tC2KMeasReport,LNCEL.tC2KRelocPrep,LNCEL.tC2kRelocExec,LNCEL.tULHOPrepTransfer,LNCEL.actDlIsh,LNCEL.amountBlankedRes,LNCEL.ishPrId,LNCEL.altitude,LNCEL.confidence,LNCEL.degreesOfLatitude,LNCEL.degreesOfLongitude,LNCEL.directionOfAltitude,LNCEL.latitudeSign,LNCEL.orientationOfMajorAxis,LNCEL.uncertaintyAltitude,LNCEL.uncertaintySemiMajor,LNCEL.uncertaintySemiMinor,LNCEL.tC2KRelocOverallHrpd,LNCEL.tC2KRelocPrepHrpd,LNCEL.tUlHoPrepTransferHrpd,LNCEL.csiRsPwrOffsetAP,LNCEL.csiRsPwrOffsetOverlap,LNCEL.csiRsSubfr,LNCEL.liquidCellSuMuMode,LNCEL.uLMeasAlphaBase,LNCEL.uLMeasHystJT,LNCEL.uLMeasHystSuMu,LNCEL.uLMeasN,LNCEL.uLMeasThrJtCsiRs,LNCEL.uLMeasThrSuMuCsiRs,LNCEL.mbmsNeighCellConfigIntraF,LNCEL.pMaxOwnCell,LNCEL.enableVoLteUePcellSwap,LNCEL.numCaUeThreshold,LNCEL.pFreqPrio,LNCEL.pcellSwapMaxHoRate,LNCEL.puschLoadHysteresis,LNCEL.puschLoadIndexThr,LNCEL.scellChQualThreshold,LNCEL.scellStateForPcellSwap,LNCEL.ulSinrLowThreshold,LNCEL.reportAmountPerLoc,LNCEL.reportIntervalPerLoc,LNCEL.qci1DrxOffThreshold,LNCEL.qci1DrxOnThreshold,LNCEL.qci1DlTargetBler,LNCEL.qci1HarqMaxTrDl,LNCEL.qci1HarqMaxTrUl,LNCEL.qci1ReconStopTimer,LNCEL.qci1ThroughputFactorDl,LNCEL.qci1ThroughputFactorUl,LNCEL.qci1UlTargetBler,LNCEL.actRIPAlarming,LNCEL.alarmThresholdCrossingTime,LNCEL.alarmThresholdULSF,LNCEL.a1ReportInterval,LNCEL.a2TimeToTriggerMobRsrq,LNCEL.hysThreshold2MobRsrq,LNCEL.threshold2MobRsrq,LNCEL.threshold2aRsrq,LNCEL.a2TimeToTriggerRedirectRsrq,LNCEL.hysThreshold4Rsrq,LNCEL.threshold4Rsrq,LNCEL.a2TimeToTriggerActC2kMeas,LNCEL.hysThreshold2C2k,LNCEL.threshold2C2k,LNCEL.threshold2C2kQci1,LNCEL.deltaFPucchF1bCSr10,LNCEL.deltaFPucchF3r10,LNCEL.utranLbLoadThresholdshighLoadGbrDl,LNCEL.utranLbLoadThresholdshighLoadNonGbrDl,LNCEL.utranLbLoadThresholdshighLoadPdcch, LNCEL.maxNumUeProactiveUl,LNCEL.maxNumUeProactiveUlNonTxSkip,LNCEL.cellResetRequest,LNCEL.t312,LNCEL.n310Qci1,LNCEL.dlsPdschNbrCongDetAct,LNCEL.pdcchCongDetActDl,LNCEL.pdcchCongDetActUl,LNCEL.ulsPuschNbrCongDetAct,LNCEL.actMfbiDupFre,LNCEL.actTtibAdaptUlMinTbs,LNCEL.useT312,LNCEL.expectedCellRange,LNCEL.pciControl,LNCEL.heNBName,LNCEL.n310PubSafety,LNCEL.dl256QamDeactChQualThr,LNCEL.dl256QamReactChQualThr,LNCEL.iFLBCandSelUpdateTimer,LNCEL.idleLBCapThreshCaUeAdv,LNCEL.minInactivityTimeThresh,LNCEL.threshold2InterFreqHpue,LNCEL.threshold2aHpue,LNCEL.ttibMinDelayAfterBearerSetup,LNCEL.ttibSinrDwellTimeIn,LNCEL.ttibSinrDwellTimeOut,LNCEL.voLteProactUlGrantPeriodRegTx,LNCEL.voLteProactUlGrantPeriodTtib,LNCEL.zsonPciPrachControl,LNCEL.zsonProfileId,LNCEL.actAir2Ground,LNCEL.actDeltaCqiAgingScellChEst,LNCEL.actEirpControl,LNCEL.actFastPdcchAdapt,LNCEL.actMaxNumUeDlNonGbr,LNCEL.actMcsUpgrade,LNCEL.actResourceAllocType1,LNCEL.actVoipCovBoostEnh,LNCEL.iFLBA4ActLim,LNCEL.maxNumAmleNeigh,LNCEL.idleLBPercUeTM9,LNCEL.lteNrDssMode,LNCEL.prachDetThresScaling,LNCEL.adaptMaxUEConn,LNCEL.prachControl,LNCEL.pucchControl,LNCEL.incIRATHeadroom,LNCEL.iniDl256QamChQualEst,LNCEL.maxNumIFCarrMeas,LNCEL.respectIncMonLimits,LNCEL.threshold3RsrqIntraFreq,LNCEL.threshold3aRsrqIntraFreq,LNCEL.voLteProactUlGrantNonTtibTxSkip,LNCEL.voLteProactUlGrantPeriodTtibTxSkip,LNCEL.iFLBLoadStepGBRDL,LNCEL.iFLBLoadStepNonGBRDL,LNCEL.iFLBLoadStepPdcch,LNCEL.t310PubSafety,LNCEL.oldDN
+FROM (LNBTS LEFT JOIN LNCEL ON (LNCEL.PLMN_Id=LNBTS.PLMN_Id) AND (LNCEL.MRBTS_Id=LNBTS.MRBTS_Id) AND (LNCEL.LNBTS_Id=LNBTS.LNBTS_Id)) LEFT JOIN LNCEL_FDD ON (LNCEL.PLMN_Id=LNCEL_FDD.PLMN_Id) AND (LNCEL.MRBTS_Id=LNCEL_FDD.MRBTS_Id) AND (LNCEL.LNBTS_Id=LNCEL_FDD.LNBTS_Id) AND (LNCEL.LNCEL_Id=LNCEL_FDD.LNCEL_Id)
+WHERE (LNBTS.PLMN_Id = 'RC8') OR (LNBTS.PLMN_Id = 'RC7' AND (LNBTS.name LIKE 'CAD%' OR LNBTS.name LIKE 'MAN%' OR LNBTS.name LIKE 'RIS%' OR LNBTS.name LIKE 'PER%' OR LNBTS.name LIKE 'QUI%' OR LNBTS.name LIKE 'ARM%' OR LNBTS.name LIKE 'CHO%' OR LNBTS.name LIKE 'QUB%'));
+
+--LTE_Param
+DROP TABLE IF EXISTS LTE_Param;
+CREATE TABLE LTE_Param AS
+SELECT
+ClusterDist.Cluster, ClusterDist.Encargado,LNBTS.name||substr(LNCEL.name,-1,1) AS KeySector, LNCEL.PLMN_id,LNCEL.MRBTS_id,LNCEL.LNBTS_id,LNCEL.LNCEL_id,LNBTS.name AS LNBTSname, LNCEL.name AS LNCELname, LNCEL.eutraCelId, LNCEL.moVersion, LNBTS.operationalState AS LNBTS_OpSt, LNCEL.AdministrativeState AS LNCEL_AdSt ,LNCEL.Operationalstate AS LNCEL_OpSt,LNCEL.phyCellId, CASE WHEN LNCEL_FDD.dlRsBoost=700 THEN -3 ELSE (CASE WHEN LNCEL_FDD.dlRsBoost=1000 THEN 0 ELSE (CASE WHEN LNCEL_FDD.dlRsBoost=1177 THEN 1.77 ELSE (CASE WHEN LNCEL_FDD.dlRsBoost=1300 THEN 3 ELSE (CASE WHEN LNCEL_FDD.dlRsBoost=1477 THEN 4.77 ELSE (CASE WHEN LNCEL_FDD.dlRsBoost=1600 THEN 6 ELSE NULL END)END)END)END)END)END AS PowerBoost, Round((3*(LNCEL.phyCellId*1.0/3-CAST(LNCEL.phyCellId/3 AS INT))),0) as PCIMod3, Round((6*(LNCEL.phyCellId*1.0/6-CAST(LNCEL.phyCellId/6 AS INT))),0) as PCIMod6, Round((30*(LNCEL.phyCellId*1.0/30-CAST(LNCEL.phyCellId/30 AS INT))),0) as PCIMod30,LNCEL.lcrId,LNCEL.tac,LNCEL.cellType,LNCEL_FDD.earfcnDL,LNCEL_FDD.earfcnUL,LNCEL_FDD.maxNumActDrb,LNCEL_FDD.maxNumActUE,LNCEL_FDD.maxNumUeDl,LNCEL_FDD.maxNumUeUl,LNCEL.mbrSelector,LNCEL.t302,LNCEL.t304InterRAT,LNCEL.t304InterRATGsm,LNCEL.t304IntraLte,LNCEL.t304eNaccGsm,LNCEL.t320,LNCEL.hopModePusch,LNCEL.pMax,LNCEL.actDrx,LNCEL_FDD.rootSeqIndex,SIB.t300,SIB.t301,SIB.t310,SIB.t311,SIB.tEvaluation,SIB.tHystNormal,SIB.qHyst,SIB.qrxlevmin,SIB.QrxlevminintraF,SIB.sIntrasearch,SIB.sNonIntrsearch,LNCEL.dlCellPwrRed,LNCEL_FDD.dlChBw AS dlChBw1, LNCEL.dlChBw AS dlChBw2,LNCEL.measQuantityUtra,LNCEL.threshold2a,LNCEL.a2TimeToTriggerActWcdmaMeas,LNCEL.threshold2Wcdma,Baseline.Latitud,Baseline.Longitud, "PLMN-" || LNCEL.PLMN_id || "/MRBTS-" ||LNCEL.mrbts_Id || "/LNBTS-" || LNCEL.lnBts_Id || "/LNCEL-" || LNCEL.lnCel_Id AS DistName, substr(LNCEL.name,-1,1) AS Sector, CASE WHEN (LNCEL_FDD.earfcnDL > 2749 AND LNCEL_FDD.earfcnDL <3450) THEN 2600 ELSE (CASE WHEN (LNCEL_FDD.earfcnDL > 599 AND LNCEL_FDD.earfcnDL <1200) THEN 1900 ELSE 850 END) END AS Banda, CASE WHEN (LNBTS.operationalState=5 AND LNCEL.administrativeState=1 AND LNCEL.operationalState=1) THEN 1 ELSE 0 END AS Estado
+FROM ((((LNBTS LEFT JOIN LNCEL ON (LNCEL.PLMN_Id=LNBTS.PLMN_Id) AND (LNCEL.MRBTS_Id=LNBTS.MRBTS_Id) AND (LNCEL.LNBTS_Id=LNBTS.LNBTS_Id)) LEFT JOIN LNCEL_FDD ON (LNCEL.PLMN_Id=LNCEL_FDD.PLMN_Id) AND (LNCEL.MRBTS_Id=LNCEL_FDD.MRBTS_Id) AND (LNCEL.LNBTS_Id=LNCEL_FDD.LNBTS_Id) AND (LNCEL.LNCEL_Id=LNCEL_FDD.LNCEL_Id)) LEFT JOIN SIB ON (LNCEL.PLMN_Id=SIB.PLMN_Id) AND (LNCEL.MRBTS_Id=SIB.MRBTS_Id) AND (LNCEL.LNBTS_Id=SIB.LNBTS_Id) AND (LNCEL.LNCEL_Id=SIB.LNCEL_Id)) LEFT JOIN Baseline ON (Baseline.Sitio = LNBTS.name)) LEFT JOIN ClusterDist ON (Baseline.Market || '-' || Baseline."Localidad (CRC)" = ClusterDist.cluster)
+WHERE (LNBTS.PLMN_Id = 'RC8') OR (LNBTS.PLMN_Id = 'RC7' AND (LNBTS.name LIKE 'CAD%' OR LNBTS.name LIKE 'MAN%' OR LNBTS.name LIKE 'RIS%' OR LNBTS.name LIKE 'PER%' OR LNBTS.name LIKE 'QUI%' OR LNBTS.name LIKE 'ARM%' OR LNBTS.name LIKE 'CHO%' OR LNBTS.name LIKE 'QUB%'));
+
+--RMOD - ACTIVECELLSLIST - INVUNIT
+
+SELECT
+LNBTS.PLMN_Id, LNBTS.name, LNBTS.MRBTS_ID,RMOD_R.EQM_R_id,RMOD_R.APEQM_R_id,RMOD_R.RMOD_R_id,RMOD_R.moVersion,RMOD_R.configDN,RMOD_R.productCode,RMOD_R.productName,RMOD_R.serialNumber,RMOD_R.aldManagementProtocol,RMOD_R.antennaPathDelayMeasurementCapable,RMOD_R.blocking,RMOD_R.hwVersion,RMOD_R.operationalState,RMOD_R.proceduralStatus,RMOD_R.radioMasterDN,RMOD_R.radioModuleHwReleaseCode,RMOD_R.rfmTransmitModeStatus,RMOD_R.availabilityStatus,RMOD_R.administrativeState,RMOD_R.chassisProductCode,RMOD_R.chassisSerialNumber,RMOD_R.nrOfTXElements,RMOD_R.APMOD_R_id, RMOD_R_ACTIVECELLSLIST.optionId,RMOD_R_ACTIVECELLSLIST.Value, INVUNIT_R.INVUNIT_R_id,INVUNIT_R.moVersion,INVUNIT_R.inventoryUnitType,INVUNIT_R.vendorName,INVUNIT_R.vendorUnitFamilyType,INVUNIT_R.serialNumber,INVUNIT_R.vendorUnitTypeNumber,INVUNIT_R.versionNumber 
+FROM ((LNBTS LEFT JOIN RMOD_R ON (LNBTS.MRBTS_ID = RMOD_R.MRBTS_ID) AND (LNBTS.PLMN_Id=RMOD_R.PLMN_Id)) LEFT JOIN RMOD_R_ACTIVECELLSLIST ON ((RMOD_R.PLMN_Id = RMOD_R_ACTIVECELLSLIST.PLMN_Id) AND (RMOD_R.MRBTS_ID = RMOD_R_ACTIVECELLSLIST.MRBTS_ID) AND (RMOD_R.EQM_R_id = RMOD_R_ACTIVECELLSLIST.EQM_R_id) AND (RMOD_R.APEQM_R_id=RMOD_R_ACTIVECELLSLIST.APEQM_R_id) AND (RMOD_R.RMOD_R_id = RMOD_R_ACTIVECELLSLIST.RMOD_R_id))) LEFT JOIN INVUNIT_R ON ((RMOD_R.PLMN_Id = INVUNIT_R.PLMN_Id) AND (RMOD_R.MRBTS_ID = INVUNIT_R.MRBTS_ID) AND (RMOD_R.EQM_R_id = INVUNIT_R.EQM_R_id) AND (RMOD_R.APEQM_R_id=INVUNIT_R.APEQM_R_id) AND (RMOD_R.RMOD_R_id = INVUNIT_R.RMOD_R_id))
+WHERE (LNBTS.PLMN_Id = 'RC8') OR (LNBTS.PLMN_Id = 'RC7' AND (LNBTS.name LIKE 'CAD%' OR LNBTS.name LIKE 'MAN%' OR LNBTS.name LIKE 'RIS%' OR LNBTS.name LIKE 'PER%' OR LNBTS.name LIKE 'QUI%' OR LNBTS.name LIKE 'ARM%' OR LNBTS.name LIKE 'CHO%' OR LNBTS.name LIKE 'QUB%'));
+
+--RMOD - ACTIVECELLSLIST - INVUNIT - ANTL - WCEL
+
+DROP TABLE IF EXISTS RMOD_Details;
+CREATE TABLE RMOD_Details AS
+SELECT
+LNBTS.PLMN_Id, LNBTS.name AS LNBTSname, LNCEL.name AS LNCELname, LNBTS.MRBTS_ID,RMOD_R.EQM_R_id,RMOD_R.APEQM_R_id,RMOD_R.RMOD_R_id,substr(RMOD_R.configDN,-1,1) AS RMODid,RMOD_R.moVersion,RMOD_R.configDN AS configDN2,RMOD_R.productCode,RMOD_R.productName,RMOD_R.serialNumber,RMOD_R.aldManagementProtocol,RMOD_R.antennaPathDelayMeasurementCapable,RMOD_R.blocking,RMOD_R.hwVersion,RMOD_R.operationalState,RMOD_R.proceduralStatus,RMOD_R.radioMasterDN,RMOD_R.radioModuleHwReleaseCode,RMOD_R.rfmTransmitModeStatus,RMOD_R.availabilityStatus,RMOD_R_ACTIVECELLSLIST.optionId,RMOD_R_ACTIVECELLSLIST.Value, INVUNIT_R.INVUNIT_R_id,INVUNIT_R.moVersion AS moVersion2,INVUNIT_R.inventoryUnitType,INVUNIT_R.vendorName,INVUNIT_R.vendorUnitFamilyType,INVUNIT_R.serialNumber AS serialNumber2,INVUNIT_R.vendorUnitTypeNumber,INVUNIT_R.versionNumber,ANTL_R.ANTL_R_id,ANTL_R.moVersion AS moVersion3,ANTL_R.configDN AS configDN3,ANTL_R.rxCapable,ANTL_R.txCapable
+FROM ((((LNBTS LEFT JOIN RMOD_R ON (LNBTS.MRBTS_ID = RMOD_R.MRBTS_ID) AND (LNBTS.PLMN_Id=RMOD_R.PLMN_Id)) LEFT JOIN RMOD_R_ACTIVECELLSLIST ON ((RMOD_R.PLMN_Id = RMOD_R_ACTIVECELLSLIST.PLMN_Id) AND (RMOD_R.MRBTS_ID = RMOD_R_ACTIVECELLSLIST.MRBTS_ID) AND (RMOD_R.EQM_R_id = RMOD_R_ACTIVECELLSLIST.EQM_R_id) AND (RMOD_R.APEQM_R_id=RMOD_R_ACTIVECELLSLIST.APEQM_R_id) AND (RMOD_R.RMOD_R_id = RMOD_R_ACTIVECELLSLIST.RMOD_R_id))) LEFT JOIN INVUNIT_R ON ((RMOD_R.PLMN_Id = INVUNIT_R.PLMN_Id) AND (RMOD_R.MRBTS_ID = INVUNIT_R.MRBTS_ID) AND (RMOD_R.EQM_R_id = INVUNIT_R.EQM_R_id) AND (RMOD_R.APEQM_R_id=INVUNIT_R.APEQM_R_id) AND (RMOD_R.RMOD_R_id = INVUNIT_R.RMOD_R_id))) LEFT JOIN ANTL_R ON ((
+RMOD_R.PLMN_Id = ANTL_R.PLMN_Id) AND (RMOD_R.MRBTS_ID = ANTL_R.MRBTS_ID) AND (RMOD_R.EQM_R_id = ANTL_R.EQM_R_id) AND (RMOD_R.APEQM_R_id=ANTL_R.APEQM_R_id) AND (RMOD_R.RMOD_R_id = ANTL_R.RMOD_R_id))) LEFT JOIN LNCEL ON ((LNBTS.MRBTS_ID = LNCEL.MRBTS_ID) AND (LNBTS.PLMN_Id=LNCEL.PLMN_Id) AND (LNCEL.Lcrid=RMOD_R_ACTIVECELLSLIST.Value))
+WHERE (LNBTS.PLMN_Id = 'RC8') OR (LNBTS.PLMN_Id = 'RC7' AND (LNBTS.name LIKE 'CAD%' OR LNBTS.name LIKE 'MAN%' OR LNBTS.name LIKE 'RIS%' OR LNBTS.name LIKE 'PER%' OR LNBTS.name LIKE 'QUI%' OR LNBTS.name LIKE 'ARM%' OR LNBTS.name LIKE 'CHO%' OR LNBTS.name LIKE 'QUB%'));
+
+--ALD - RETU
+
+DROP TABLE IF EXISTS ALD_Details;
+CREATE TABLE ALD_Details AS
+SELECT
+LNBTS.PLMN_Id, LNBTS.name, LNBTS.MRBTS_ID,ALD_R.EQM_R_id,ALD_R.APEQM_R_id,ALD_R.ALD_R_id,ALD_R.configDN AS configDN4,ALD_R.controlProtocol,ALD_R.hwVersion,ALD_R.operationalState AS operationalState2,ALD_R.productCode,ALD_R.retDeviceType,ALD_R.serialNumber AS serialNumber3,ALD_R.vendorCode,ALD_R.availabilityStatus AS availabilityStatus2,ALD_R.proceduralStatus AS proceduralStatus2,RETU_R.RETU_R_id,RETU_R.angle,RETU_R.antBearing,RETU_R.antModel,RETU_R.antSerial,RETU_R.configDN AS configDN5,RETU_R.maxAngle,RETU_R.mechanicalAngle,RETU_R.minAngle,RETU_R.operationalState AS operationalState3,RETU_R.sectorID,RETU_R.subunitNumber,RETU_R.availabilityStatus AS availabilityStatus3,RETU_R.proceduralStatus AS proceduralStatus3,RETU_R.baseStationID,RETU_R_ANTLDNLIST.optionId,RETU_R_ANTLDNLIST.Value,substr(RETU_R_ANTLDNLIST.Value,-1,1) AS ANTLid, substr(RETU_R_ANTLDNLIST.Value,(INSTR(RETU_R_ANTLDNLIST.Value,'/RMOD_R-')+8), CASE WHEN (INSTR(RETU_R_ANTLDNLIST.Value,'/ANTL_R-')- INSTR(RETU_R_ANTLDNLIST.Value,'/RMOD_R-')=9) THEN 1 ELSE 2 END) AS RMOD_R_id
+FROM ((LNBTS LEFT JOIN ALD_R ON (LNBTS.MRBTS_ID = ALD_R.MRBTS_ID) AND (LNBTS.PLMN_Id=ALD_R.PLMN_Id)) LEFT JOIN RETU_R ON ((ALD_R.PLMN_id=RETU_R.PLMN_id) AND (ALD_R.MRBTS_id=RETU_R.MRBTS_id) AND (ALD_R.EQM_R_id=RETU_R.EQM_R_id) AND (ALD_R.APEQM_R_id=RETU_R.APEQM_R_id) AND (ALD_R.ALD_R_id=RETU_R.ALD_R_id))) LEFT JOIN RETU_R_ANTLDNLIST ON ((ALD_R.PLMN_id=RETU_R_ANTLDNLIST.PLMN_id) AND (ALD_R.MRBTS_id=RETU_R_ANTLDNLIST.MRBTS_id) AND (ALD_R.EQM_R_id=RETU_R_ANTLDNLIST.EQM_R_id) AND (ALD_R.APEQM_R_id=RETU_R_ANTLDNLIST.APEQM_R_id) AND (ALD_R.ALD_R_id=RETU_R_ANTLDNLIST.ALD_R_id))
+WHERE (LNBTS.PLMN_Id = 'RC8') OR (LNBTS.PLMN_Id = 'RC7' AND (LNBTS.name LIKE 'CAD%' OR LNBTS.name LIKE 'MAN%' OR LNBTS.name LIKE 'RIS%' OR LNBTS.name LIKE 'PER%' OR LNBTS.name LIKE 'QUI%' OR LNBTS.name LIKE 'ARM%' OR LNBTS.name LIKE 'CHO%' OR LNBTS.name LIKE 'QUB%'));
+
+--compenndio RMOD - ALD
+
+SELECT
+
+RMOD_Details.PLMN_id,RMOD_Details.LNBTSname,RMOD_Details.LNCELname,RMOD_Details.MRBTS_id,RMOD_Details.EQM_R_id,RMOD_Details.APEQM_R_id,RMOD_Details.RMOD_R_id,RMOD_Details.RMODid,RMOD_Details.moVersion,RMOD_Details.configDN2,RMOD_Details.productCode,RMOD_Details.productName,RMOD_Details.serialNumber,RMOD_Details.aldManagementProtocol,RMOD_Details.antennaPathDelayMeasurementCapable,RMOD_Details.blocking,RMOD_Details.hwVersion,RMOD_Details.operationalState,RMOD_Details.proceduralStatus,RMOD_Details.radioMasterDN,RMOD_Details.radioModuleHwReleaseCode,RMOD_Details.rfmTransmitModeStatus,RMOD_Details.availabilityStatus,RMOD_Details.optionId,RMOD_Details.Value,RMOD_Details.INVUNIT_R_id,RMOD_Details.moVersion2,RMOD_Details.inventoryUnitType,RMOD_Details.vendorName,RMOD_Details.vendorUnitFamilyType,RMOD_Details.serialNumber2,RMOD_Details.vendorUnitTypeNumber,RMOD_Details.versionNumber,RMOD_Details.ANTL_R_id,RMOD_Details.moVersion3,RMOD_Details.configDN3,RMOD_Details.rxCapable,RMOD_Details.txCapable, ALD_Details.ALD_R_id,ALD_Details.configDN4,ALD_Details.controlProtocol,ALD_Details.hwVersion,ALD_Details.operationalState2,ALD_Details.productCode,ALD_Details.retDeviceType,ALD_Details.serialNumber3,ALD_Details.vendorCode,ALD_Details.availabilityStatus2,ALD_Details.proceduralStatus2,ALD_Details.RETU_R_id,ALD_Details.angle,ALD_Details.antBearing,ALD_Details.antModel,ALD_Details.antSerial,ALD_Details.configDN5,ALD_Details.maxAngle,ALD_Details.mechanicalAngle,ALD_Details.minAngle,ALD_Details.operationalState3,ALD_Details.sectorID,ALD_Details.subunitNumber,ALD_Details.availabilityStatus3,ALD_Details.proceduralStatus3,ALD_Details.baseStationID,ALD_Details.optionId,ALD_Details.Value,ALD_Details.ANTLid,ALD_Details.RMOD_R_id
+FROM RMOD_Details LEFT JOIN ALD_Details ON ((RMOD_Details.LNBTSname=ALD_Details.name) AND (RMOD_Details.MRBTS_ID=ALD_Details.MRBTS_ID) AND (RMOD_Details.EQM_R_id = ALD_Details.EQM_R_id) AND (RMOD_Details.RMOD_R_id = ALD_Details.RMOD_R_id) AND (RMOD_Details.ANTL_R_id=ALD_Details.ANTLid))
+
+-- Inventario
+
+SELECT
+LNBTS.PLMN_Id, LNBTS.name, LNBTS.MRBTS_ID,INVUNIT_R.EQM_R_id,INVUNIT_R.APEQM_R_id,INVUNIT_R.CABINET_R_id,INVUNIT_R.SMOD_R_id,INVUNIT_R.INVUNIT_R_id,INVUNIT_R.moVersion,INVUNIT_R.inventoryUnitType,INVUNIT_R.vendorName,INVUNIT_R.vendorUnitFamilyType,INVUNIT_R.RMOD_R_id,INVUNIT_R.serialNumber,INVUNIT_R.vendorUnitTypeNumber,INVUNIT_R.versionNumber,INVUNIT_R.BBMOD_R_id,INVUNIT_R.PWRMOD_R_id,INVUNIT_R.APMOD_R_id,INVUNIT_R.CONTROLLER_R_id
+FROM LNBTS LEFT JOIN INVUNIT_R ON ((LNBTS.PLMN_Id = INVUNIT_R.PLMN_Id) AND (LNBTS.MRBTS_ID = INVUNIT_R.MRBTS_ID))
+WHERE (LNBTS.PLMN_Id = 'RC8') OR (LNBTS.PLMN_Id = 'RC7' AND (LNBTS.name LIKE 'CAD%' OR LNBTS.name LIKE 'MAN%' OR LNBTS.name LIKE 'RIS%' OR LNBTS.name LIKE 'PER%' OR LNBTS.name LIKE 'QUI%' OR LNBTS.name LIKE 'ARM%' OR LNBTS.name LIKE 'CHO%' OR LNBTS.name LIKE 'QUB%'));
+
+--SMODULE
+
+SELECT
+LNBTS.PLMN_Id, LNBTS.name, LNBTS.MRBTS_ID, SMOD_R.EQM_R_id,SMOD_R.APEQM_R_id,SMOD_R.CABINET_R_id,SMOD_R.SMOD_R_id,SMOD_R.moVersion,SMOD_R.configDN,SMOD_R.productCode,SMOD_R.productName,SMOD_R.serialNumber,SMOD_R.eutraSupport,SMOD_R.function,SMOD_R.geranSupport,SMOD_R.horizontalPosition,SMOD_R.operationalState,SMOD_R.proceduralStatus,SMOD_R.utranSupport,SMOD_R.verticalPosition,SMOD_R.availabilityStatus,CABINET_R.moVersion AS moVersion2,CABINET_R.configDN AS configDN2,CABINET_R.productCode AS productCode2,CABINET_R.productName AS productName2,INVUNIT_R.INVUNIT_R_id,INVUNIT_R.moVersion AS moVersion3,INVUNIT_R.inventoryUnitType,INVUNIT_R.vendorName,INVUNIT_R.vendorUnitFamilyType, INVUNIT_R.serialNumber AS serialNumber2,INVUNIT_R.vendorUnitTypeNumber
+FROM ((LNBTS LEFT JOIN SMOD_R ON ((LNBTS.PLMN_Id = SMOD_R.PLMN_Id) AND (LNBTS.MRBTS_ID = SMOD_R.MRBTS_ID))) LEFT JOIN CABINET_R ON ((SMOD_R.PLMN_Id = CABINET_R.PLMN_Id) AND (SMOD_R.MRBTS_ID = CABINET_R.MRBTS_ID) AND (SMOD_R.EQM_R_id = CABINET_R.EQM_R_id) AND (SMOD_R.APEQM_R_id=CABINET_R.APEQM_R_id) AND (SMOD_R.CABINET_R_id = CABINET_R.CABINET_R_id))) LEFT JOIN INVUNIT_R ON ((SMOD_R.PLMN_Id = INVUNIT_R.PLMN_Id) AND (SMOD_R.MRBTS_ID = INVUNIT_R.MRBTS_ID) AND (SMOD_R.EQM_R_id = INVUNIT_R.EQM_R_id) AND (SMOD_R.APEQM_R_id=INVUNIT_R.APEQM_R_id) AND (SMOD_R.CABINET_R_id = CABINET_R.CABINET_R_id) AND (SMOD_R.SMOD_R_id = INVUNIT_R.SMOD_R_id))  
+WHERE (LNBTS.PLMN_Id = 'RC8') OR (LNBTS.PLMN_Id = 'RC7' AND (LNBTS.name LIKE 'CAD%' OR LNBTS.name LIKE 'MAN%' OR LNBTS.name LIKE 'RIS%' OR LNBTS.name LIKE 'PER%' OR LNBTS.name LIKE 'QUI%' OR LNBTS.name LIKE 'ARM%' OR LNBTS.name LIKE 'CHO%' OR LNBTS.name LIKE 'QUB%'));
+
+--BBMODULE
+
+SELECT
+LNBTS.PLMN_Id, LNBTS.name, LNBTS.MRBTS_ID, BBMOD_R.EQM_R_id,BBMOD_R.APEQM_R_id,BBMOD_R.CABINET_R_id,BBMOD_R.BBMOD_R_id,BBMOD_R.moVersion,BBMOD_R.administrativeState,BBMOD_R.configDN,BBMOD_R.eutraSupport,BBMOD_R.function,BBMOD_R.geranSupport,BBMOD_R.horizontalPosition,BBMOD_R.operationalState,BBMOD_R.proceduralStatus,BBMOD_R.productCode,BBMOD_R.productName,BBMOD_R.serialNumber,BBMOD_R.utranSupport,BBMOD_R.verticalPosition,BBMOD_R.availabilityStatus, CABINET_R.moVersion AS moVersion2,CABINET_R.configDN AS configDN2,CABINET_R.productCode AS productCode2,CABINET_R.productName AS productName2,CABINET_R.serialNumber AS serialNumber2, INVUNIT_R.INVUNIT_R_id,INVUNIT_R.moVersion AS moVersion3,INVUNIT_R.inventoryUnitType,INVUNIT_R.serialNumber AS serialNumber3,INVUNIT_R.vendorUnitTypeNumber
+FROM ((LNBTS LEFT JOIN BBMOD_R ON ((LNBTS.PLMN_Id = BBMOD_R.PLMN_Id) AND (LNBTS.MRBTS_ID = BBMOD_R.MRBTS_ID))) LEFT JOIN CABINET_R ON ((BBMOD_R.PLMN_Id = CABINET_R.PLMN_Id) AND (BBMOD_R.MRBTS_ID = CABINET_R.MRBTS_ID) AND (BBMOD_R.EQM_R_id = CABINET_R.EQM_R_id) AND (BBMOD_R.APEQM_R_id=CABINET_R.APEQM_R_id) AND (BBMOD_R.CABINET_R_id = CABINET_R.CABINET_R_id))) LEFT JOIN INVUNIT_R ON ((BBMOD_R.PLMN_Id = INVUNIT_R.PLMN_Id) AND (BBMOD_R.MRBTS_ID = INVUNIT_R.MRBTS_ID) AND (BBMOD_R.EQM_R_id = INVUNIT_R.EQM_R_id) AND (BBMOD_R.APEQM_R_id=INVUNIT_R.APEQM_R_id) AND (BBMOD_R.CABINET_R_id = CABINET_R.CABINET_R_id) AND (BBMOD_R.BBMOD_R_id = INVUNIT_R.BBMOD_R_id))  
+WHERE (LNBTS.PLMN_Id = 'RC8') OR (LNBTS.PLMN_Id = 'RC7' AND (LNBTS.name LIKE 'CAD%' OR LNBTS.name LIKE 'MAN%' OR LNBTS.name LIKE 'RIS%' OR LNBTS.name LIKE 'PER%' OR LNBTS.name LIKE 'QUI%' OR LNBTS.name LIKE 'ARM%' OR LNBTS.name LIKE 'CHO%' OR LNBTS.name LIKE 'QUB%'));
+ 
+-- LNREL Selecciona info NO
+
+DROP TABLE IF EXISTS LNREL_NO;
+CREATE TABLE LNREL_NO AS
+SELECT LNREL.PLMN_id,LNREL.MRBTS_id,LNREL.LNBTS_id,LNREL.LNCEL_id,LNREL.LNREL_id,LNREL.moVersion,LNREL.mcc,LNREL.mnc,LNREL.amleAllowed,LNREL.cellIndOffNeigh,LNREL.cellIndOffNeighDelta,LNREL.ecgiAdjEnbId,LNREL.ecgiLcrId,LNREL.handoverAllowed,LNREL.nrControl,LNREL.nrStatus,LNREL.removeAllowed,LNREL.SBTS_id,LNREL.name
+FROM LNREL LEFT JOIN LNBTS ON (LNBTS.PLMN_Id = LNREL.PLMN_Id) AND (LNBTS.MRBTS_ID = LNREL.MRBTS_ID) 
+WHERE (LNBTS.PLMN_Id = 'RC8') OR (LNBTS.PLMN_Id = 'RC7' AND (LNBTS.name LIKE 'CAD%' OR LNBTS.name LIKE 'MAN%' OR LNBTS.name LIKE 'RIS%' OR LNBTS.name LIKE 'PER%' OR LNBTS.name LIKE 'QUI%' OR LNBTS.name LIKE 'ARM%' OR LNBTS.name LIKE 'CHO%' OR LNBTS.name LIKE 'QUB%'));
+-- Se cruza info con lte_param y baseline calculando Distancia
+DROP TABLE IF EXISTS LNREL_PAR;
+CREATE TABLE LNREL_PAR AS
+SELECT
+LTE_Param.LNCELname,LTE_Param_1.LNCELname AS LNCELnameT,Baseline_LTE.LNB AS LNCELnameTB,LTE_Param.lcrId, LNREL_NO.ecgiLcrId AS lcrIdT,LTE_Param.Cluster,LTE_Param_1.Cluster AS ClusterT,LNREL_NO.PLMN_id,LTE_Param_1.PLMN_id AS PLMN_idT,LNREL_NO.MRBTS_id,LNREL_NO.LNBTS_id,LNREL_NO.LNCEL_id,LNREL_NO.LNREL_id, LNREL_NO.moVersion,LNREL_NO.mcc,LNREL_NO.mnc,LNREL_NO.amleAllowed,LNREL_NO.cellIndOffNeigh,LNREL_NO.cellIndOffNeighDelta,LNREL_NO.handoverAllowed,LNREL_NO.nrControl,LNREL_NO.nrStatus,LNREL_NO.removeAllowed,LNREL_NO.SBTS_id,LNREL_NO.name, LTE_Param.LNBTSname,LTE_Param_1.LNBTSname AS LNBTSnameT,LNREL_NO.ecgiAdjEnbId AS MRBTS_idT,LTE_Param_1.LNBTS_id AS LNBTS_idT,LTE_Param_1.LNCEL_id AS LNCEL_idT,LTE_Param.eutraCelId,LTE_Param.PowerBoost,LTE_Param.phyCellId AS PCI,LTE_Param.rootSeqIndex AS RSI,LTE_Param.tac,LTE_Param_1.eutraCelId AS eutraCelIdT,Baseline_LTE."eutra Cell Id" AS eutraCelIdTb,LTE_Param_1.PowerBoost AS PowerBoostT,LTE_Param_1.phyCellId AS PCIT,LTE_Param_1.rootSeqIndex AS RSIT,LTE_Param_1.tac AS tacT,LTE_Param.Estado,LTE_Param_1.Estado AS EstadoT,Baseline_LTE.Vendor AS VendorT, 
+ROUND (
+      12756273.2 * ASIN(
+                        MIN (1 , 
+                                SQRT(
+                                    POWER( SIN(RADIANS(LTE_Param.latitud - Baseline_LTE.latitud)/2) , 2) + 
+                                    COS(RADIANS(LTE_Param.latitud)) * COS(RADIANS(Baseline_LTE.latitud)) * POWER ( SIN(RADIANS(LTE_Param.longitud - Baseline_LTE.longitud)/2) , 2)
+                                      )
+                            )
+                        )
+         , 0) AS Distance
+FROM (((LNREL_NO LEFT JOIN LNBTS ON ((LNBTS.PLMN_Id = LNREL_NO.PLMN_Id) AND (LNBTS.MRBTS_ID = LNREL_NO.MRBTS_ID))) LEFT JOIN LTE_Param ON (LNREL_NO.lnCel_Id = LTE_Param.lnCel_Id) AND (LNREL_NO.lnBts_Id = LTE_Param.lnBts_Id) AND (LNREL_NO.mrbts_Id = LTE_Param.mrbts_Id)) LEFT JOIN LTE_Param AS LTE_Param_1 ON (LNREL_NO.ecgiLcrId = LTE_Param_1.lcrId) AND (LNREL_NO.ecgiAdjEnbId = LTE_Param_1.mrbts_Id)) LEFT JOIN BaseLine_LTE ON (LTE_Param_1.DistName = BaseLine_LTE.DistName);
+
+--PCI audit. incluye coPCI y sus distancias
+
+DROP TABLE IF EXISTS PCI_DistT;
+CREATE TABLE PCI_DistT AS
+SELECT
+LNCEL.Name || LNCEL.phyCellId AS Key, LNCEL.Name AS LNCELSRC, LNCEL_1.Name AS LNCELTGT, LNCEL.phyCellId, CASE WHEN (LNBTS.Name = LNBTS_1.Name) THEN 1 ELSE 0 END AS SameSite, CASE WHEN (LNCEL_FDD.earfcnDL = LNCEL_FDD_1.earfcnDL) THEN 1 ELSE 0 END AS SameCarrier, LNCEL.MRBTS_Id, LNCEL.LNBTS_Id, LNCEL.LNCEL_Id, LNBTS.name||substr(LNCEL.name,-1,1) AS KeySecS, LNCEL_1.MRBTS_Id AS MRBTSIdT, LNCEL_1.LNBTS_Id AS LNBTSIdT, LNCEL_1.LNCEL_Id AS LNCEL_IdT, LNBTS_1.name||substr(LNCEL_1.name,-1,1) AS KeySecT, LNCEL_FDD.earfcnDL AS EARFCN_SRC, LNCEL_FDD_1.earfcnDL AS EARFCN_TGT, LNBTS.name AS LNBTSSrc, LNBTS_1.name AS LNBTSTgt,
+ROUND (12756273.2 * ASIN(MIN (1 , SQRT(POWER( SIN(RADIANS(Baseline.Latitud - Baseline_1.Latitud)/2) , 2) + COS(RADIANS(Baseline.Latitud)) * COS(RADIANS(Baseline_1.Latitud)) * POWER ( SIN(RADIANS(Baseline.Longitud - Baseline_1.Longitud)/2) , 2)))) , 0) AS Distance
+FROM ((((((LNCEL INNER JOIN LNCEL AS LNCEL_1 ON (LNCEL.phyCellId = LNCEL_1.phyCellId)) INNER JOIN LNCEL_FDD ON (LNCEL.MRBTS_Id = LNCEL_FDD.MRBTS_Id) AND (LNCEL.LNBTS_Id = LNCEL_FDD.LNBTS_Id) AND (LNCEL.LNCEL_Id = LNCEL_FDD.LNCEL_Id)) INNER JOIN LNCEL_FDD AS LNCEL_FDD_1 ON (LNCEL_1.MRBTS_Id = LNCEL_FDD_1.MRBTS_Id) AND (LNCEL_1.LNBTS_Id = LNCEL_FDD_1.LNBTS_Id) AND (LNCEL_1.LNCEL_Id = LNCEL_FDD_1.LNCEL_Id)) INNER JOIN LNBTS ON (LNCEL.MRBTS_id = LNBTS.MRBTS_id) AND (LNCEL.LNBTS_id = LNBTS.LNBTS_id)) INNER JOIN LNBTS AS LNBTS_1 ON (LNCEL_1.MRBTS_id = LNBTS_1.MRBTS_id) AND (LNCEL_1.LNBTS_id = LNBTS_1.LNBTS_id)) INNER JOIN baseLine ON (LNBTS.Name = baseline.Sitio)) INNER JOIN baseline AS baseline_1 ON (LNBTS_1.Name = baseline_1.Sitio)
+WHERE ((CASE WHEN (LNCEL_FDD.earfcnDL = LNCEL_FDD_1.earfcnDL) THEN 1 ELSE 0 END) = 1) AND ((CASE WHEN (LNCEL.Name = LNCEL_1.Name) THEN 1 ELSE 0 END) = 0 ) AND ((LNBTS.PLMN_Id = 'RC8') OR (LNBTS.PLMN_Id = 'RC7' AND (LNBTS.name LIKE 'CAD%' OR LNBTS.name LIKE 'MAN%' OR LNBTS.name LIKE 'RIS%' OR LNBTS.name LIKE 'PER%' OR LNBTS.name LIKE 'QUI%' OR LNBTS.name LIKE 'ARM%' OR LNBTS.name LIKE 'CHO%' OR LNBTS.name LIKE 'QUB%')));
+--toma menor distancia de la llave
+DROP TABLE IF EXISTS PCI_DistMin;
+CREATE TABLE PCI_DistMin AS
+SELECT
+PCI_DistT.Key, Min(PCI_DistT.Distance) AS MinOfDistancia, LTE_Param.Cluster, LTE_Param.Encargado
+FROM PCI_DistT LEFT JOIN LTE_Param ON (PCI_DistT.MRBTS_Id = LTE_Param.MRBTS_Id) AND (PCI_DistT.LNBTS_Id = LTE_Param.LNBTS_Id) AND (PCI_DistT.LNCEL_Id = LTE_Param.LNCEL_Id)
+GROUP BY PCI_DistT.Key;
+--Query final asociando parametros de vecino mas cercano
+SELECT
+PCI_DistMin.Cluster, PCI_DistMin.Encargado, PCI_DistT.Key,PCI_DistT.LNCELSRC,PCI_DistT.LNCELTGT,PCI_DistT.phyCellId,PCI_DistT.Distance,PCI_DistT.SameSite,PCI_DistT.SameCarrier,PCI_DistT.MRBTS_id,PCI_DistT.LNBTS_id,PCI_DistT.LNCEL_id,PCI_DistT.KeySecS,PCI_DistT.MRBTSIdT,PCI_DistT.LNBTSIdT,PCI_DistT.LNCEL_IdT,PCI_DistT.KeySecT,PCI_DistT.EARFCN_SRC,PCI_DistT.EARFCN_TGT,PCI_DistT.LNBTSSrc,PCI_DistT.LNBTSTgt
+FROM PCI_DistT INNER JOIN PCI_DistMin ON (PCI_DistT.Distance = PCI_DistMin.MinOfDistancia) AND (PCI_DistT.Key = PCI_DistMin.Key)
+ORDER BY PCI_DistT.Distance;
+
+--RSI audit. incluye coRSI y sus distancias
+
+DROP TABLE IF EXISTS RSI_DistT;
+CREATE TABLE RSI_DistT AS
+SELECT
+LNCEL.Name || LNCEL_FDD.rootSeqIndex AS Key, LNCEL.Name AS LNCELSRC, LNCEL_1.Name AS LNCELTGT, LNCEL_FDD.rootSeqIndex, CASE WHEN (LNBTS.Name = LNBTS_1.Name) THEN 1 ELSE 0 END AS SameSite, CASE WHEN (LNCEL_FDD.earfcnDL = LNCEL_FDD_1.earfcnDL) THEN 1 ELSE 0 END AS SameCarrier, LNCEL.MRBTS_Id, LNCEL.LNBTS_Id, LNCEL.LNCEL_Id, LNBTS.name||substr(LNCEL.name,-1,1) AS KeySecS, LNCEL_1.MRBTS_Id AS MRBTSIdT, LNCEL_1.LNBTS_Id AS LNBTSIdT, LNCEL_1.LNCEL_Id AS LNCEL_IdT, LNBTS_1.name||substr(LNCEL_1.name,-1,1) AS KeySecT, LNCEL_FDD.earfcnDL AS EARFCN_SRC, LNCEL_FDD_1.earfcnDL AS EARFCN_TGT, LNBTS.name AS LNBTSSrc, LNBTS_1.name AS LNBTSTgt,
+ROUND (12756273.2 * ASIN(MIN (1 , SQRT(POWER( SIN(RADIANS(Baseline.Latitud - Baseline_1.Latitud)/2) , 2) + COS(RADIANS(Baseline.Latitud)) * COS(RADIANS(Baseline_1.Latitud)) * POWER ( SIN(RADIANS(Baseline.Longitud - Baseline_1.Longitud)/2) , 2)))) , 0) AS Distance
+FROM ((((((LNCEL_FDD INNER JOIN LNCEL_FDD AS LNCEL_FDD_1 ON (LNCEL_FDD.rootSeqIndex = LNCEL_FDD_1.rootSeqIndex)) INNER JOIN LNCEL ON (LNCEL.MRBTS_Id = LNCEL_FDD.MRBTS_Id) AND (LNCEL.LNBTS_Id = LNCEL_FDD.LNBTS_Id) AND (LNCEL.LNCEL_Id = LNCEL_FDD.LNCEL_Id)) INNER JOIN LNCEL AS LNCEL_1 ON (LNCEL_1.MRBTS_Id = LNCEL_FDD_1.MRBTS_Id) AND (LNCEL_1.LNBTS_Id = LNCEL_FDD_1.LNBTS_Id) AND (LNCEL_1.LNCEL_Id = LNCEL_FDD_1.LNCEL_Id)) INNER JOIN LNBTS ON (LNCEL.MRBTS_id = LNBTS.MRBTS_id) AND (LNCEL.LNBTS_id = LNBTS.LNBTS_id)) INNER JOIN LNBTS AS LNBTS_1 ON (LNCEL_1.MRBTS_id = LNBTS_1.MRBTS_id) AND (LNCEL_1.LNBTS_id = LNBTS_1.LNBTS_id)) INNER JOIN baseLine ON (LNBTS.Name = baseline.Sitio)) INNER JOIN baseline AS baseline_1 ON (LNBTS_1.Name = baseline_1.Sitio)
+WHERE ((CASE WHEN (LNCEL_FDD.earfcnDL = LNCEL_FDD_1.earfcnDL) THEN 1 ELSE 0 END) = 1) AND ((CASE WHEN (LNCEL.Name = LNCEL_1.Name) THEN 1 ELSE 0 END) = 0 ) AND ((LNBTS.PLMN_Id = 'RC8') OR (LNBTS.PLMN_Id = 'RC7' AND (LNBTS.name LIKE 'CAD%' OR LNBTS.name LIKE 'MAN%' OR LNBTS.name LIKE 'RIS%' OR LNBTS.name LIKE 'PER%' OR LNBTS.name LIKE 'QUI%' OR LNBTS.name LIKE 'ARM%' OR LNBTS.name LIKE 'CHO%' OR LNBTS.name LIKE 'QUB%')));
+--toma menor distancia de la llave
+DROP TABLE IF EXISTS RSI_DistMin;
+CREATE TABLE RSI_DistMin AS
+SELECT
+RSI_DistT.Key, Min(RSI_DistT.Distance) AS MinOfDistancia, LTE_Param.Cluster, LTE_Param.Encargado
+FROM RSI_DistT LEFT JOIN LTE_Param ON (RSI_DistT.MRBTS_Id = LTE_Param.MRBTS_Id) AND (RSI_DistT.LNBTS_Id = LTE_Param.LNBTS_Id) AND (RSI_DistT.LNCEL_Id = LTE_Param.LNCEL_Id)
+GROUP BY RSI_DistT.Key;
+--Query final asociando parametros de vecino mas cercano
+SELECT
+RSI_DistMin.Cluster, RSI_DistMin.Encargado, RSI_DistT.Key,RSI_DistT.LNCELSRC,RSI_DistT.LNCELTGT,RSI_DistT.rootSeqIndex,RSI_DistT.Distance,RSI_DistT.SameSite,RSI_DistT.SameCarrier,RSI_DistT.MRBTS_id,RSI_DistT.LNBTS_id,RSI_DistT.LNCEL_id,RSI_DistT.KeySecS,RSI_DistT.MRBTSIdT,RSI_DistT.LNBTSIdT,RSI_DistT.LNCEL_IdT,RSI_DistT.KeySecT,RSI_DistT.EARFCN_SRC,RSI_DistT.EARFCN_TGT,RSI_DistT.LNBTSSrc,RSI_DistT.LNBTSTgt
+FROM RSI_DistT INNER JOIN RSI_DistMin ON (RSI_DistT.Distance = RSI_DistMin.MinOfDistancia) AND (RSI_DistT.Key = RSI_DistMin.Key)
+ORDER BY RSI_DistT.Distance;
+
+-- LNREL 031 pairing
+DELETE FROM RSLTE031;
+-- Import reports from RC7 and RC8 taking ";" delimiter in SQLITESTUDIO import table process
+
+-- RSLTE031 PARAM
+--FULL
+
+DROP TABLE IF EXISTS T031_PAR;
+CREATE TABLE T031_PAR AS
+SELECT
+RSLTE031."Source LNCEL name" AS LNCELS, LNCEL_1.Name AS LNCELT, Baseline.Market || '-' || Baseline."Localidad (CRC)" AS ClusterS, Baseline_1.Market || '-' || Baseline_1."Localidad (CRC)" AS ClusterT,LNCEL.MRBTS_Id,LNCEL.LNBTS_Id,LNCEL.LNCEL_Id, RSLTE031."Source MRBTS name",RSLTE031."Source LNBTS name",RSLTE031."Source LNBTS type",(RSLTE031.eci_id - (RSLTE031.eci_id % 256))/256 AS MRBTS_IdT,(RSLTE031.eci_id - (RSLTE031.eci_id % 256))/256 AS LNBTS_IdT,LNCEL_1.LNCEL_Id AS LNCEL_IdT, (RSLTE031.eci_id % 256) AS LcrIdT, LNBTS_1.Name AS LNBTST, RSLTE031."Target LNBTS type",1*RSLTE031.mcc_id AS MCC,1*RSLTE031.mnc_id AS MNC,1*RSLTE031.eci_id AS ECI,1*RSLTE031."IntraPrep SR" AS IntraPrepSR, 1*RSLTE031.IntraSR AS IntraSR, 1*RSLTE031.IntraAtt AS IntraATT, 1*RSLTE031."IntraCancel R" AS IntraCancelR, 1*RSLTE031."InterPrep SR" AS InterPrepSR, 1*RSLTE031.InterSR AS InterSR, 1*RSLTE031.InterAtt AS InterATT, 1*RSLTE031.InterFR AS InterFR, 1*RSLTE031.LBSR AS LBSR, 1*RSLTE031.LBAtt AS LBATT, 1*RSLTE031.LateHO AS LateHO, 1*RSLTE031."EarlyHOtype 1" AS EarlyHOtype1, 1*RSLTE031."EarlyHOtype 2" AS EarlyHOtype2, ROUND (12756273.2 * ASIN(MIN (1 , SQRT(POWER( SIN(RADIANS(Baseline.Latitud - Baseline_1.Latitud)/2) , 2) + COS(RADIANS(Baseline.Latitud)) * COS(RADIANS(Baseline_1.Latitud)) * POWER ( SIN(RADIANS(Baseline.Longitud - Baseline_1.Longitud)/2) , 2)))) , 0) AS Distance
+FROM (((((RSLTE031 LEFT JOIN LNCEL ON (RSLTE031."Source LNCEL name" = LNCEL.Name)) LEFT JOIN LNCEL AS LNCEL_1 ON ((RSLTE031.eci_id - (RSLTE031.eci_id % 256))/256 = LNCEL_1.LNBTS_Id) AND ((RSLTE031.eci_id % 256) = LNCEL_1.LcrId)) LEFT JOIN LNBTS ON (RSLTE031."Source MRBTS name" = LNBTS.Name)) LEFT JOIN LNBTS AS LNBTS_1 ON (LNCEL_1.MRBTS_id = LNBTS_1.MRBTS_id) AND (LNCEL_1.LNBTS_id = LNBTS_1.LNBTS_id)) LEFT JOIN baseLine ON (RSLTE031."Source MRBTS name" = baseline.Sitio)) LEFT JOIN baseline AS baseline_1 ON (LNBTS_1.Name = baseline_1.Sitio)
+WHERE (LNBTS.PLMN_Id = 'RC8') OR (LNBTS.PLMN_Id = 'RC7' AND (LNBTS.name LIKE 'CAD%' OR LNBTS.name LIKE 'MAN%' OR LNBTS.name LIKE 'RIS%' OR LNBTS.name LIKE 'PER%' OR LNBTS.name LIKE 'QUI%' OR LNBTS.name LIKE 'ARM%' OR LNBTS.name LIKE 'CHO%' OR LNBTS.name LIKE 'QUB%'));
+
+
+--CRUZA CON LNREL
+
+SELECT
+T031_PAR.LNCELS,T031_PAR.LNCELT,T031_PAR.ClusterS,T031_PAR.ClusterT,T031_PAR.MRBTS_id,T031_PAR.LNBTS_id,T031_PAR.LNCEL_id,T031_PAR."Source MRBTS name",T031_PAR."Source LNBTS name",T031_PAR."Source LNBTS type",T031_PAR.MRBTS_IdT,T031_PAR.LNBTS_IdT,T031_PAR.LNCEL_IdT,T031_PAR.LcrIdT,T031_PAR.LNBTST,T031_PAR."Target LNBTS type",T031_PAR.MCC,T031_PAR.MNC,T031_PAR.ECI,T031_PAR.IntraPrepSR,T031_PAR.IntraSR,T031_PAR.IntraATT,T031_PAR.IntraCancelR,T031_PAR.InterPrepSR,T031_PAR.InterSR,T031_PAR.InterATT,T031_PAR.InterFR,T031_PAR.LBSR,T031_PAR.LBATT,T031_PAR.LateHO,T031_PAR.EarlyHOtype1,T031_PAR.EarlyHOtype2,T031_PAR.Distance, LNREL_PAR.LNCELname,LNREL_PAR.LNCELnameT,LNREL_PAR.LNCELnameTB,LNREL_PAR.lcrId,LNREL_PAR.lcrIdT,LNREL_PAR.Cluster,LNREL_PAR.ClusterT,LNREL_PAR.PLMN_id,LNREL_PAR.PLMN_idT,LNREL_PAR.MRBTS_id,LNREL_PAR.LNBTS_id,LNREL_PAR.LNCEL_id,LNREL_PAR.LNREL_id,LNREL_PAR.moVersion,LNREL_PAR.mcc,LNREL_PAR.mnc,LNREL_PAR.amleAllowed,LNREL_PAR.cellIndOffNeigh,LNREL_PAR.cellIndOffNeighDelta,LNREL_PAR.handoverAllowed,LNREL_PAR.nrControl,LNREL_PAR.nrStatus,LNREL_PAR.removeAllowed,LNREL_PAR.SBTS_id,LNREL_PAR.name,LNREL_PAR.LNBTSname,LNREL_PAR.LNBTSnameT,LNREL_PAR.MRBTS_idT,LNREL_PAR.LNBTS_idT,LNREL_PAR.LNCEL_idT,LNREL_PAR.eutraCelId,LNREL_PAR.PowerBoost,LNREL_PAR.PCI,LNREL_PAR.RSI,LNREL_PAR.tac,LNREL_PAR.eutraCelIdT,LNREL_PAR.eutraCelIdTb,LNREL_PAR.PowerBoostT,LNREL_PAR.PCIT,LNREL_PAR.RSIT,LNREL_PAR.tacT,LNREL_PAR.Estado,LNREL_PAR.EstadoT,LNREL_PAR.VendorT,LNREL_PAR.Distance
+FROM T031_PAR LEFT JOIN LNREL_PAR ON (T031_PAR.LNCELS=LNREL_PAR.LNCELname) AND (T031_PAR.LNBTS_IdT = LNREL_PAR.LNBTS_idT) AND (T031_PAR.LcrIdT = LNREL_PAR.lcrIdT)
+WHERE (T031_PAR.Distance > 5000) AND (((T031_PAR.IntraATT > 1000) AND (T031_PAR.IntraSR < 98)) OR ((T031_PAR.InterATT > 1000) AND (T031_PAR.InterSR < 98)));       -- FILTRO POR DIST, INT Y FALLA
+
+
+
+
+
+
+
+--Instrucciones especiales
+
+--display table field info
+PRAGMA table_info([RNC]);
+
+
+
+--TABLE NAMES
+SELECT name FROM sqlite_master WHERE type='table' ORDER BY name; 
+
+C:\cd \XML\SQL
+C:\XML\SQL>sqlite3
+sqlite> .open ./20200522_sqlite.db
+sqlite> .databases
+main: C:\XML\SQL\20200522_sqlite.db
+sqlite> .mode csv
+sqlite> .import ./RSLTE031H.csv RSLTE031    --Head import for RSLTE031 report
+sqlite> .schema RSLTE031
+
+sqlite> .import ./baselineh.csv baseline
+
+--Table contents erase: TRUNCATE
+DELETE FROM RSLTE031;
+--
+DROP TABLE IF EXISTS MISS1;        --TABLE clear then append
+CREATE TABLE MISS1 AS
+SELECT
+INSERT INTO MISS1
+SELECT
+--
+
+
+
+--WCEL for NorOcc and neighbors
+
+DROP TABLE IF EXISTS WCEL_V;
+CREATE TABLE WCEL_V AS
+SELECT *
+FROM WCEL
+WHERE (WCEL.RNC_id LIKE '20%') OR (WCEL.RNC_id LIKE '27%') OR (SUBSTR(WCEL.name,1,3) = "BOL") OR (SUBSTR(WCEL.name,1,3) = "COR") OR (SUBSTR(WCEL.name,1,3) = "TOL") OR (SUBSTR(WCEL.name,1,3) = "SND") OR (SUBSTR(WCEL.name,1,3) = "BOY") OR (SUBSTR(WCEL.name,1,3) = "VAL") OR (SUBSTR(WCEL.name,1,3) = "CUN");
+
+
+--DISTINCT clause is used to remove duplicates from the result set
+SELECT DISTINCT Baseline.Market || '-' || Baseline."Localidad (CRC)" AS Cluster, Baseline.Region
+FROM Baseline
+ORDER BY Baseline.Region;
+
+.import ./ClustersDisth.csv ClusterDist
+
+
+--ADJS QTY PER CELL
+DROP TABLE IF EXISTS ADJS_QTY;
+CREATE TABLE ADJS_QTY AS
+SELECT
+ADJS.PLMN_id, ADJS.RNC_Id, ADJS.WBTS_Id, ADJS.WCEL_Id, COUNT (ADJS.ADJS_Id)
+FROM ADJS
+GROUP BY ADJS.RNC_Id, ADJS.WBTS_Id, ADJS.WCEL_Id; 
+
+--cLUSTER
+Baseline.Market || '-' || Baseline."Localidad (CRC)" AS ClusterS, Baseline_1.Market || '-' || Baseline_1."Localidad (CRC)" AS ClusterT
+
+--Es necesario borrar clusters duplicados paa evitar duplIcidad de sectores por haber clusters con encargado de NorOcc y YExterno
+
+--Eutracellid
+((256*(LNREL_NO.ecgiAdjEnbId) + LNREL_NO.ecgiLcrId) = 1*(BaseLine_LTE."eutra Cell Id"));
+
+--IDs FROM Eutracellid 
+RSLTE031.eci_id % 256 AS LcrId   --division reminder
+(RSLTE031.eci_id - (RSLTE031.eci_id % 256))/256 AS LNBTS_IdT
+
+substr(RETU_R_ANTLDNLIST.Value,(INSTR(RETU_R_ANTLDNLIST.Value,'/RMOD_R-')+8),CASE WHEN ((INSTR(RETU_R_ANTLDNLIST.Value,'/ANTL_R-') - INSTR(RETU_R_ANTLDNLIST.Value,'/RMOD_R-')=9) THEN 1 ELSE 2 END AS RMOD_R_id
+
+
+--columna de inicio +8 posicion inicial
+INSTR(RETU_R_ANTLDNLIST.Value,'/RMOD_R-')
+
+--cantidad de digitos
+--
+CASE WHEN ((INSTR(RETU_R_ANTLDNLIST.Value,'/ANTL_R-')- INSTR(RETU_R_ANTLDNLIST.Value,'/RMOD_R-')=9) THEN 1 ELSE 2 END
+--
+--
+--states
+WHERE (SUBSTR(MISS1.WCELT,1,3) = "ANT") OR (SUBSTR(MISS1.WCELT,1,3) = "CAD") OR (SUBSTR(MISS1.WCELT,1,3) = "RIS") OR (SUBSTR(MISS1.WCELT,1,3) = "CHO") OR (SUBSTR(MISS1.WCELT,1,3) = "QUB") OR (SUBSTR(MISS1.WCELT,1,3) = "BOL") OR (SUBSTR(MISS1.WCELT,1,3) = "COR") OR (SUBSTR(MISS1.WCELT,1,3) = "TOL") OR (SUBSTR(MISS1.WCELT,1,3) = "SND") OR (SUBSTR(MISS1.WCELT,1,3) = "BOY") OR (SUBSTR(MISS1.WCELT,1,3) = "VAL") OR (SUBSTR(MISS1.WCELT,1,3) = "CUN");
+--
+--cities
+WHERE (SUBSTR(MISS1.WCELS,1,3) = "MED") OR (SUBSTR(MISS1.WCELS,1,3) = "MAN") OR (SUBSTR(MISS1.WCELS,1,3) = "PER") OR (SUBSTR(MISS1.WCELS,1,3) = "ARM")
+--
+--DN Object extraction
+SUBSTR(ADJS.TargetCellDN, INSTR(ADJS.TargetCellDN,'/RNC-') + 5 , INSTR(ADJS.TargetCellDN,'/WBTS-') - INSTR(ADJS.TargetCellDN,'/RNC-') - 5) AS RNC_Id
+SUBSTR(ADJS.TargetCellDN, INSTR(ADJS.TargetCellDN,'/WBTS-') + 6 , INSTR(ADJS.TargetCellDN,'/WCEL-') - INSTR(ADJS.TargetCellDN,'/WBTS-') - 6) AS WBTS_Id
+SUBSTR(ADJS.TargetCellDN, INSTR(ADJS.TargetCellDN,'/WCEL-') + 6, LENGTH(ADJS.TargetCellDN) - INSTR(ADJS.TargetCellDN,'/WCEL-') -5) AS WCEL_Id
+
+SUBSTR(ADJG.TargetCellDN, INSTR(ADJG.TargetCellDN,'/BSC-') + 5 , INSTR(ADJG.TargetCellDN,'/BCF-') - INSTR(ADJG.TargetCellDN,'/BSC-') - 5) AS BSC_Id
+SUBSTR(ADJG.TargetCellDN, INSTR(ADJG.TargetCellDN,'/BCF-') + 5 , INSTR(ADJG.TargetCellDN,'/BTS-') - INSTR(ADJG.TargetCellDN,'/BCF-') - 5) AS BCF_Id
+SUBSTR(ADJG.TargetCellDN, INSTR(ADJG.TargetCellDN,'/BTS-') + 5 , LENGTH(ADJG.TargetCellDN) - INSTR(ADJG.TargetCellDN,'/BTS-') - 4) AS BTS_Id
+
+
+"PLMN-PLMN/RNC-" || WCEL.RNC_Id || "/WBTS-" || WCEL.WBts_Id || "/WCEL-" || WCEL.WCEL_Id AS CellDN
+"PLMN-" || WCEL.PLMN_Id || "/RNC-" || WCEL.RNC_Id || "/WBTS-" || WCEL.WBts_Id || "/WCEL-" || WCEL.WCEL_Id AS CellDN
+"PLMN-" || LNCEL.PLMN_Id || "/MRBTS-" || LNCEL.mrbts_Id || "/LNBTS-" || LNCEL.lnBts_Id || "/LNCEL-" || LNCEL.lnCel_Id AS DistName
+
+Round((3*(LNCEL.phyCellId*1.0/3-CAST(LNCEL.phyCellId/3 AS INT))),0) as PCIMod3
+Round((6*(LNCEL.phyCellId*1.0/6-CAST(LNCEL.phyCellId/6 AS INT))),0) as PCIMod6
+Round((30*(LNCEL.phyCellId*1.0/30-CAST(LNCEL.phyCellId/30 AS INT))),0) as PCIMod30
+
+CASE WHEN LNCEL_FDD.dlRsBoost=700 THEN -3 ELSE (CASE WHEN LNCEL_FDD.dlRsBoost=1000 THEN 0 ELSE (CASE WHEN LNCEL_FDD.dlRsBoost=1177 THEN 1.77 ELSE (CASE WHEN LNCEL_FDD.dlRsBoost=1300 THEN 3 ELSE (CASE WHEN LNCEL_FDD.dlRsBoost=1477 THEN 4.77 ELSE (CASE WHEN LNCEL_FDD.dlRsBoost=1600 THEN 6 ELSE NULL END)END)END)END)END)END AS PowerBoost
+
+CASE WHEN (LNCEL_FDD.earfcnDL > 2749 AND LNCEL_FDD.earfcnDL <3450) THEN 2600 ELSE (CASE WHEN (LNCEL_FDD.earfcnDL > 599 AND LNCEL_FDD.earfcnDL <1200) THEN 1900 ELSE 850 END) END AS Banda
+
+CASE WHEN (LNBTS.operationalState=5 AND LNCEL.administrativeState=1 AND LNCEL.operationalState=1) THEN 1 ELSE 0 END AS Estado
+
+SUBSTR(LNCEL.name,-1,1) AS Sector
+LENGTH (LNCEL.name)
+
+select * from sqlite_master where sql like '%qRxLevMinOffset%';
+--determinina si caracter es numerico o no
+CASE WHEN (1*SUBSTR(BTS_1.name,-1,1) > 0) THEN 850 ELSE 1900 END
+
+-- para funciones trigonometricas
+instalar minGw con todas las opciones
+modificar environment variable system variable path, including c:\mingw\bin
+probar funcionamiento con comando:
+g++ --version
+copiar extension-functions.c, sqlite3.h, sqlite3ext.h en directorio sqlite3
+ir al directorio sqlite3
+cd \sqlite3
+compile:
+gcc -shared -I "path" -o libsqlitefunctions.so extension-functions.c
+   (path = path of sqlite3ext.h; i.e. C:\sqlite3)
+If the program is built so that loading extensions is permitted,
+  the following will work:
+   sqlite> SELECT load_extension('./libsqlitefunctions.so');
+   sqlite> select cos(radians(45));
+   0.707106781186548
+
+
+
+--sites
+https://www.w3resource.com/
+https://www.sqlitetutorial.net/about-us/
+https://www.mikedane.com/databases/sql/mysql-windows-installation/
+
+
+In the other answers an implementation in r is missing.
+
+Calculating the distance between two point is quite straightforward with the distm function from the geosphere package:
+
+distm(p1, p2, fun = distHaversine)
+where:
+
+p1 = longitude/latitude for point(s)
+p2 = longitude/latitude for point(s)
+# type of distance calculation
+fun = distCosine / distHaversine / distVincentySphere / distVincentyEllipsoid 
+As the earth is not perfectly spherical, the Vincenty formula for ellipsoids is probably the best way to calculate distances. Thus in the geosphere package you use then:
+
+distm(p1, p2, fun = distVincentyEllipsoid)
+Off course you don't necessarily have to use geosphere package, you can also calculate the distance in base R with a function:
+
+hav.dist <- function(long1, lat1, long2, lat2) {
+  R <- 6371
+  diff.long <- (long2 - long1)
+  diff.lat <- (lat2 - lat1)
+  a <- sin(diff.lat/2)^2 + cos(lat1) * cos(lat2) * sin(diff.long/2)^2
+  b <- 2 * asin(pmin(1, sqrt(a))) 
+  d = R * b
+  return(d)
+}
+
+This posting from a person at nasa, is the best one I found at discussing the options
+
+http://www.cs.nyu.edu/visual/home/proj/tiger/gisfaq.html
+
+For example, if you are just sorting rows by distance in a 100 miles radius. The flat earth formula will be much faster than the haversine.
+
+HalfPi = 1.5707963;
+R = 3956; /* the radius gives you the measurement unit*/
+
+a = HalfPi - latoriginrad;
+b = HalfPi - latdestrad;
+u = a * a + b * b;
+v = - 2 * a * b * cos(longdestrad - longoriginrad);
+c = sqrt(abs(u + v));
+return R * c;
+Notice there is just one cosine and one square root. Vs 9 of them on the Haversine formula.
+
+-- instruccion distancia general a partir de LAT1, LAT2, LONG1, LONG2
+
+ROUND (
+      12756273.2 * ASIN(
+                        MIN (1 , 
+                                SQRT(
+                                    POWER( SIN(RADIANS(PAR.Lat1 - PAR.Lat2)/2) , 2) + 
+                                    COS(RADIANS(PAR.Lat1)) * COS(RADIANS(PAR.Lat2)) * POWER ( SIN(RADIANS(PAR.Long1 - PAR.Long2)/2) , 2)
+                                      )
+                            )
+                        )
+         , 0) AS Distance
+         
+-Haversine Formula      
+
+Distance = 2 * R * ASIN( SQRT( SIN( (RADIANS(lat1)-RADIANS(lat2))/2 )^2 + COS( RADIANS(lat1) )*COS( RADIANS(lat2) )*SIN( (RADIANS(long1)-RADIANS(long2))/2 )^2 ) )
+12756280 * ASIN(SQRT(SIN((RADIANS()

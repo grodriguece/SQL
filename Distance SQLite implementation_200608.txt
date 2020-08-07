@@ -1,0 +1,95 @@
+
+
+
+From:  https://www.movable-type.co.uk/scripts/latlong.html https://en.wikipedia.org/wiki/Haversine_formula
+
+Distance
+This uses the ‘haversine’ formula to calculate the great-circle distance between two points – that is, the shortest distance over the earth’s surface – giving an ‘as-the-crow-flies’ distance between the points (ignoring any hills they fly over, of course!).
+
+Haversine
+formula:	a = sin²(?f/2) + cos f1 * cos f2 * sin²(??/2)
+c = 2 * atan2( va, v(1-a) )
+c = 2 * 
+d = R * c
+where	f is latitude, ? is longitude, R is earth’s radius (mean radius = 6,371km);
+note that angles need to be in radians to pass to trig functions!
+JavaScript:	
+const R = 6378136.6 ; // meters equatorial radius
+const f1 = lat1 * Math.PI/180; // f, ? in radians
+const f2 = lat2 * Math.PI/180;
+const ?f = (lat2-lat1) * Math.PI/180;
+const ?? = (lon2-lon1) * Math.PI/180;
+
+const a = Math.sin(?f/2) * Math.sin(?f/2) +
+          Math.cos(f1) * Math.cos(f2) *
+          Math.sin(??/2) * Math.sin(??/2);
+const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+
+const c = 2 * Math.asen(MIN (1, Math.sqrt(a))); //sqlite implementation
+
+const d = R * c; // in metres
+
+Distance = 2 * R * ASIN( MIN (1, SQRT( SIN( (RADIANS(lat1)-RADIANS(lat2))/2 )^2 + COS( RADIANS(lat1) )*COS( RADIANS(lat2) )*SIN( (RADIANS(long1)-RADIANS(long2))/2 )^2 )))
+
+Physical Properties of Earth https://en.wikipedia.org/wiki/Earth_ellipsoid :Ecuatorial radius: 6378.1366 Kms. Average radius: 6367 Kms
+
+
+Constant = 2 * 6378136.6 = 12756273.2
+
+SQLite query command with coordinates taken from table PAR: 
+
+ROUND (
+      12756273.2 * ASIN(
+                        MIN (1 , 
+                                SQRT(
+                                    POWER( SIN(RADIANS(PAR.Lat1 - PAR.Lat2)/2) , 2) + 
+                                    COS(RADIANS(PAR.Lat1)) * COS(RADIANS(PAR.Lat2)) * POWER ( SIN(RADIANS(PAR.Long1 - PAR.Long2)/2) , 2)
+                                      )
+                            )
+                        )
+         , 0) AS Distance
+
+DROP TABLE IF EXISTS LNREL_PARD;
+CREATE TABLE LNREL_PARD AS
+SELECT
+LNREL_PAR.LNCELname,LNREL_PAR.LNCELnameT,LNREL_PAR.LNCELnameTB,LNREL_PAR.lcrId,LNREL_PAR.lcrIdT,LNREL_PAR.Cluster,LNREL_PAR.ClusterT,LNREL_PAR.PLMN_id,LNREL_PAR.PLMN_idT,LNREL_PAR.MRBTS_id,LNREL_PAR.LNBTS_id,LNREL_PAR.LNCEL_id,LNREL_PAR.LNREL_id,LNREL_PAR.moVersion,LNREL_PAR.mcc,LNREL_PAR.mnc,LNREL_PAR.amleAllowed,LNREL_PAR.cellIndOffNeigh,LNREL_PAR.cellIndOffNeighDelta,LNREL_PAR.handoverAllowed,LNREL_PAR.nrControl,LNREL_PAR.nrStatus,LNREL_PAR.removeAllowed,LNREL_PAR.SBTS_id,LNREL_PAR.name,LNREL_PAR.LNBTSname,LNREL_PAR.LNBTSnameT,LNREL_PAR.MRBTS_idT,LNREL_PAR.LNBTS_idT,LNREL_PAR.LNCEL_idT,LNREL_PAR.eutraCelId,LNREL_PAR.PowerBoost,LNREL_PAR.PCI,LNREL_PAR.RSI,LNREL_PAR.tac,LNREL_PAR.eutraCelIdT,LNREL_PAR.eutraCelIdTb,LNREL_PAR.PowerBoostT,LNREL_PAR.PCIT,LNREL_PAR.RSIT,LNREL_PAR.tacT,LNREL_PAR.Estado,LNREL_PAR.EstadoT,LNREL_PAR.VendorT,LNREL_PAR.Lat1,LNREL_PAR.Lat2,LNREL_PAR.Long1,LNREL_PAR.Long2, ROUND (12756273.2 * ASIN( MIN ( 1 , SQRT( POWER(SIN(RADIANS(LNREL_PAR.Lat1 - LNREL_PAR.Lat2)/2) , 2) + COS(RADIANS(LNREL_PAR.Lat1)) * COS(RADIANS(LNREL_PAR.Lat2)) * POWER ( SIN(RADIANS(LNREL_PAR.Long1 - LNREL_PAR.Long2)/2) , 2)))) , 0) AS Distancia
+FROM LNREL_PAR; 
+
+
+
+
+-- Vincenty formula
+https://en.wikipedia.org/wiki/Vincenty%27s_formulae
+https://www.thetopsites.net/top-questions/10045692.shtml
+
+/**
+ * Calculates the great-circle distance between two points, with
+ * the Vincenty formula.
+ * @param float $latitudeFrom Latitude of start point in [deg decimal]
+ * @param float $longitudeFrom Longitude of start point in [deg decimal]
+ * @param float $latitudeTo Latitude of target point in [deg decimal]
+ * @param float $longitudeTo Longitude of target point in [deg decimal]
+ * @param float $earthRadius Mean earth radius in [m]
+ * @return float Distance between points in [m] (same as earthRadius)
+ */
+public static function vincentyGreatCircleDistance(
+  $latitudeFrom, $longitudeFrom, $latitudeTo, $longitudeTo, $earthRadius = 6371000)
+{
+  // convert from degrees to radians
+  $latFrom = deg2rad($latitudeFrom);
+  $lonFrom = deg2rad($longitudeFrom);
+  $latTo = deg2rad($latitudeTo);
+  $lonTo = deg2rad($longitudeTo);
+
+  $lonDelta = $lonTo - $lonFrom;
+  $a = pow(cos($latTo) * sin($lonDelta), 2) +
+    pow(cos($latFrom) * sin($latTo) - sin($latFrom) * cos($latTo) * cos($lonDelta), 2);
+  $b = sin($latFrom) * sin($latTo) + cos($latFrom) * cos($latTo) * cos($lonDelta);
+
+  $angle = atan2(sqrt($a), $b);
+  return $angle * $earthRadius;
+}
+
+
+
+http://souptonuts.sourceforge.net/readme_sqlite_tutorial.html

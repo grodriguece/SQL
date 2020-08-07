@@ -1,0 +1,167 @@
+--
+--
+FIRST VER
+--
+DROP TABLE IF EXISTS RSBSS015_1;
+CREATE TABLE RSBSS015_1 AS
+SELECT RSBSS015.BTSname || BTS_1.name AS KEY, RSBSS015.BSCname, RSBSS015.BCFname, RSBSS015.BTSname, BTS_1.Name AS BTSnameT, BTS.BSC_Id, BTS.BCF_Id, BTS.BTS_Id,  BTS.cellId, BTS.locationAreaIdLAC, BSC_1.name AS BSCnameT, BCF_1.Name AS BCFnameT, BTS_1.Name AS BTSnameT, BTS_1.bsc_Id AS bsc_Idt, BTS_1.bcf_Id AS bcf_Idt, BTS_1.bts_Id AS bts_Idt, BTS.bsIdentityCodeNCC AS NCC, BTS.bsIdentityCodeBCC AS BCC, BTS_1.bsIdentityCodeNCC AS NCCT, BTS_1.bsIdentityCodeBCC AS BCCT, CASE WHEN BTS.bsIdentityCodeNCC||BTS.bsIdentityCodeBCC = BTS_1.bsIdentityCodeNCC||BTS_1.bsIdentityCodeBCC THEN 1 ELSE 0 END AS sameBSIC, RSBSS015.ci_id AS adjCI, RSBSS015.lac_id AS adjLac, RSBSS015.mcc_id AS adjMCC, RSBSS015.mnc_id AS adjMNC, RSBSS015.ttp_id, Baseline.Market || '-' || Baseline."Localidad (CRC)" AS ClusterS, Baseline_1.Market || '-' || Baseline_1."Localidad (CRC)" AS ClusterT, Baseline.region AS RegionS, Baseline_1.Region AS RegionT, RSBSS015.HOOutAtt,RSBSS015.HOOutFail,RSBSS015.HOOutFR,RSBSS015.HOOutBlk,RSBSS015.HOInAtt,RSBSS015.HOInFail,RSBSS015.HOInFR,RSBSS015.HOInBlk,
+ROUND (
+      12756273.2 * ASIN(
+                        MIN (1 , 
+                                SQRT(
+                                    POWER( SIN(RADIANS(Baseline.Latitud - Baseline_1.Latitud)/2) , 2) + 
+                                    COS(RADIANS(Baseline.Latitud)) * COS(RADIANS(Baseline_1.Latitud)) * POWER ( SIN(RADIANS(Baseline.Longitud - Baseline_1.Longitud)/2) , 2)
+                                      )
+                            )
+                        )
+         , 0) AS Distance
+FROM (((((((RSBSS015 LEFT JOIN BTS ON (RSBSS015.BTSname = BTS.Name)) 
+LEFT JOIN BTS AS BTS_1 ON (RSBSS015.lac_id = BTS_1.locationAreaIdLAC) AND (RSBSS015.ci_id = BTS_1.cellId)) 
+LEFT JOIN BCF ON (BTS.bsc_id = BCF.bsc_id) AND (BTS.bcf_id = BCF.bcf_id))
+LEFT JOIN BCF AS BCF_1 ON (BTS_1.bsc_id = BCF_1.bsc_id) AND (BTS_1.bcf_id = BCF_1.bcf_id)) 
+LEFT JOIN baseline ON (BCF.Name = baseline.Sitio))
+LEFT JOIN baseline AS baseline_1 ON (BCF_1.Name = Baseline_1.Sitio)) 
+LEFT JOIN BSC ON (BTS.BSC_id = BSC.BSC_id))
+LEFT JOIN BSC AS BSC_1 ON (BTS_1.BSC_id = BSC_1.BSC_id)
+WHERE (RSBSS015.BTSname LIKE 'ANT%') OR (RSBSS015.BTSname LIKE 'MED%') OR (RSBSS015.BTSname LIKE 'CAD%') OR (RSBSS015.BTSname LIKE 'MAN%') OR (RSBSS015.BTSname LIKE 'RIS%') OR (RSBSS015.BTSname LIKE 'PER%') OR (RSBSS015.BTSname LIKE 'QUI%') OR (RSBSS015.BTSname LIKE 'ARM%') OR (RSBSS015.BTSname LIKE 'CHO%') OR (RSBSS015.BTSname LIKE 'QUB%')
+ORDER BY RSBSS015.BTSname; 
+--
+-- Version including ADCE INFO
+--
+DROP TABLE IF EXISTS RSBSS015_1;
+CREATE TABLE RSBSS015_1 AS
+SELECT RSBSS015.BTSname || BTS_1.name AS KEY, RSBSS015.BSCname, RSBSS015.BCFname, RSBSS015.BTSname, BTS_1.Name AS BTSnameT, BTS.BSC_Id, BTS.BCF_Id, BTS.BTS_Id,  BTS.cellId, BTS.locationAreaIdLAC, BSC_1.name AS BSCnameT, BCF_1.Name AS BCFnameT, BTS_1.bsc_Id AS bsc_Idt, BTS_1.bcf_Id AS bcf_Idt, BTS_1.bts_Id AS bts_Idt, BTS.bsIdentityCodeNCC AS NCC, BTS.bsIdentityCodeBCC AS BCC, BTS_1.bsIdentityCodeNCC AS NCCT, BTS_1.bsIdentityCodeBCC AS BCCT, CASE WHEN BTS.bsIdentityCodeNCC||BTS.bsIdentityCodeBCC = BTS_1.bsIdentityCodeNCC||BTS_1.bsIdentityCodeBCC THEN 1 ELSE 0 END AS sameBSIC, RSBSS015.ci_id AS adjCI, RSBSS015.lac_id AS adjLac, RSBSS015.mcc_id AS adjMCC, RSBSS015.mnc_id AS adjMNC, RSBSS015.ttp_id, Baseline.Market || '-' || Baseline."Localidad (CRC)" AS ClusterS, Baseline_1.Market || '-' || Baseline_1."Localidad (CRC)" AS ClusterT, Baseline.region AS RegionS, Baseline_1.Region AS RegionT, RSBSS015.HOOutAtt,RSBSS015.HOOutFail,RSBSS015.HOOutFR,RSBSS015.HOOutBlk,RSBSS015.HOInAtt,RSBSS015.HOInFail,RSBSS015.HOInFR,RSBSS015.HOInBlk, ADCE.adjcIndex, ADCE.adjCellLayer, ADCE.hoLevelUmbrella, ADCE.hoLoadFactor, ADCE.hoMarginLev, ADCE.hoMarginPbgt, ADCE.name AS BTSnameT2, ADCE.targetCellDN,
+ROUND (
+      12756273.2 * ASIN(
+                        MIN (1 , 
+                                SQRT(
+                                    POWER( SIN(RADIANS(Baseline.Latitud - Baseline_1.Latitud)/2) , 2) + 
+                                    COS(RADIANS(Baseline.Latitud)) * COS(RADIANS(Baseline_1.Latitud)) * POWER ( SIN(RADIANS(Baseline.Longitud - Baseline_1.Longitud)/2) , 2)
+                                      )
+                            )
+                        )
+         , 0) AS Distance
+FROM ((((((((RSBSS015 
+LEFT JOIN BTS ON (RSBSS015.BTSname = BTS.Name)) 
+INNER JOIN ADCE ON (BTS.BSC_id = ADCE.bsc_id) AND (BTS.BCF_id = ADCE.bcf_id) AND (BTS.BTS_id = ADCE.bts_id) AND (1*RSBSS015.ci_id = 1*ADCE.adjacentCellIdCI) AND (1*RSBSS015.lac_id = 1*ADCE.adjacentCellIdLac))
+LEFT JOIN BTS AS BTS_1 ON (RSBSS015.lac_id = BTS_1.locationAreaIdLAC) AND (RSBSS015.ci_id = BTS_1.cellId)) 
+LEFT JOIN BCF ON (BTS.bsc_id = BCF.bsc_id) AND (BTS.bcf_id = BCF.bcf_id))
+LEFT JOIN BCF AS BCF_1 ON (BTS_1.bsc_id = BCF_1.bsc_id) AND (BTS_1.bcf_id = BCF_1.bcf_id)) 
+LEFT JOIN baseline ON (BCF.Name = baseline.Sitio))
+LEFT JOIN baseline AS baseline_1 ON (BCF_1.Name = Baseline_1.Sitio)) 
+LEFT JOIN BSC ON (BTS.BSC_id = BSC.BSC_id))
+LEFT JOIN BSC AS BSC_1 ON (BTS_1.BSC_id = BSC_1.BSC_id)
+WHERE (RSBSS015.BTSname <> BTS_1.name) AND ((ADCE.PLMN_id = 'RC8') OR (RSBSS015.BTSname LIKE 'ANT%') OR (RSBSS015.BTSname LIKE 'MED%') OR (RSBSS015.BTSname LIKE 'CAD%') OR (RSBSS015.BTSname LIKE 'MAN%') OR (RSBSS015.BTSname LIKE 'RIS%') OR (RSBSS015.BTSname LIKE 'PER%') OR (RSBSS015.BTSname LIKE 'QUI%') OR (RSBSS015.BTSname LIKE 'ARM%') OR (RSBSS015.BTSname LIKE 'CHO%') OR (RSBSS015.BTSname LIKE 'QUB%'))
+ORDER BY RSBSS015.BTSname, RSBSS015.HOOutAtt DESC, RSBSS015.HOInAtt DESC;
+--
+--Max Att in to avoid duplicates
+--
+DROP TABLE IF EXISTS RSBSS015_2;
+CREATE TABLE RSBSS015_2 AS
+SELECT
+RSBSS015_1.KEY, 1*MAX(RSBSS015_1.HOOutAtt) AS HOOutAttMax, RSBSS015_1.HOInAtt
+FROM RSBSS015_1
+GROUP BY RSBSS015_1.KEY;
+--
+--original table without duplicates
+--
+DROP TABLE IF EXISTS RSBSS015_3;
+CREATE TABLE RSBSS015_3 AS
+SELECT
+RSBSS015_1.KEY,RSBSS015_1.BSCname,RSBSS015_1.BCFname,RSBSS015_1.BTSname,RSBSS015_1.BTSnameT,RSBSS015_1.BSC_id,RSBSS015_1.BCF_id,RSBSS015_1.BTS_id,RSBSS015_1.cellId,RSBSS015_1.locationAreaIdLAC,RSBSS015_1.BSCnameT,RSBSS015_1.BCFnameT,RSBSS015_1.bsc_Idt,RSBSS015_1.bcf_Idt,RSBSS015_1.bts_Idt,RSBSS015_1.NCC,RSBSS015_1.BCC,RSBSS015_1.NCCT,RSBSS015_1.BCCT,RSBSS015_1.sameBSIC,RSBSS015_1.adjCI,RSBSS015_1.adjLac,RSBSS015_1.adjMCC,RSBSS015_1.adjMNC,RSBSS015_1.ttp_id,RSBSS015_1.ClusterS,RSBSS015_1.ClusterT,RSBSS015_1.RegionS,RSBSS015_1.RegionT,RSBSS015_1.HOOutAtt,RSBSS015_1.HOOutFail,RSBSS015_1.HOOutFR,RSBSS015_1.HOOutBlk,RSBSS015_1.HOInAtt,RSBSS015_1.HOInFail,RSBSS015_1.HOInFR,RSBSS015_1.HOInBlk,RSBSS015_1.adjcIndex,RSBSS015_1.adjCellLayer,RSBSS015_1.hoLevelUmbrella,RSBSS015_1.hoLoadFactor,RSBSS015_1.hoMarginLev,RSBSS015_1.hoMarginPbgt,RSBSS015_1.BTSnameT2,RSBSS015_1.targetCellDN,RSBSS015_1.Distance
+FROM RSBSS015_1 INNER JOIN RSBSS015_2 ON (RSBSS015_1.KEY = RSBSS015_2.KEY) AND (RSBSS015_1.HOOutAtt = RSBSS015_2.HOOutAttMax) AND (RSBSS015_1.HOInAtt = RSBSS015_2.HOInAtt);
+--
+--
+--
+Report 013
+--BTS for NorOcc and neighbors
+--
+DROP TABLE IF EXISTS BTS_V;
+CREATE TABLE BTS_V AS
+SELECT *
+FROM BTS INNER JOIN BSC (ON BTS.BSC_id = BSC.BSC_id)
+WHERE (BTS.PLMN_id LIKE %RC8%) OR (BSC.name LIKE '%PER%') OR (SUBSTR(BTS.name,1,3) = "BOL") OR (SUBSTR(BTS.name,1,3) = "COR") OR (SUBSTR(BTS.name,1,3) = "TOL") OR (SUBSTR(BTS.name,1,3) = "SND") OR (SUBSTR(BTS.name,1,3) = "BOY") OR (SUBSTR(BTS.name,1,3) = "VAL") OR (SUBSTR(BTS.name,1,3) = "CUN");
+--
+--
+-- top detect list
+--
+DROP TABLE IF EXISTS UNIDENT_1;
+CREATE TABLE UNIDENT_1 AS
+SELECT
+RSBSS013.BSCname,RSBSS013.BCFname,RSBSS013.BTSname,RSBSS013.ncc_id,RSBSS013.bcc_id,RSBSS013.bcch_id,RSBSS013.UNDADJOFBTS_AVGDLSIGSTR AS AVSIGSTR,RSBSS013.UNDADJOFBTS_Nbrofsamples AS samples
+FROM RSBSS013
+WHERE 1*RSBSS013.UNDADJOFBTS_Nbrofsamples > 5000;
+--
+--
+--combination selection < 50KMS
+--
+DROP TABLE IF EXISTS UND_DistT;
+CREATE TABLE UND_DistT AS
+SELECT
+UNIDENT_1.BTSname || UNIDENT_1.ncc_id || UNIDENT_1.bcc_id || UNIDENT_1.bcch_id AS KEY, UNIDENT_1.BTSname AS BTSS, BTS_V.Name AS BTST, UNIDENT_1.BSCname AS BSCS, UNIDENT_1.BCFname AS BCFS, BSC_1.Name AS BSCT, BCF_1.Name AS BCFT, BTS.BSC_id AS BSCidS, BTS.BCF_id AS BCFidS, BTS.BTS_id AS BTSidS, BTS.cellId AS cellIdS, 1*(BTS.bsIdentityCodeNCC || BTS.bsIdentityCodeBCC) AS BSICS, TRX.initialFrequency AS BCCHS, BTS_V.BSC_id AS BSCidT, BTS_V.BCF_id AS BCFidT, BTS_V.BTS_id AS BTSidT, BTS_V.cellId AS cellIdT, 1*(UNIDENT_1.ncc_id || UNIDENT_1.bcc_id) AS BsicT, UNIDENT_1.ncc_id, UNIDENT_1.bcc_id, UNIDENT_1.bcch_id AS BCCHT, UNIDENT_1.AVSIGSTR,UNIDENT_1.samples, "PLMN-" || BTS_V.PLMN_Id || "/BSC-" || BTS_V.BSC_Id || "/BCF-" || BTS_V.BCF_Id || "/BTS-" || BTS_V.BTS_Id AS DistNameT,
+Baseline.Market || '-' || Baseline."Localidad (CRC)" AS ClusterS, Baseline_1.Market || '-' || Baseline_1."Localidad (CRC)" AS ClusterT, Baseline.region AS RegionS, Baseline_1.Region AS RegionT, 
+ROUND (
+      12756273.2 * ASIN(
+                        MIN (1 , 
+                                SQRT(
+                                    POWER( SIN(RADIANS(Baseline.Latitud - Baseline_1.Latitud)/2) , 2) + 
+                                    COS(RADIANS(Baseline.Latitud)) * COS(RADIANS(Baseline_1.Latitud)) * POWER ( SIN(RADIANS(Baseline.Longitud - Baseline_1.Longitud)/2) , 2)
+                                      )
+                            )
+                        )
+         , 0) AS Distance
+FROM (((((((((UNIDENT_1 
+LEFT JOIN BTS ON (UNIDENT_1.BTSname = BTS.Name))
+LEFT JOIN TRX ON (BTS.BSC_Id = TRX.BSC_Id) AND (BTS.BCF_Id = TRX.BCF_Id) AND  (BTS.BTS_Id = TRX.BTS_Id)) 
+LEFT JOIN BTS_V ON (UNIDENT_1.ncc_id = BTS_V.bsIdentityCodeNCC) AND (UNIDENT_1.bcc_id = BTS_V.bsIdentityCodeBCC))
+LEFT JOIN TRX AS TRX_1 ON (BTS_V.BSC_Id = TRX_1.BSC_Id) AND (BTS_V.BCF_Id = TRX_1.BCF_Id) AND  (BTS_V.BTS_Id = TRX_1.BTS_Id) AND (UNIDENT_1.bcch_id = TRX_1.initialFrequency)) 
+LEFT JOIN BCF ON (BTS.BSC_id = BCF.BSC_id) AND (BTS.BCF_id = BCF.BCF_id))
+LEFT JOIN BCF AS BCF_1 ON (BTS_V.BSC_id = BCF_1.BSC_id) AND (BTS_V.BCF_id = BCF_1.BCF_id))   
+LEFT JOIN Baseline ON (BCF.Name = Baseline.Sitio)) 
+LEFT JOIN Baseline AS Baseline_1 ON (BCF_1.Name = Baseline_1.Sitio)) 
+LEFT JOIN BSC ON BTS.BSC_id = BSC.BSC_id) 
+LEFT JOIN BSC AS BSC_1 ON BTS_V.BSC_Id = BSC_1.BSC_Id
+WHERE (ROUND (
+      12756273.2 * ASIN(
+                        MIN (1 , 
+                                SQRT(
+                                    POWER( SIN(RADIANS(Baseline.Latitud - Baseline_1.Latitud)/2) , 2) + 
+                                    COS(RADIANS(Baseline.Latitud)) * COS(RADIANS(Baseline_1.Latitud)) * POWER ( SIN(RADIANS(Baseline.Longitud - Baseline_1.Longitud)/2) , 2)
+                                      )
+                            )
+                        )
+         , 0) < 50000) AND (TRX.channel0Type)=4 AND (TRX_1.channel0Type)=4 AND (UNIDENT_1.BSCname LIKE '%MED%' OR UNIDENT_1.BSCname LIKE '%MGA%' OR UNIDENT_1.BSCname LIKE '%PER%')
+ORDER BY BTS.name, UNIDENT_1.bcch_id, UNIDENT_1.ncc_id, UNIDENT_1.bcc_id;
+--
+--toma menor distancia de la llave
+--
+DROP TABLE IF EXISTS UND_DistMin;
+CREATE TABLE UND_DistMin AS
+SELECT
+UND_DistT.Key, 1*(Min(UND_DistT.Distance)) AS MinOfDistancia
+FROM UND_DistT
+GROUP BY UND_DistT.Key;
+--
+--ADCE QTY PER CELL
+--
+DROP TABLE IF EXISTS ADCE_QTY;
+CREATE TABLE ADCE_QTY AS
+SELECT
+ADCE.PLMN_id, ADCE.BSC_id, ADCE.BCF_id, ADCE.BTS_id, 1*(COUNT (ADCE.adjcIndex)) AS ADCE_QTY
+FROM ADCE
+GROUP BY ADCE.BSC_id, ADCE.BCF_id, ADCE.BTS_id; 
+--
+--
+--Unidentified Result
+--
+DROP TABLE IF EXISTS UND_DistF;
+CREATE TABLE UND_DistF AS
+SELECT
+1*(UND_DistT.BSCidS || UND_DistT.cellIdS) AS KEY1, UND_DistT.BTSS,UND_DistT.BTST, UND_DistT.Distance, ADCE_QTY.ADCE_QTY, UND_DistT.ClusterS, UND_DistT.ClusterT, UND_DistT.KEY,
+UND_DistT.BSCS,UND_DistT.BCFS,UND_DistT.BSCT,UND_DistT.BCFT,UND_DistT.BSCidS,UND_DistT.BCFidS,UND_DistT.BTSidS,UND_DistT.cellIdS,UND_DistT.BSICS,UND_DistT.BCCHS,UND_DistT.BSCidT,UND_DistT.BCFidT,UND_DistT.BTSidT,UND_DistT.cellIdT,UND_DistT.BsicT,UND_DistT.ncc_id,UND_DistT.bcc_id,UND_DistT.BCCHT,UND_DistT.AVSIGSTR,UND_DistT.samples,UND_DistT.DistNameT,UND_DistT.RegionS,UND_DistT.RegionT,1*(UND_DistT.BSCidS|| UND_DistT.cellIdS || UND_DistT.BSCidT|| UND_DistT.cellIdT) AS KEY2
+FROM (UND_DistT INNER JOIN UND_DistMin ON (UND_DistT.Distance = UND_DistMin.MinOfDistancia) AND (UND_DistT.Key = UND_DistMin.Key)) LEFT JOIN ADCE_QTY ON (UND_DistT.BSCidS = ADCE_QTY.BSC_id) AND (UND_DistT.BCFidS = ADCE_QTY.BCF_id) AND (UND_DistT.BTSidS = ADCE_QTY.BTS_id)  
+WHERE (UND_DistT.BTSS <> UND_DistT.BTST)
+ORDER BY UND_DistT.Distance;
+--
+--
+--   
